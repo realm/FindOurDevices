@@ -5,12 +5,19 @@ import { useAuth } from '../providers/AuthProvider';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
-function LoginScreen({ navigation }) {
+function SignUpScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { logIn } = useAuth();
+  const { signUp, logIn } = useAuth();
 
-  const handleSubmit = () => logIn(email, password);
+  const handleSubmit = async () => {
+    try {
+      await signUp(email, password);
+      logIn(email, password);
+    } catch (error) {
+      Alert.alert(`Failed to sign up: ${error.message}`);
+    }
+  };
 
   return (
     <View style={styles.screen}>
@@ -20,7 +27,7 @@ function LoginScreen({ navigation }) {
           style={styles.logo}
         />
       </View>
-      <Text style={styles.title}>Log In</Text>
+      <Text style={styles.title}>Sign Up</Text>
       <View style={styles.inputContainer}>
         <TextInput
           placeholder='Email'
@@ -40,18 +47,18 @@ function LoginScreen({ navigation }) {
         />
       </View>
       <TouchableOpacity
-        style={styles.logInButton}
+        style={styles.signUpButton}
         onPress={handleSubmit}
       >
-        <Text style={styles.logInButtonText}>Log In</Text>
+        <Text style={styles.signUpButtonText}>Sign Up</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={styles.signUpButton}
+        style={styles.logInButton}
         onPress={() =>
-          navigation.navigate('Signup')
+          navigation.navigate('Login')
         }
       >
-        <Text style={styles.signUpButtonText}>Sign Up</Text>
+        <Text style={styles.logInButtonText}>Log In</Text>
       </TouchableOpacity>
     </View>
   );
@@ -89,6 +96,11 @@ const styles = StyleSheet.create({
     fontSize: fonts.sizeM
   },
   logInButton: {
+    marginTop: 30,
+    alignItems: 'center',
+    paddingVertical: 20
+  },
+  signUpButton: {
     width: '100%',
     marginTop: 30,
     alignItems: 'center',
@@ -96,21 +108,16 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     borderRadius: 40
   },
-  signUpButton: {
-    marginTop: 30,
-    alignItems: 'center',
-    paddingVertical: 20
-  },
   logInButtonText: {
     fontSize: fonts.sizeM,
-    color: colors.white,
+    color: colors.primary,
     fontWeight: 'bold'
   },
   signUpButtonText: {
     fontSize: fonts.sizeM,
-    color: colors.primary,
+    color: colors.white,
     fontWeight: 'bold'
   }
 });
 
-export default LoginScreen;
+export default SignUpScreen;

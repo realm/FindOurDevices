@@ -4,6 +4,10 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 platform :ios, '10.0'
 
 target 'FindOurDevices' do
+
+  # workaround: manual link to avoid error by wrong podfile linked
+  pod 'react-native-maps', :path => '../node_modules/react-native-maps-osmdroid'
+
   config = use_native_modules!
 
   use_react_native!(

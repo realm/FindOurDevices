@@ -4,9 +4,6 @@ import React from 'react';
 import { AuthProvider } from './app/providers/AuthProvider';
 import RootNavigationContainer from './app/navigation/RootNavigationContainer';
 
-console.log('===========');
-console.log('App Running');
-
 function App() {
   return (
     <AuthProvider>

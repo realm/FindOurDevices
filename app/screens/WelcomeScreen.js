@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, View, Text, StyleSheet } from 'react-native';
+import { Image, ImageBackground, View, Text, StyleSheet } from 'react-native';
 
 import Button from '../components/Button';
 import colors from '../styles/colors';
@@ -8,7 +8,10 @@ import routes from '../navigation/routes';
 
 function WelcomeScreen({ navigation }) {
   return (
-    <View style={styles.screen}>
+    <ImageBackground
+      source={require('../assets/purple_bg.png')}
+      style={styles.background}
+    >
       <View style={styles.upperView}>
         <View style={styles.logoContainer}>
           <Image
@@ -24,43 +27,35 @@ function WelcomeScreen({ navigation }) {
         onPress={() => navigation.navigate(routes.LOGIN)}
         otherStyles={{ marginBottom: 100 }}
       />
-    </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: {
+  background: {
     flex: 1,
     justifyContent: 'space-between',
     paddingVertical: 20,
-    paddingHorizontal: 15,
-    backgroundColor: colors.primary
+    paddingHorizontal: 15
   },
   upperView: {
     alignItems: 'center'
   },
   logoContainer: {
-    height: 110,
-    width: 110,
-    marginTop: 80,
-    padding: 20,
+    marginTop: 100,
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.white,
-    borderRadius: 10,
-    transform: [{ rotate: '45deg' }]
+    justifyContent: 'center'
   },
   logo: {
     height: 100,
-    resizeMode: 'contain',
-    transform: [{ rotate: '-45deg' }]
+    resizeMode: 'contain'
   },
   title: {
+    marginTop: 30,
     alignSelf: 'center',
-    paddingVertical: 50,
     fontSize: fonts.sizeXL,
     fontWeight: 'bold',
-    color: colors.white
+    color: colors.primary
   }
 });
 

@@ -14,6 +14,7 @@ function AppNavigator() {
   return (
     <Tab.Navigator
       tabBarOptions={{
+        showLabel: false,
         activeTintColor: colors.primary,
         inactiveTintColor: colors.grayDark
       }}

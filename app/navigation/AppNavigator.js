@@ -1,5 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import DevicesNavigator from './DevicesNavigator';
 import GroupsNavigator from './GroupsNavigator';
@@ -14,7 +15,7 @@ function AppNavigator() {
     <Tab.Navigator
       tabBarOptions={{
         activeTintColor: colors.primary,
-        inactiveTintColor: colors.grayLight
+        inactiveTintColor: colors.grayDark
       }}
     >
       <Tab.Screen
@@ -22,16 +23,11 @@ function AppNavigator() {
         component={DevicesNavigator}
         options={{
           tabBarIcon: ({ color, size }) => (
-            /* icon component */
-          )
-        }}
-      />
-      <Tab.Screen
-        name={routes.PROFILE}
-        component={ProfileNavigator}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            /* icon component */
+            <MaterialCommunityIcons
+              name='tablet-cellphone'
+              color={color}
+              size={size}
+            />
           )
         }}
       />
@@ -40,7 +36,24 @@ function AppNavigator() {
         component={GroupsNavigator}
         options={{
           tabBarIcon: ({ color, size }) => (
-            /* icon component */
+            <MaterialCommunityIcons
+              name='account-group-outline'
+              color={color}
+              size={size}
+            />
+          )
+        }}
+      />
+      <Tab.Screen
+        name={routes.PROFILE}
+        component={ProfileNavigator}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name='account-outline'
+              color={color}
+              size={size}
+            />
           )
         }}
       />

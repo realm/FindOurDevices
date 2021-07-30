@@ -3,6 +3,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import routes from './routes';
 
+// TEMPORARY
+import TemporaryLogoutButton from '../components/TemporaryLogoutButton';
+
 const Stack = createStackNavigator();
 
 function ProfileNavigator() {
@@ -10,11 +13,13 @@ function ProfileNavigator() {
     <Stack.Navigator>
       <Stack.Screen
         name={routes.PROFILE}
-        component={/* ProfileScreen */}
+        component={TemporaryLogoutButton}
+        //component={/* ProfileScreen */}
       />
       <Stack.Screen
         name={routes.PROFILE_EDIT}
-        component={/* ProfileEditScreen */}
+        component={TemporaryLogoutButton}
+        //component={/* ProfileEditScreen */}
       />
     </Stack.Navigator>
   );

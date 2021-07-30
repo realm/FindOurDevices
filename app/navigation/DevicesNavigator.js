@@ -3,6 +3,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import routes from './routes';
 
+// TEMPORARY
+import TemporaryLogoutButton from '../components/TemporaryLogoutButton';
+
 const Stack = createStackNavigator();
 
 function DevicesNavigator() {
@@ -10,11 +13,13 @@ function DevicesNavigator() {
     <Stack.Navigator>
       <Stack.Screen
         name={routes.DEVICES}
-        component={/* DevicesScreen */}
+        component={TemporaryLogoutButton}
+        //component={/* DevicesScreen */}
       />
       <Stack.Screen
         name={routes.DEVICES_MAP}
-        component={/* DevicesMapScreen */}
+        component={TemporaryLogoutButton}
+        //component={/* DevicesMapScreen */}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

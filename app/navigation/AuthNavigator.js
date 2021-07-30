@@ -1,6 +1,9 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import LoginScreen from '../screens/LoginScreen';
+import WelcomeScreen from '../screens/WelcomeScreen';
+import SignupScreen from '../screens/SignupScreen';
 import routes from './routes';
 
 const Stack = createStackNavigator();
@@ -10,17 +13,17 @@ function AuthNavigator() {
     <Stack.Navigator>
       <Stack.Screen
         name={routes.WELCOME}
-        component={/* WelcomeScreen */}
+        component={WelcomeScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
         name={routes.LOGIN}
-        component={/* LoginScreen */}
+        component={LoginScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
         name={routes.SIGNUP}
-        component={/* SignupScreen */}
+        component={SignupScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

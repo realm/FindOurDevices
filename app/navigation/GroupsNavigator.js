@@ -5,6 +5,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import routes from './routes';
 import colors from '../styles/colors';
 
+import GroupsScreen from '../screens/GroupsScreen';
+
 // TEMPORARY
 import TemporaryLogoutButton from '../components/TemporaryLogoutButton';
 
@@ -15,8 +17,7 @@ function GroupsNavigator() {
     <Stack.Navigator>
       <Stack.Screen
         name={routes.GROUPS}
-        component={TemporaryLogoutButton}
-        //component={/* GroupsScreen */}
+        component={GroupsScreen}
         options={{
           // change later to return a custom component with onPress property to create a group
           headerRight: () => (

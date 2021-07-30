@@ -6,15 +6,17 @@ import ItemSeparator from '../components/ItemSeparator';
 
 import colors from '../styles/colors';
 
+import { useGroups } from "../providers/GroupsProvider";
+
 const GroupsScreen = () => {
-  const [members] = useState([{ id: 1, name: 'Realm Team' }, { id: 2, name: 'Family' }, { id: 3, name: 'Friends' }]);
+  const { groups } = useGroups();
 
   return (
     <View style={styles.items}>
       <FlatList
-        data={members}
+        data={groups}
         renderItem={ListItem}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item._id.toString()}
         ItemSeparatorComponent={ItemSeparator}
       />
     </View>

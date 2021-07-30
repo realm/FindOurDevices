@@ -43,6 +43,8 @@ function AuthProvider({ children }) {
     if (realmUser) {
       realmUser.logOut();
 
+      console.log('Logged out!');
+
       // Setting the realm user to null will rerender the RootNavigationContainer
       // and in turn conditionally render the AuthNavigator to show the LoginScreen
       setRealmUser(null);

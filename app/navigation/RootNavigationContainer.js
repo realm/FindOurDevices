@@ -10,9 +10,7 @@ function RootNavigationContainer() {
 
   return (
     <NavigationContainer>
-      {realmUser ? (
-          <AppNavigator />
-      ) : <AuthNavigator />}
+      {realmUser ? <AppNavigator /> : <AuthNavigator />}
     </NavigationContainer>
   );
 }

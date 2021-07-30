@@ -7,6 +7,7 @@ target 'FindOurDevices' do
 
   # workaround: manual link to avoid error by wrong podfile linked
   pod 'react-native-maps', :path => '../node_modules/react-native-maps-osmdroid'
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   config = use_native_modules!
 

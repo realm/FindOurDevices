@@ -1,18 +1,18 @@
-import Realm from "realm";
+import Realm from 'realm';
 
 let app;
 
 // Returns the shared instance of the Realm app.
 const getRealmApp = () => {
   if (!app) {
-    const appId = "<your Realm app ID here>"; // Set Realm app ID here.
+    const appId = 'findourdevices-gvqwl'; // Set Realm app ID here.
     // Create a Realm app and connect to your MongoDB Realm instance using your Realm app ID.
     const config = {
       id: appId,
       timeout: 10000,
       app: {
-        name: "default",
-        version: "0"
+        name: 'default',
+        version: '0'
       }
     };
     app = new Realm.App(config);

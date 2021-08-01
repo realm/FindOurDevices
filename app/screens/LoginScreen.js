@@ -28,7 +28,10 @@ function LoginScreen({ navigation }) {
           placeholder='Email'
           value={email}
           onChangeText={setEmail}
+          autoCorrect={false}
           autoCapitalize='none'
+          keyboardType='email-address'
+          textContentType='emailAddress'  // iOS only
           style={styles.inputText}
         />
       </View>
@@ -38,6 +41,7 @@ function LoginScreen({ navigation }) {
           value={password}
           onChangeText={setPassword}
           secureTextEntry
+          textContentType='password'  // iOS only
           style={styles.inputText}
         />
       </View>
@@ -48,6 +52,7 @@ function LoginScreen({ navigation }) {
       <Button
         text='Sign Up'
         isPrimary={false}
+        useShadow={false}
         onPress={() => navigation.navigate(routes.SIGNUP)}
       />
     </View>

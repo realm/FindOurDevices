@@ -63,6 +63,8 @@ function SignupScreen({ navigation }) {
           value={password}
           onChangeText={setPassword}
           secureTextEntry
+          keyboardType='email-address'
+          textContentType='emailAddress'  // iOS only
           style={styles.inputText}
         />
       </View>
@@ -72,6 +74,7 @@ function SignupScreen({ navigation }) {
           value={confirmationPassword}
           onChangeText={setConfirmationPassword}
           secureTextEntry
+          textContentType='password'  // iOS only
           style={styles.inputText}
         />
       </View>
@@ -82,6 +85,7 @@ function SignupScreen({ navigation }) {
       <Button
         text='Log In'
         isPrimary={false}
+        useShadow={false}
         onPress={() => navigation.navigate(routes.LOGIN)}
       />
     </View>

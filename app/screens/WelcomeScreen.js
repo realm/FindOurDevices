@@ -2,7 +2,6 @@ import React from 'react';
 import { Image, ImageBackground, View, Text, StyleSheet } from 'react-native';
 
 import Button from '../components/Button';
-import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 import routes from '../navigation/routes';
 
@@ -54,8 +53,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     alignSelf: 'center',
     fontSize: fonts.sizeXL,
-    fontWeight: 'bold',
-    color: colors.primary
+    fontWeight: 'bold'
   }
 });
 

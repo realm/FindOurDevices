@@ -1,36 +1,42 @@
 import React from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 
+import { useDevices } from '../providers/DevicesProvider';
+import Button from '../components/Button';
 import ListItem from '../components/ListItem';
 import ListItemAction from '../components/ListItemAction';
 import ItemSeparator from '../components/ItemSeparator';
+import routes from '../navigation/routes';
 
-function GroupsScreen() {
-  const members = [
-    { id: 1, name: 'Realm Team' },
-    { id: 2, name: 'Family' },
-    { id: 3, name: 'Friends' }
-  ];
-
+function DevicesScreen({ navigation }) {
+  const { devices } = useDevices();
+  
   return (
     <View style={styles.screen}>
       <View style={styles.list}>
         <FlatList
-          data={members}
-          keyExtractor={member => member.id.toString()}
+          data={devices}
+          keyExtractor={device => device._id.toString()}
           renderItem={({ item }) => (
             <ListItem
               text={item.name}
-              onPress={() => console.log(`Pressed group ${item.name}.`)}
+              fadeOnPress={false}
               renderRightActions={() => (
                 <ListItemAction
-                  action='edit'
-                  onPress={() => console.log(`Pressed btn to edit group ${item.name}.`)}
+                  action='delete'
+                  onPress={() => console.log(`Pressed btn to delete ${item.name}.`)}
                 />
               )}
             />
           )}
           ItemSeparatorComponent={ItemSeparator}
+        />
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button
+          text='View Map'
+          onPress={() => navigation.navigate(routes.DEVICES_MAP)}
+          otherStyles={{ marginBottom: 30 }}
         />
       </View>
     </View>
@@ -43,7 +49,10 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1
+  },
+  buttonContainer: {
+    marginHorizontal: 15
   }
 });
 
-export default GroupsScreen;
+export default DevicesScreen;

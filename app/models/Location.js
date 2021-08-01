@@ -12,7 +12,7 @@ class Location {
     properties: {
       updatedAt: 'date',
       longitude: 'double',
-      latitude: 'double',
+      latitude: 'double'
     }
   };
 }

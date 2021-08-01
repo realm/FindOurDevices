@@ -7,12 +7,17 @@ import fonts from '../styles/fonts';
 function Button({
   text,
   isPrimary = true,
+  useShadow = true,
   onPress,
   otherStyles
 }) {
   return (
     <TouchableOpacity
-      style={[styles({ isPrimary }).button, otherStyles]}
+      style={[
+        styles({ isPrimary }).button,
+        useShadow && styles({}).shadow,
+        otherStyles
+      ]}
       onPress={onPress}
     >
       <Text style={styles({ isPrimary }).buttonText}>
@@ -35,6 +40,15 @@ const styles = ({ isPrimary }) => StyleSheet.create({
     fontSize: fonts.sizeM,
     color: isPrimary ? colors.white : colors.primary,
     fontWeight: 'bold'
+  },
+  shadow: {
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 3
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 3
   }
 });
 

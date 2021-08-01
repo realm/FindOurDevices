@@ -4,7 +4,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import DevicesNavigator from './DevicesNavigator';
 import GroupsNavigator from './GroupsNavigator';
-import ProfileNavigator from './ProfileNavigator';
+import ProfileScreen from '../screens/ProfileScreen';
 import routes from './routes';
 import colors from '../styles/colors';
 
@@ -47,7 +47,7 @@ function AppNavigator() {
       />
       <Tab.Screen
         name={routes.PROFILE}
-        component={ProfileNavigator}
+        component={ProfileScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons

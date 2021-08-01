@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, ImageBackground, View, Text, StyleSheet } from 'react-native';
+import { Image, ImageBackground, View, Text, Platform, StyleSheet } from 'react-native';
 
 import Button from '../components/Button';
 import fonts from '../styles/fonts';
@@ -53,7 +53,8 @@ const styles = StyleSheet.create({
     marginTop: 30,
     alignSelf: 'center',
     fontSize: fonts.sizeXL,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontFamily: Platform.OS === 'ios' ? 'AvenirNext-Heavy' : 'Roboto'
   }
 });
 

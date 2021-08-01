@@ -2,8 +2,9 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import HeaderButton from '../components/HeaderButton';
+import { GroupsProvider } from '../providers/GroupsProvider';
 import GroupsScreen from '../screens/GroupsScreen';
+import HeaderButton from '../components/HeaderButton';
 import routes from './routes';
 import colors from '../styles/colors';
 

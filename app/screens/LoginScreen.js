@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image, View, Text, TextInput, StyleSheet } from 'react-native';
+import { Image, View, Text, TextInput, Platform, StyleSheet } from 'react-native';
 
 import { useAuth } from '../providers/AuthProvider';
 import Button from '../components/Button';
@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: fonts.sizeXL,
     fontWeight: 'bold',
-    paddingVertical: 50
+    paddingVertical: 50,
+    fontFamily: Platform.OS === 'ios' ? 'AvenirNext-Heavy' : 'Roboto'
   },
   inputContainer: {
     width: '100%',

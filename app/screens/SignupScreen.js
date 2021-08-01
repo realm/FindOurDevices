@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Image, View, Text, TextInput, StyleSheet } from 'react-native';
+import { Alert, Image, View, Text, TextInput, Platform, StyleSheet } from 'react-native';
 import routes from '../navigation/routes';
 
 import { useAuth } from '../providers/AuthProvider';
@@ -109,7 +109,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: fonts.sizeXL,
     fontWeight: 'bold',
-    paddingVertical: 50
+    paddingVertical: 50,
+    fontFamily: Platform.OS === 'ios' ? 'AvenirNext-Heavy' : 'Roboto'
   },
   inputContainer: {
     width: '100%',

@@ -1,29 +1,50 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
-const ListItem = ({ item }) => {
+function ListItem({ text, fadeOnPress = true, onPress = () => {}, renderRightActions }) {
   return (
-    <View style={styles.item}>
-      <TouchableOpacity style={styles.itemTextButton}>
-        <Text style={styles.itemText}> {item.name} </Text>
-      </TouchableOpacity>
-    </View >
+    <Swipeable renderRightActions={renderRightActions}>
+      <Pressable
+        onPress={onPress}
+        style={({ pressed }) => pressed
+          ? { opacity: fadeOnPress ? 0.2 : 1 }
+          : {}
+        }
+      >
+        <View style={styles.container}>
+          <Text
+            numberOfLines={1}
+            style={styles.text}
+          >
+            {text}
+          </Text>
+          <MaterialCommunityIcons
+            name='chevron-left'
+            color={colors.grayMedium}
+            size={30}
+          />
+        </View>
+      </Pressable>
+    </Swipeable>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  item: {
+  container: {
+    width: '100%',
+    height: 80,
+    paddingLeft: 40,
+    paddingRight: 22,
     flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 30
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
-  itemTextButton: {
-    flex: 1,
-    paddingVertical: 20,
-  },
-  itemText: {
+  text: {
     fontSize: fonts.sizeM
   }
 });

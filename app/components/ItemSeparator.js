@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 
 import colors from '../styles/colors';
 
-const ItemSeparator = () => {
+function ItemSeparator() {
   return (
     <View style={styles.separator} />
   );

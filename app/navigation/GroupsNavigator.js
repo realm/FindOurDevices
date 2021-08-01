@@ -1,11 +1,11 @@
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import HeaderButton from '../components/HeaderButton';
+import GroupsScreen from '../screens/GroupsScreen';
 import routes from './routes';
 import colors from '../styles/colors';
-
-import GroupsScreen from '../screens/GroupsScreen';
 
 // TEMPORARY
 import TemporaryLogoutButton from '../components/TemporaryLogoutButton';
@@ -14,17 +14,16 @@ const Stack = createStackNavigator();
 
 function GroupsNavigator() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerStyle: styles.shadow }}>
       <Stack.Screen
         name={routes.GROUPS}
         component={GroupsScreen}
         options={{
-          // change later to return a custom component with onPress property to create a group
+          // change later to add onPress to create a group
           headerRight: () => (
-            <MaterialCommunityIcons
-              name='plus-circle'
-              color={colors.primary}
-              size={30}
+            <HeaderButton
+              iconName='plus-circle'
+              onPress={() => console.log('Pressed btn to create a group.')}
             />
           )
         }}
@@ -38,5 +37,17 @@ function GroupsNavigator() {
     </Stack.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  shadow: {
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3
+  }
+});
 
 export default GroupsNavigator;

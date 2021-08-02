@@ -1,7 +1,7 @@
 import { BSON } from 'realm';
 
 class Group {
-  constructor({ id = new BSON.ObjectID(), partition, ownerId, name, members = [] }) {
+  constructor({ id = new BSON.ObjectId(), partition, ownerId, name, members = [] }) {
     this._id = id;
     this._partition = partition;
     this.ownerId = ownerId;

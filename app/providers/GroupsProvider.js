@@ -56,7 +56,7 @@ const GroupsProvider = ({ children }) => {
         groupRealms.push(realm);
 
         const groupId = p.split('=')[1]; // Get Group Id from partition value
-        const groupObject = realm.objectForPrimaryKey('Group', new BSON.ObjectID(groupId));
+        const groupObject = realm.objectForPrimaryKey('Group', new BSON.ObjectId(groupId));
 
         if (groupObject)
           groupsObjects.push(groupObject);

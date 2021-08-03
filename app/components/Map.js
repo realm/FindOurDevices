@@ -62,7 +62,7 @@ function Map({ markers, pluralItemType, onBackPress }) {
     
     if (pickerValue === PICKER_VALUE_ALL_MARKERS) {
       mapViewRef.current.fitToCoordinates(markers, {
-        edgePadding: { top: 50, right: 100, bottom: 50, left: 100 },
+        edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
         animated: true
       });
     }

@@ -1,27 +1,30 @@
 import React from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 
+import { useAuth } from '../providers/AuthProvider';
+
 import ListItem from '../components/ListItem';
 import ListItemAction from '../components/ListItemAction';
 import ItemSeparator from '../components/ItemSeparator';
 
-function GroupsScreen() {
-  const members = [
-    { id: 1, name: 'Realm Team' },
-    { id: 2, name: 'Family' },
-    { id: 3, name: 'Friends' }
-  ];
+import routes from '../navigation/routes';
+
+function GroupsScreen({ navigation }) {
+
+  const { userData } = useAuth();
 
   return (
     <View style={styles.screen}>
       <View style={styles.list}>
         <FlatList
-          data={members}
-          keyExtractor={member => member.id.toString()}
+          data={userData.groups}
+          keyExtractor={group => group.groupId.toString()}
           renderItem={({ item }) => (
             <ListItem
-              text={item.name}
-              onPress={() => console.log(`Pressed group ${item.name}.`)}
+              text={item.groupName}
+              onPress={() => navigation.navigate(routes.GROUP, {
+                groupId: item.groupId.toString(),
+              })}
               renderRightActions={() => (
                 <ListItemAction
                   action='edit'

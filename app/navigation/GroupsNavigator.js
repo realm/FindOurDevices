@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { GroupsProvider } from '../providers/GroupsProvider';
+import GroupScreen from '../screens/GroupScreen';
 import GroupsScreen from '../screens/GroupsScreen';
-import HeaderButton from '../components/HeaderButton';
 import routes from './routes';
 import colors from '../styles/colors';
 
@@ -19,20 +19,29 @@ function GroupsNavigator() {
       <Stack.Screen
         name={routes.GROUPS}
         component={GroupsScreen}
+        // 'options.headerRight' is set in the GroupsScreen via 'navigation.setOptions'
+      />
+      <Stack.Screen
+        name={routes.GROUP}
+        component={GroupScreen}
         options={{
-          // change later to add onPress to create a group
-          headerRight: () => (
-            <HeaderButton
-              iconName='plus-circle'
-              onPress={() => console.log('Pressed btn to create a group.')}
+          headerTitle: 'Members',
+          headerBackTitleVisible: false,
+          headerBackImage: ({/* tintColor */}) => (
+            <MaterialCommunityIcons
+              name='chevron-left'
+              color={colors.primary}
+              size={30}
+              style={{ marginLeft: 10 }}
             />
           )
+          // 'options.headerRight' is set in the GroupScreen via 'navigation.setOptions'
         }}
       />
       <Stack.Screen
-        name={routes.GROUPS_MAP}
+        name={routes.GROUP_MAP}
         component={TemporaryLogoutButton}
-        //component={/* GroupsMapScreen */}
+        //component={/* GroupMapScreen */}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

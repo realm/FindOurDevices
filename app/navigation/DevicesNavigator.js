@@ -20,13 +20,13 @@ function DevicesNavigator() {
         name={routes.DEVICES}
         component={DevicesScreen}
         options={{
+          headerTitle: 'My Devices',
           headerRight: () => (
             <HeaderButton
               iconName='plus-circle'
               onPress={addCurrentDevice}  // modify to show a pop-up to select "yes" or "cancel"
             />
-          ),
-          headerTitle: 'My Devices'
+          )
         }}
       />
       <Stack.Screen

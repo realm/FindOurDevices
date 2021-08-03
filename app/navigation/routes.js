@@ -6,6 +6,7 @@ export default Object.freeze({
   DEVICES: 'Devices',
   DEVICES_MAP: 'DevicesMap',
   GROUPS: 'Groups',
-  GROUPS_MAP: 'GroupsMap',
+  GROUP: 'Group',
+  GROUP_MAP: 'GroupMap',
   PROFILE: 'Profile'
 });

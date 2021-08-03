@@ -1,99 +1,63 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useLayoutEffect } from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 
-import Realm from "realm";
-import Group from '../models/Group';
-import GroupMember from '../models/GroupMember';
-import Location from '../models/Location';
-import { BSON } from 'realm';
-import { useAuth } from '../providers/AuthProvider';
-
+import useGroup from '../hooks/useGroup';
+import Button from '../components/Button';
+import HeaderButton from '../components/HeaderButton';
 import ListItem from '../components/ListItem';
 import ListItemAction from '../components/ListItemAction';
 import ItemSeparator from '../components/ItemSeparator';
+import routes from '../navigation/routes';
 
-function GroupScreen({ route }) {
+function GroupScreen({ navigation, route }) {
+  const { group } = useGroup(route.params.groupId);
 
-  const [groupId] = useState(route.params.groupId);
-  const [group, setGroupData] = useState(null);
-  const { realmUser } = useAuth();
-  const realmRef = useRef(null);
-
-  useEffect(() => {
-    if (!realmUser)
-      return;
-
-    openRealm();
-
-    return closeRealm;
-  }, [realmUser]);
-
-  const openRealm = async () => {
-    try {
-      const config = {
-        schema: [Group.schema, GroupMember.schema, Location.schema],
-        sync: {
-          user: realmUser,
-          partitionValue: `group=${groupId}`,
-          // Add a callback on the 'error' property to log any sync errors while developing
-          error: (session, syncError) => {
-            console.error('syncError.name: ', syncError.name);
-            if (syncError.message)
-              console.error('syncError.message: ', message);
-          }
-        }
-      };
-
-      const realm = Realm.exists(config)
-        ? new Realm(config)
-        : await Realm.open(config);
-
-      realmRef.current = realm;
-
-      const group = realm.objectForPrimaryKey('Group', new BSON.ObjectId(groupId));
-
-      if (group)
-        setGroupData(group);
-
-      console.log(group.members);
-
-      group.addListener(() => {
-        const groupObject = realm.objectForPrimaryKey('Group', new BSON.ObjectId(groupId));
-        setGroupData(groupObject);
-      });
-    }
-    catch (err) {
-      console.error('Error opening realm: ', err.message);
-    }
-  };
-
-  const closeRealm = () => {
-    const realm = realmRef.current;
-    realm?.removeAllListeners();
-    realm?.close();
-    realmRef.current = null;
-    setGroupData(null);
-  };
+  useLayoutEffect(() => {
+    // In order for the header to be able to interact with the screen (this) component
+    // we need to define the header options using 'navigation.setOptions' inside this
+    // screen component.
+    navigation.setOptions({
+      headerRight: () => (
+        <HeaderButton
+          iconName='account-plus'
+          onPress={() => console.log('Pressed to add a group member.')}
+        />
+      )
+    })
+  });
 
   return (
     <View style={styles.screen}>
       <View style={styles.list}>
-        <FlatList
-          data={group?.members}
-          keyExtractor={member => member.userId.toString()}
-          renderItem={({ item }) => (
-            <ListItem
-              text={item.displayName}
-              onPress={() => console.log(`Pressed group ${item.name}.`)}
-              renderRightActions={() => (
-                <ListItemAction
-                  action='edit'
-                  onPress={() => console.log(`Pressed btn to edit group ${item.name}.`)}
-                />
-              )}
-            />
-          )}
-          ItemSeparatorComponent={ItemSeparator}
+        {group && (
+          <FlatList
+            data={group.members}
+            keyExtractor={member => member.userId.toString()}
+            renderItem={({ item }) => (
+              <ListItem
+                text={item.displayName}
+                onPress={() => console.log(`Pressed group member ${item.displayName}.`)}
+                renderRightActions={() => (
+                  <ListItemAction
+                    action='remove-member'
+                    onPress={() => console.log(`Pressed btn to remove member ${item.displayName}.`)}
+                  />
+                )}
+              />
+            )}
+            ItemSeparatorComponent={ItemSeparator}
+          />
+        )}
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button
+          text='View Map'
+          onPress={() => navigation.navigate(routes.GROUP_MAP, {
+            // Pass params to a route by putting them in an object as the second argument.
+            // The route can access them through route.params.<property>
+            members: group ? group.members : []
+          })}
+          otherStyles={{ marginBottom: 30 }}
         />
       </View>
     </View>
@@ -106,6 +70,9 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1
+  },
+  buttonContainer: {
+    marginHorizontal: 15
   }
 });
 

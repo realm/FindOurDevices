@@ -59,7 +59,7 @@ function AuthProvider({ children }) {
       // When querying a realm to find objects (e.g. realm.objects('User')) the result we get back
       // and the objects in it are "live" and will always reflect the latest state.
       const userId = BSON.ObjectId(realmUser.id);
-      const user = realm.objects('User').filtered('_id = $0', userId)[0];
+      const user = realm.objectForPrimaryKey('User', userId);
       if (user)
         setUserData(user);
 
@@ -73,7 +73,7 @@ function AuthProvider({ children }) {
         // By querying the object again, we get a new reference to the Results and triggers
         // a rerender by React. Setting the user to either 'user' or 'collection'
         // (from the argument) will not trigger a rerender since it is the same reference
-        setUserData(realm.objects('User').filtered('_id = $0', userId)[0]);  // note to self: since we actually do not have to refetch data, maybe its better if we update some integer in state to trigger the rerender?
+        setUserData(realm.objectForPrimaryKey('User', userId));  // note to self: since we actually do not have to refetch data, maybe its better if we update some integer in state to trigger the rerender?
       });
     }
     catch (err) {
@@ -139,9 +139,7 @@ function AuthProvider({ children }) {
     return realmUser.functions.setDisplayName(name);
   };
 
-  const createGroup = (name) => {
-    return realmUser.functions.createGroup(name);
-  }
+  const createGroup = (name) => realmUser.functions.createGroup(name);
 
   return (
     <AuthContext.Provider value={{

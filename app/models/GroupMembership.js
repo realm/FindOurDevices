@@ -1,7 +1,8 @@
 class GroupMembership {
-  constructor({ groupId, groupPartition, deviceId, shareLocation = true }) {
+  constructor({ groupId, groupPartition, groupName, deviceId, shareLocation = true }) {
     this.groupId = groupId;
     this.groupPartition = groupPartition;
+    this.groupName = groupName;
     this.deviceId = deviceId;
     this.shareLocation = shareLocation;
   }
@@ -13,6 +14,7 @@ class GroupMembership {
     properties: {
       groupId: 'objectId',
       groupPartition: 'string',
+      groupName: 'string',
       deviceId: 'objectId',
       shareLocation: 'bool',
     }

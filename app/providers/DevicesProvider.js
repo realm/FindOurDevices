@@ -65,6 +65,12 @@ function DevicesProvider({ children }) {
         setDevices(devices);
 
       devices.addListener((/*collection, changes*/) => {
+        console.log(`Handling changes on iOS or Android ID: ${currentIosOrAndroidId}`)
+
+        // If wanting to handle deletions, insertions, and modifications differently
+        // you can access them through the two arguments. (Always handle them in the
+        // following order: deletions, insertions, modifications)
+        // e.g. changes.insertions.forEach((index) => console.log('Inserted item: ', collection[index]));
         setDevices(realm.objects('Device'));
       });
     }
@@ -75,6 +81,7 @@ function DevicesProvider({ children }) {
 
   const closeRealm = () => {
     const realm = realmRef.current;
+    realm?.objects('Device').removeAllListeners();
     realm?.removeAllListeners();
     realm?.close();
     realmRef.current = null;

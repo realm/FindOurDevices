@@ -1,11 +1,9 @@
 import React, { useState, useLayoutEffect } from 'react';
-import { View, Text, TextInput, FlatList, Modal, TouchableOpacity, Alert, Platform, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, TextInput, Modal, TouchableOpacity, Alert, Platform, StyleSheet, Dimensions } from 'react-native';
 
 import { useAuth } from '../providers/AuthProvider';
 import HeaderButton from '../components/HeaderButton';
-import ListItem from '../components/ListItem';
-import ListItemAction from '../components/ListItemAction';
-import ItemSeparator from '../components/ItemSeparator';
+import List from '../components/List';
 import routes from '../navigation/routes';
 
 function GroupsScreen({ navigation }) {
@@ -16,7 +14,7 @@ function GroupsScreen({ navigation }) {
   useLayoutEffect(() => {
     // In order for the header to be able to interact with the screen (this) component
     // we need to define the header options using 'navigation.setOptions' inside this
-    // screen component.
+    // screen component. This way, we're able to control the modal from the header.
     navigation.setOptions({
       headerRight: () => (
         <HeaderButton
@@ -44,29 +42,22 @@ function GroupsScreen({ navigation }) {
   return (
     <>
     <View style={styles.screen}>
-      <View style={styles.list}>
-        <FlatList
-          data={userData.groups}
+      {userData && (
+        <List
+          items={userData.groups}
           keyExtractor={group => group.groupId.toString()}
-          renderItem={({ item }) => (
-            <ListItem
-              text={item.groupName}
-              onPress={() => navigation.navigate(routes.GROUP, {
-                // Pass params to a route by putting them in an object as the second argument.
-                // The route can access them through route.params.<property>
-                groupId: item.groupId.toString()
-              })}
-              renderRightActions={() => (
-                <ListItemAction
-                  action='edit'
-                  onPress={() => console.log(`Pressed btn to edit group ${item.name}.`)}
-                />
-              )}
-            />
-          )}
-          ItemSeparatorComponent={ItemSeparator}
+          itemTextFieldName='groupName'
+          onItemPress={(item) => navigation.navigate(routes.GROUP, {
+            // Pass params to a route by putting them in an object as the second argument.
+            // The route can access them through route.params.<property>
+            // (We pass the id as a string rather than ObjectId because react navigation recommends to
+            // not have non-serializable values in the navigation state since it can break usage.)
+            groupId: item.groupId.toString()
+          })}
+          rightActionType='edit'
+          rightActionOnPress={(item) => console.log(`Pressed btn to edit group ${item.groupName}.`)}
         />
-      </View>
+      )}
     </View>
     <Modal
       animationType='fade'
@@ -102,9 +93,6 @@ function GroupsScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   screen: {
-    flex: 1
-  },
-  list: {
     flex: 1
   },
   centeredView: {

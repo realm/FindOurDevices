@@ -10,6 +10,7 @@ import ItemSeparator from '../components/ItemSeparator';
 import routes from '../navigation/routes';
 
 function GroupScreen({ navigation, route }) {
+  
   const { group } = useGroup(route.params.groupId);
 
   useLayoutEffect(() => {
@@ -53,9 +54,7 @@ function GroupScreen({ navigation, route }) {
         <Button
           text='View Map'
           onPress={() => navigation.navigate(routes.GROUP_MAP, {
-            // Pass params to a route by putting them in an object as the second argument.
-            // The route can access them through route.params.<property>
-            members: group ? group.members : []
+            groupId: route.params.groupId
           })}
           otherStyles={{ marginBottom: 30 }}
         />

@@ -5,6 +5,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import GroupScreen from '../screens/GroupScreen';
 import GroupsScreen from '../screens/GroupsScreen';
+import GroupMapScreen from '../screens/GroupMapScreen';
 import routes from './routes';
 import colors from '../styles/colors';
 
@@ -40,8 +41,7 @@ function GroupsNavigator() {
       />
       <Stack.Screen
         name={routes.GROUP_MAP}
-        component={TemporaryLogoutButton}
-        //component={/* GroupMapScreen */}
+        component={GroupMapScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

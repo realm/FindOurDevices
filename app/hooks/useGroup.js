@@ -48,13 +48,16 @@ function useGroup(groupId) {
 
       // TO DO: Change this to get object directly, instead of array (w/ objectForPrimaryKey)
       // At the moment, getting the object directly makes its listener not fire for some reason
-      const groups = realm.objects('Group').filtered('_id = $0', new BSON.ObjectId(groupId));
-      
+      // NOTE: Object listener not firing when object is changed via a trigger function.
+      // Temporary workaround: Use collection listener
+      const groups = realm.objects('Group').filtered('_id = $0', BSON.ObjectId(groupId));
       if (groups)
-        setGroup(realm.objectForPrimaryKey('Group', new BSON.ObjectId(groupId)));
+        setGroup(realm.objectForPrimaryKey('Group', BSON.ObjectId(groupId)));
 
-      groups.addListener((/*object, changes*/) => {
-        setGroup(realm.objectForPrimaryKey('Group', new BSON.ObjectId(groupId)));
+      groups.addListener((/*collection, changes*/) => {
+        console.log('Handling changes for group..')
+
+        setGroup(realm.objectForPrimaryKey('Group', BSON.ObjectId(groupId)));
       });
     }
     catch (err) {
@@ -64,11 +67,15 @@ function useGroup(groupId) {
 
   const closeRealm = () => {
     const realm = realmRef.current;
+    //realm?.objectForPrimaryKey('Group', BSON.ObjectId(groupId)).removeAllListeners(); // TODO: Add this if object listener issue is solved
+    realm?.objects('Group').removeAllListeners();
     realm?.removeAllListeners();
     realm?.close();
     realmRef.current = null;
     setGroup(null);
   };
+
+  const addGroupMember = (groupId, newGroupMemberEmail) => realmUser.functions.addGroupMember(groupId, newGroupMemberEmail);
 
   const setGroupName = (name) => {
     // We can call our configured MongoDB Realm functions as methods on the User.functions
@@ -85,7 +92,7 @@ function useGroup(groupId) {
     // NOTE: See if caller should try-catch the call instead
   };
 
-  return { group/*, setGroupName*/ };
+  return { group, addGroupMember/*, setGroupName*/ };
 }
 
 export default useGroup;

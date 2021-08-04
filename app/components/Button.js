@@ -29,7 +29,7 @@ function Button({
 
 const styles = ({ isPrimary }) => StyleSheet.create({
   button: {
-    width: '100%',
+    alignSelf: 'stretch',
     marginTop: 20,
     paddingVertical: 18,
     alignItems: 'center',
@@ -42,13 +42,16 @@ const styles = ({ isPrimary }) => StyleSheet.create({
     fontWeight: 'bold'
   },
   shadow: {
+    // iOS box shadow props
     shadowColor: colors.black,
     shadowOffset: {
       width: 0,
       height: 3
     },
     shadowOpacity: 0.2,
-    shadowRadius: 3
+    shadowRadius: 3,
+    // Android box shadow prop
+    elevation: 2
   }
 });
 

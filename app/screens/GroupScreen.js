@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { View, Alert, StyleSheet } from 'react-native';
 
-import useGroup from '../hooks/useGroup';
+import { useGroup } from '../providers/GroupProvider';
 import useModalViaHeader from '../hooks/useModalViaHeader';
 import Button from '../components/Button';
 import List from '../components/List';
 import ModalForm from '../components/ModalForm';
 import routes from '../navigation/routes';
 
-function GroupScreen({ navigation, route }) {
-  const { group, addGroupMember } = useGroup(route.params.groupId);
+function GroupScreen({ navigation }) {
+  const { group, addGroupMember } = useGroup();
   const [newMemberEmail, setNewMemberEmail] = useState('');
   const { modalVisible, closeModal }= useModalViaHeader(navigation, 'account-plus', false);
 
@@ -50,9 +50,7 @@ function GroupScreen({ navigation, route }) {
       <View style={styles.buttonContainer}>
         <Button
           text='View Map'
-          onPress={() => navigation.navigate(routes.GROUP_MAP, {
-            groupId: route.params.groupId
-          })}
+          onPress={() => navigation.navigate(routes.GROUP_MAP)}
           otherStyles={{ marginBottom: 30 }}
         />
       </View>

@@ -7,7 +7,7 @@ import List from '../components/List';
 import ModalForm from '../components/ModalForm';
 import routes from '../navigation/routes';
 
-function GroupsScreen({ navigation }) {
+function GroupsScreen({ navigation, setGroupId }) {
   const { userData, createGroup } = useAuth();
   const [newGroupName, setNewGroupName] = useState('');
   const { modalVisible, closeModal }= useModalViaHeader(navigation, 'plus-circle', false);
@@ -41,13 +41,10 @@ function GroupsScreen({ navigation }) {
           items={userData.groups}
           keyExtractor={group => group.groupId.toString()}
           itemTextFieldName='groupName'
-          onItemPress={(item) => navigation.navigate(routes.GROUP, {
-            // Pass params to a route by putting them in an object as the second argument.
-            // The route can access them through route.params.<property>
-            // (We pass the id as a string rather than ObjectId because react navigation recommends to
-            // not have non-serializable values in the navigation state since it can break usage.)
-            groupId: item.groupId.toString()
-          })}
+          onItemPress={(item) => {
+            setGroupId(item.groupId.toString()),
+            navigation.navigate(routes.GROUP)}
+          }
           rightActionType='edit'
           rightActionOnPress={(item) => console.log(`Pressed btn to edit group ${item.groupName}.`)}
         />

@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, createContext, useContext } from 'react';
 import Realm, { BSON } from 'realm';
 
-import { useAuth } from '../providers/AuthProvider';
+import { useAuth } from './AuthProvider';
 import Group from '../models/Group';
 import GroupMember from '../models/GroupMember';
 import Location from '../models/Location';
@@ -9,19 +9,21 @@ import Location from '../models/Location';
 // For complimentary comments on the use of Realm in this module, see
 // /app/providers/AuthProvider.js as it follows a similar structure
 
-function useGroup(groupId) {
+const GroupContext = createContext();
+
+function GroupProvider({ children, groupId }) {
   const { realmUser } = useAuth();
   const [group, setGroup] = useState(null);
   const realmRef = useRef();
 
   useEffect(() => {
-    if (!realmUser)
+    if (!realmUser || !groupId)
       return;
-
+    
     openRealm();
 
     return closeRealm;
-  }, [realmUser]);
+  }, [realmUser, groupId]);
 
   const openRealm = async () => {
     try {
@@ -55,7 +57,7 @@ function useGroup(groupId) {
         setGroup(realm.objectForPrimaryKey('Group', BSON.ObjectId(groupId)));
 
       groups.addListener((/*collection, changes*/) => {
-        console.log('Handling changes for group..')
+        //console.log('Handling changes for group..')
 
         setGroup(realm.objectForPrimaryKey('Group', BSON.ObjectId(groupId)));
       });
@@ -66,6 +68,7 @@ function useGroup(groupId) {
   };
 
   const closeRealm = () => {
+    console.log('Closing Realm');
     const realm = realmRef.current;
     //realm?.objectForPrimaryKey('Group', BSON.ObjectId(groupId)).removeAllListeners(); // TODO: Add this if object listener issue is solved
     realm?.objects('Group').removeAllListeners();
@@ -92,10 +95,22 @@ function useGroup(groupId) {
     // NOTE: See if caller should try-catch the call instead
   };
 
-  return { group, addGroupMember/*, setGroupName*/ };
+  return (
+    <GroupContext.Provider value={{
+      group,
+      addGroupMember,
+      /*, setGroupName*/
+    }}>
+      {children}
+    </GroupContext.Provider>
+  )
 }
 
-export default useGroup;
+// Components that call useGroup will be able to destructure the values
+// provided in DeviceContext.Provider
+const useGroup = () => useContext(GroupContext);
+
+export { GroupProvider, useGroup };
 
 // For complimentary comments on the use of Realm in this module, see
 // /app/providers/AuthProvider.js as it follows a similar structure.

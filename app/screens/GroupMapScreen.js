@@ -1,12 +1,10 @@
 import React from 'react';
 
-import useGroup from '../hooks/useGroup';
-
+import { useGroup } from '../providers/GroupProvider';
 import Map from '../components/Map';
 
-function GroupMapScreen({ navigation, route }) {
-  
-  const { group } = useGroup(route.params.groupId);
+function GroupMapScreen({ navigation }) {
+  const { group } = useGroup();
 
   const getMarkers = () => group ? group.members 
     .filter(member => member.location)

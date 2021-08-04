@@ -46,11 +46,14 @@ function useGroup(groupId) {
 
       realmRef.current = realm;
 
-      const group = realm.objectForPrimaryKey('Group', new BSON.ObjectId(groupId));
-      if (group)
-        setGroup(group);
+      // TO DO: Change this to get object directly, instead of array (w/ objectForPrimaryKey)
+      // At the moment, getting the object directly makes its listener not fire for some reason
+      const groups = realm.objects('Group').filtered('_id = $0', new BSON.ObjectId(groupId));
+      
+      if (groups)
+        setGroup(realm.objectForPrimaryKey('Group', new BSON.ObjectId(groupId)));
 
-      group.addListener((/*collection, changes*/) => {
+      groups.addListener((/*object, changes*/) => {
         setGroup(realm.objectForPrimaryKey('Group', new BSON.ObjectId(groupId)));
       });
     }
@@ -64,7 +67,7 @@ function useGroup(groupId) {
     realm?.removeAllListeners();
     realm?.close();
     realmRef.current = null;
-    setGroup([]);
+    setGroup(null);
   };
 
   const setGroupName = (name) => {

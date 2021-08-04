@@ -46,12 +46,16 @@ function useGroup(groupId) {
 
       realmRef.current = realm;
 
-      const group = realm.objectForPrimaryKey('Group', new BSON.ObjectId(groupId));
-      if (group)
-        setGroup(group);
+      // NOTE: Object listener not firing when object is changed via a trigger function.
+      // Temporary workaround: Use collection listener
+      const groups = realm.objects('Group');
+      if (groups)
+        setGroup(realm.objectForPrimaryKey('Group', BSON.ObjectId(groupId)));
 
-      group.addListener((/*collection, changes*/) => {
-        setGroup(realm.objectForPrimaryKey('Group', new BSON.ObjectId(groupId)));
+      groups.addListener((/*collection, changes*/) => {
+        console.log('Handling changes for group..')
+
+        setGroup(realm.objectForPrimaryKey('Group', BSON.ObjectId(groupId)));
       });
     }
     catch (err) {
@@ -61,11 +65,15 @@ function useGroup(groupId) {
 
   const closeRealm = () => {
     const realm = realmRef.current;
+    //realm?.objectForPrimaryKey('Group', BSON.ObjectId(groupId)).removeAllListeners(); // TODO: Add this if object listener issue is solved
+    realm?.objects('Group').removeAllListeners();
     realm?.removeAllListeners();
     realm?.close();
     realmRef.current = null;
     setGroup([]);
   };
+
+  const addGroupMember = (groupId, newGroupMemberEmail) => realmUser.functions.addGroupMember(groupId, newGroupMemberEmail);
 
   const setGroupName = (name) => {
     // We can call our configured MongoDB Realm functions as methods on the User.functions
@@ -82,7 +90,7 @@ function useGroup(groupId) {
     // NOTE: See if caller should try-catch the call instead
   };
 
-  return { group/*, setGroupName*/ };
+  return { group, addGroupMember/*, setGroupName*/ };
 }
 
 export default useGroup;

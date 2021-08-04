@@ -19,7 +19,8 @@ function GroupsNavigator() {
       <Stack.Screen
         name={routes.GROUPS}
         component={GroupsScreen}
-        // 'options.headerRight' is set in the GroupsScreen via 'navigation.setOptions'
+        // 'options.headerRight' is set in the GroupsScreen with
+        // 'navigation.setOptions' via our useModal hook
       />
       <Stack.Screen
         name={routes.GROUP}
@@ -35,7 +36,8 @@ function GroupsNavigator() {
               style={{ marginLeft: 10 }}
             />
           )
-          // 'options.headerRight' is set in the GroupScreen via 'navigation.setOptions'
+          // 'options.headerRight' is set in the GroupScreen with
+          // 'navigation.setOptions' via our useModal hook
         }}
       />
       <Stack.Screen

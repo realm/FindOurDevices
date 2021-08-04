@@ -1,15 +1,27 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, Alert, StyleSheet } from 'react-native';
 
 import { useDevices } from '../providers/DevicesProvider';
+import useModalViaHeader from '../hooks/useModalViaHeader';
 import Button from '../components/Button';
 import List from '../components/List';
+import ModalForm from '../components/ModalForm';
 import routes from '../navigation/routes';
 
 function DevicesScreen({ navigation }) {
-  const { devices } = useDevices();
+  const { devices, addCurrentDevice } = useDevices();
+  const { modalVisible, closeModal }= useModalViaHeader(navigation, 'plus-circle', false);
+
+  const handleAddDevice = async () => {
+    const res = await addCurrentDevice();
+    if (res?.error)
+      return Alert.alert(res.error.message);
+
+    closeModal();
+  };
   
   return (
+    <>
     <View style={styles.screen}>
       <List
         items={devices}
@@ -28,6 +40,14 @@ function DevicesScreen({ navigation }) {
         />
       </View>
     </View>
+    <ModalForm
+      visible={modalVisible}
+      title='Add Current Device?'
+      submitText='Yes'
+      onSubmit={handleAddDevice}
+      onCancel={closeModal}
+    />
+    </>
   );
 }
 

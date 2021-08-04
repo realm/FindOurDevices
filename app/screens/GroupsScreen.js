@@ -42,6 +42,8 @@ function GroupsScreen({ navigation, setGroupId }) {
           keyExtractor={group => group.groupId.toString()}
           itemTextFieldName='groupName'
           onItemPress={(item) => {
+            // When the groupId is set, GroupsNavigator rerenders and passes the
+            // new group id to the GroupsProvider, which opens the group realm.
             setGroupId(item.groupId.toString()),
             navigation.navigate(routes.GROUP)}
           }

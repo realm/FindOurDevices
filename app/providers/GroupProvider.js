@@ -48,17 +48,14 @@ function GroupProvider({ children, groupId }) {
 
       realmRef.current = realm;
 
-      // TO DO: Change this to get object directly, instead of array (w/ objectForPrimaryKey)
-      // At the moment, getting the object directly makes its listener not fire for some reason
       // NOTE: Object listener not firing when object is changed via a trigger function.
       // Temporary workaround: Use collection listener
+      // TODO: Change this to get object directly, instead of array (w/ objectForPrimaryKey)
       const groups = realm.objects('Group').filtered('_id = $0', BSON.ObjectId(groupId));
       if (groups)
         setGroup(realm.objectForPrimaryKey('Group', BSON.ObjectId(groupId)));
 
       groups.addListener((/*collection, changes*/) => {
-        //console.log('Handling changes for group..')
-
         setGroup(realm.objectForPrimaryKey('Group', BSON.ObjectId(groupId)));
       });
     }
@@ -78,15 +75,23 @@ function GroupProvider({ children, groupId }) {
     setGroup(null);
   };
 
-  const addGroupMember = (groupId, newGroupMemberEmail) => realmUser.functions.addGroupMember(groupId, newGroupMemberEmail);
-
-  const setGroupName = (name) => {
+  const addGroupMember = (groupId, newGroupMemberEmail) => {
     // We can call our configured MongoDB Realm functions as methods on the User.functions
     // property (as seen below), or by passing the function name and its arguments to
-    // User.callFunction('functionName', args). When the backend changes the group name on
-    // the Group, it will also change it on the embedded GroupMembership of each of its Users.
-    // Since the changes apply to synced realms, the notification handler that we passed to
-    // the change listener will get called and we can subsequently update the UI state.
+    // User.callFunction('functionName', args).
+    // When the backend inserts new GroupMember into the 'members' array on the Group,
+    // it will also insert a GroupMembership into the User's 'groups' array. These
+    // changes will be automatically synced by Realm and reacted to via our change listeners.
+    // (Currently we only show changes once synced from the server, thus not offline)
+
+    return realmUser.functions.addGroupMember(groupId, newGroupMemberEmail);
+  };
+
+  const setGroupName = (name) => {
+    // When the backend changes the group name on the Group, it will also change it on the
+    // embedded GroupMembership of each of its Users. Since the changes apply to synced realms,
+    // the notification handler that we passed to the change listener will get called and we
+    // can subsequently update the UI state.
     // (Currently we only show changes once synced from the server, thus not offline)
 
     // TODO: Implement the backend function setGroupName
@@ -99,7 +104,7 @@ function GroupProvider({ children, groupId }) {
     <GroupContext.Provider value={{
       group,
       addGroupMember,
-      /*, setGroupName*/
+      /*setGroupName*/
     }}>
       {children}
     </GroupContext.Provider>
@@ -107,7 +112,7 @@ function GroupProvider({ children, groupId }) {
 }
 
 // Components that call useGroup will be able to destructure the values
-// provided in DeviceContext.Provider
+// provided in GroupContext.Provider
 const useGroup = () => useContext(GroupContext);
 
 export { GroupProvider, useGroup };

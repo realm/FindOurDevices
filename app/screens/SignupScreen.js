@@ -53,7 +53,10 @@ function SignupScreen({ navigation }) {
           placeholder='Email'
           value={email}
           onChangeText={setEmail}
+          autoCorrect={false}
           autoCapitalize='none'
+          keyboardType='email-address'
+          textContentType='emailAddress'  // iOS only
           style={styles.inputText}
         />
       </View>
@@ -63,8 +66,7 @@ function SignupScreen({ navigation }) {
           value={password}
           onChangeText={setPassword}
           secureTextEntry
-          keyboardType='email-address'
-          textContentType='emailAddress'  // iOS only
+          textContentType='password'  // iOS only
           style={styles.inputText}
         />
       </View>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, createContext, useContext } from 'react';
-import Realm, { BSON } from 'realm';
+import Realm from 'realm';
 
 import { useAuth } from './AuthProvider';
 import Group from '../models/Group';
@@ -75,37 +75,8 @@ function GroupProvider({ children, groupId }) {
     setGroup(null);
   };
 
-  const addGroupMember = (groupId, newGroupMemberEmail) => {
-    // We can call our configured MongoDB Realm functions as methods on the User.functions
-    // property (as seen below), or by passing the function name and its arguments to
-    // User.callFunction('functionName', args).
-    // When the backend inserts new GroupMember into the 'members' array on the Group,
-    // it will also insert a GroupMembership into the User's 'groups' array. These
-    // changes will be automatically synced by Realm and reacted to via our change listeners.
-    // (Currently we only show changes once synced from the server, thus not offline)
-
-    return realmUser.functions.addGroupMember(groupId, newGroupMemberEmail);
-  };
-
-  const setGroupName = (name) => {
-    // When the backend changes the group name on the Group, it will also change it on the
-    // embedded GroupMembership of each of its Users. Since the changes apply to synced realms,
-    // the notification handler that we passed to the change listener will get called and we
-    // can subsequently update the UI state.
-    // (Currently we only show changes once synced from the server, thus not offline)
-
-    // TODO: Implement the backend function setGroupName
-    return realmUser.functions.setGroupName(name);
-
-    // NOTE: See if caller should try-catch the call instead
-  };
-
   return (
-    <GroupContext.Provider value={{
-      group,
-      addGroupMember,
-      /*setGroupName*/
-    }}>
+    <GroupContext.Provider value={group}>
       {children}
     </GroupContext.Provider>
   )

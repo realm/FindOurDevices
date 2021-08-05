@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Alert, StyleSheet } from 'react-native';
 
 import { useGroup } from '../providers/GroupProvider';
+import useGroupManager from '../hooks/useGroupManager';
 import useModalViaHeader from '../hooks/useModalViaHeader';
 import Button from '../components/Button';
 import List from '../components/List';
@@ -9,7 +10,8 @@ import ModalForm from '../components/ModalForm';
 import routes from '../navigation/routes';
 
 function GroupScreen({ navigation }) {
-  const { group, addGroupMember } = useGroup();
+  const group = useGroup();
+  const { addGroupMember, removeGroupMember } = useGroupManager();
   const [newMemberEmail, setNewMemberEmail] = useState('');
   const { modalVisible, closeModal }= useModalViaHeader(navigation, 'account-plus', false);
 
@@ -17,7 +19,7 @@ function GroupScreen({ navigation }) {
     if (!newMemberEmail)
       return;
 
-    // When our MongoDB Realm backend function is called, it will return an object
+    // Our MongoDB Realm backend function will return an object
     // containing an error property if any errors occurred.
     const { error } = await addGroupMember(group._id, newMemberEmail);
     if (error)
@@ -25,6 +27,12 @@ function GroupScreen({ navigation }) {
 
     closeModal();
     setNewMemberEmail('');
+  };
+
+  const handleRemoveMember = async (memberId) => {
+    const { error } = await removeGroupMember(group._id, memberId);
+    if (error)
+      return Alert.alert(error.message);
   };
 
   const handleCancelAddMember = () => {
@@ -46,7 +54,7 @@ function GroupScreen({ navigation }) {
           rightActions={[
             {
               actionType: 'remove-member',
-              onPress: (member) => console.log(`Pressed btn to remove member ${member.displayName}.`)
+              onPress: (member) => handleRemoveMember(member.userId)
             }
           ]}
         />

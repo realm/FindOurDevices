@@ -137,10 +137,6 @@ function AuthProvider({ children }) {
     return realmUser.functions.setDisplayName(name);
   };
 
-  const createGroup = (name) => realmUser.functions.createGroup(name);
-
-  const removeGroup = (groupId) => realmUser.functions.removeGroup(groupId);
-
   return (
     <AuthContext.Provider value={{
       realmUser,
@@ -148,9 +144,7 @@ function AuthProvider({ children }) {
       logIn,
       logOut,
       signUp,
-      setDisplayName,
-      createGroup,
-      removeGroup
+      setDisplayName
     }}>
       {children}
     </AuthContext.Provider>

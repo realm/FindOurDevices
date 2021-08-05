@@ -26,7 +26,12 @@ function GroupsNavigator() {
         {/* from a function as the child of this Stack.Screen. All regular */}
         {/* props that screen components get (such as 'navigation' and 'route') */}
         {/* are passed as the first argument to this function. */}
-        {(props) => <GroupsScreen {...props} setGroupId={setGroupId} />}
+        {(props) => (
+          <GroupsScreen
+            {...props}
+            setGroupId={setGroupId}
+          />
+        )}
       </Stack.Screen>
       <Stack.Screen
         name={routes.GROUP}

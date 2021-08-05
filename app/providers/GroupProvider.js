@@ -32,7 +32,7 @@ function GroupProvider({ children, groupId }) {
         schema: [Group.schema, GroupMember.schema, Location.schema],
         sync: {
           user: realmUser,
-          partitionValue: `group=${groupId}`,
+          partitionValue: `group=${groupId.toString()}`,
           // Add a callback on the 'error' property to log any sync errors while developing
           error: (session, syncError) => {
             console.error('syncError.name: ', syncError.name);
@@ -51,12 +51,12 @@ function GroupProvider({ children, groupId }) {
       // NOTE: Object listener not firing when object is changed via a trigger function.
       // Temporary workaround: Use collection listener
       // TODO: Change this to get object directly, instead of array (w/ objectForPrimaryKey)
-      const groups = realm.objects('Group').filtered('_id = $0', BSON.ObjectId(groupId));
+      const groups = realm.objects('Group').filtered('_id = $0', groupId);
       if (groups)
-        setGroup(realm.objectForPrimaryKey('Group', BSON.ObjectId(groupId)));
+        setGroup(realm.objectForPrimaryKey('Group', groupId));
 
       groups.addListener((/*collection, changes*/) => {
-        setGroup(realm.objectForPrimaryKey('Group', BSON.ObjectId(groupId)));
+        setGroup(realm.objectForPrimaryKey('Group', groupId));
       });
     }
     catch (err) {

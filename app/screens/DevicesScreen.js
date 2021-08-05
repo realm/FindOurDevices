@@ -25,12 +25,16 @@ function DevicesScreen({ navigation }) {
     <View style={styles.screen}>
       <List
         items={devices}
-        keyExtractor={device => device._id.toString()}
-        itemTextFieldName='name'
-        onItemPress={(item) => console.log(`Clicked on ${item.name}.`)}
+        keyExtractor={(device) => device._id.toString()}
+        itemTextExtractor={(device) => device.name}
+        onItemPress={(device) => console.log(`Clicked on ${device.name}.`)}
         fadeOnPress={false}
-        rightActionType='delete'
-        rightActionOnPress={(item) => console.log(`Pressed btn to delete ${item.name}.`)}
+        rightActions={[
+          {
+            actionType: 'remove',
+            onPress: (device) => console.log(`Pressed btn to delete ${device.name}.`)
+          }
+        ]}
       />
       <View style={styles.buttonContainer}>
         <Button

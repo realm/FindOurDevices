@@ -8,11 +8,10 @@ import ItemSeparator from './ItemSeparator';
 function List({
   items,
   keyExtractor,
-  itemTextFieldName,
+  itemTextExtractor = () => {},
   onItemPress = () => {},
   fadeOnPress,
-  rightActionType,
-  rightActionOnPress = () => {}
+  rightActions = []
 }) {
   return (
     <View style={styles.list}>
@@ -22,14 +21,19 @@ function List({
           keyExtractor={keyExtractor}
           renderItem={({ item }) => (
             <ListItem
-              text={item[itemTextFieldName]}
+              text={itemTextExtractor(item)}
               onPress={() => onItemPress(item)}
               fadeOnPress={fadeOnPress}
               renderRightActions={() => (
-                <ListItemAction
-                  action={rightActionType}
-                  onPress={() => rightActionOnPress(item)}
-                />
+                <View style={styles.actionsContainer}>
+                  {rightActions.map(({ actionType, onPress }, idx) => (
+                    <ListItemAction
+                      key={idx}
+                      action={actionType}
+                      onPress={() => onPress(item)}
+                    />
+                  ))}
+                </View>
               )}
             />
           )}
@@ -43,6 +47,11 @@ function List({
 const styles = StyleSheet.create({
   list: {
     flex: 1
+  },
+  actionsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 

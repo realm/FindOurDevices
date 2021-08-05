@@ -7,11 +7,11 @@ import colors from '../styles/colors';
 function ListItemAction({ action, onPress }) {
   const getIconNameAndColor = () => {
     switch (action) {
-      case 'delete':
+      case 'remove':
         return { name: 'trash-can', color: colors.red }
       case 'edit':
         return { name: 'lead-pencil', color: colors.blue }
-      case 'leave-group':
+      case 'leave':
         return { name: 'logout', color: colors.red }
       case 'remove-member':
         return { name: 'account-remove', color: colors.red }
@@ -37,10 +37,14 @@ function ListItemAction({ action, onPress }) {
 
 const styles = StyleSheet.create({
   container: {
-    width: 80,
-    height: '100%',
+    width: 50,
+    height: 50,
+    marginRight: 10,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    borderColor: colors.grayMedium,
+    borderWidth: 1,
+    borderRadius: 25
   },
 });
 

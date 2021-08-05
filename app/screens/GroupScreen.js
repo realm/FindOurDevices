@@ -27,7 +27,7 @@ function GroupScreen({ navigation }) {
     setNewMemberEmail('');
   };
 
-  const handleCancel = () => {
+  const handleCancelAddMember = () => {
     closeModal();
 
     if (newMemberEmail)
@@ -40,11 +40,15 @@ function GroupScreen({ navigation }) {
       {group && (
         <List
           items={group.members}
-          keyExtractor={member => member.userId.toString()}
-          itemTextFieldName='displayName'
-          onItemPress={(item) => console.log(`Pressed group member ${item.displayName}.`)}
-          rightActionType='remove-member'
-          rightActionOnPress={((item) => console.log(`Pressed btn to remove member ${item.displayName}.`))}
+          keyExtractor={(member) => member.userId.toString()}
+          itemTextExtractor={(member) => member.displayName}
+          onItemPress={(member) => console.log(`Pressed group member ${member.displayName}.`)}
+          rightActions={[
+            {
+              actionType: 'remove-member',
+              onPress: (member) => console.log(`Pressed btn to remove member ${member.displayName}.`)
+            }
+          ]}
         />
       )}
       <View style={styles.buttonContainer}>
@@ -69,7 +73,7 @@ function GroupScreen({ navigation }) {
       }}
       submitText='Add'
       onSubmit={handleAddMember}
-      onCancel={handleCancel}
+      onCancel={handleCancelAddMember}
     />
     </>
   );

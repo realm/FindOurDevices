@@ -8,7 +8,7 @@ import ModalForm from '../components/ModalForm';
 import routes from '../navigation/routes';
 
 function GroupsScreen({ navigation, setGroupId }) {
-  const { userData, createGroup } = useAuth();
+  const { userData, createGroup, removeGroup } = useAuth();
   const [newGroupName, setNewGroupName] = useState('');
   const { modalVisible, closeModal }= useModalViaHeader(navigation, 'plus-circle', false);
 
@@ -26,11 +26,17 @@ function GroupsScreen({ navigation, setGroupId }) {
     setNewGroupName('');
   };
 
-  const handleCancel = () => {
+  const handleCancelCreateGroup = () => {
     closeModal();
 
     if (newGroupName)
       setNewGroupName('');
+  };
+
+  const handleRemoveGroup = async (groupId) => {
+    const { error } = await removeGroup(groupId);
+    if (error)
+      return Alert.alert(error.message);
   };
 
   return (
@@ -39,16 +45,25 @@ function GroupsScreen({ navigation, setGroupId }) {
       {userData && (
         <List
           items={userData.groups}
-          keyExtractor={group => group.groupId.toString()}
-          itemTextFieldName='groupName'
-          onItemPress={(item) => {
+          keyExtractor={(group) => group.groupId.toString()}
+          //itemTextExtractor={(group) => group.isOwner ? `${group.groupName} (owner)` : group.groupName} // TODO: Add 'isOwner' on GroupMembership model
+          itemTextExtractor={(group) => group.groupName}
+          onItemPress={(group) => {
             // When the groupId is set, GroupsNavigator rerenders and passes the
             // new group id to the GroupsProvider, which opens the group realm.
-            setGroupId(item.groupId.toString()),
+            setGroupId(group.groupId),
             navigation.navigate(routes.GROUP)}
           }
-          rightActionType='edit'
-          rightActionOnPress={(item) => console.log(`Pressed btn to edit group ${item.groupName}.`)}
+          rightActions={[
+            {
+              actionType: 'edit',
+              onPress: (item) => console.log(`Clicked button to edit group '${item.groupId}'`)
+            },
+            {
+              actionType: 'remove',
+              onPress: (item) => handleRemoveGroup(item.groupId)
+            }
+          ]}
         />
       )}
     </View>
@@ -60,11 +75,11 @@ function GroupsScreen({ navigation, setGroupId }) {
         value: newGroupName,
         onChangeText: setNewGroupName,
         autoCorrect: false,
-        autoCapitalize: 'words'
+        autoCapitalize: 'none'
       }}
       submitText='Create'
       onSubmit={handleCreateGroup}
-      onCancel={handleCancel}
+      onCancel={handleCancelCreateGroup}
     />
     </>
   );

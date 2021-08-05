@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import MapView from 'react-native-maps-osmdroid';
-import { View, Pressable, Dimensions, StyleSheet } from 'react-native';
+import { View, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -62,7 +62,7 @@ function Map({ markers, pluralItemType, onBackPress }) {
     
     if (pickerValue === PICKER_VALUE_ALL_MARKERS) {
       mapViewRef.current.fitToCoordinates(markers, {
-        edgePadding: { top: 50, right: 100, bottom: 50, left: 100 },
+        edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
         animated: true
       });
     }
@@ -110,7 +110,7 @@ function Map({ markers, pluralItemType, onBackPress }) {
           dropDownDirection='TOP'
         />
       </View>
-      <Pressable
+      <TouchableOpacity
         style={[styles.backButton, styles.shadow]}
         onPress={onBackPress}
       >
@@ -119,7 +119,7 @@ function Map({ markers, pluralItemType, onBackPress }) {
           color={colors.white}
           size={30}
         />
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 }

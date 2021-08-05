@@ -53,7 +53,10 @@ function SignupScreen({ navigation }) {
           placeholder='Email'
           value={email}
           onChangeText={setEmail}
+          autoCorrect={false}
           autoCapitalize='none'
+          keyboardType='email-address'
+          textContentType='emailAddress'  // iOS only
           style={styles.inputText}
         />
       </View>
@@ -63,8 +66,7 @@ function SignupScreen({ navigation }) {
           value={password}
           onChangeText={setPassword}
           secureTextEntry
-          keyboardType='email-address'
-          textContentType='emailAddress'  // iOS only
+          textContentType='password'  // iOS only
           style={styles.inputText}
         />
       </View>
@@ -110,11 +112,11 @@ const styles = StyleSheet.create({
     fontSize: fonts.sizeXL,
     fontWeight: 'bold',
     paddingVertical: 50,
-    fontFamily: Platform.OS === 'ios' ? 'AvenirNext-Heavy' : 'Roboto'
+    fontFamily: Platform.OS === 'ios' ? fonts.titleFamilyIos : fonts.titleFamilyAndroid
   },
   inputContainer: {
-    width: '100%',
-    padding: 15,
+    alignSelf: 'stretch',
+    padding: Platform.OS === 'ios' ? 15 : 0,
     marginVertical: 10,
     backgroundColor: colors.grayLight,
     borderRadius: 15,

@@ -8,6 +8,8 @@ function DevicesMapScreen({ navigation }) {
 
   const isCurrentDevice = (device) => device.iosOrAndroidId === currentIosOrAndroidId;
 
+  // Filter out the devices that have their location set, then
+  // map each to an object that the Map component expects.
   const getMarkers = () => devices
     .filter(device => device.location)
     .map(device => ({

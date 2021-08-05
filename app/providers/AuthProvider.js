@@ -59,21 +59,18 @@ function AuthProvider({ children }) {
       // When querying a realm to find objects (e.g. realm.objects('User')) the result we get back
       // and the objects in it are "live" and will always reflect the latest state.
       const userId = BSON.ObjectId(realmUser.id);
-      const user = realm.objects('User').filtered('_id = $0', userId)[0];
+      const user = realm.objectForPrimaryKey('User', userId);
       if (user)
         setUserData(user);
 
       // Live queries and objects emit notifications when something has changed that we can listen for.
-      user.addListener((/*collection, changes*/) => {
-        // If wanting to handle deletions, insertions, and modifications differently
-        // you can access them through the two arguments. (Always handle them in the
-        // following order: deletions, insertions, modifications)
-        // e.g. changes.insertions.forEach((index) => console.log('Inserted item: ', collection[index]));
+      user.addListener((/*object, changes*/) => {
+        // [add comment]
 
-        // By querying the object again, we get a new reference to the Results and triggers
-        // a rerender by React. Setting the user to either 'user' or 'collection'
-        // (from the argument) will not trigger a rerender since it is the same reference
-        setUserData(realm.objects('User').filtered('_id = $0', userId)[0]);  // note to self: since we actually do not have to refetch data, maybe its better if we update some integer in state to trigger the rerender?
+        // By querying the object again, we get a new reference to the Result and triggers
+        // a rerender by React. Setting the user to either 'user' or 'object' (from the
+        // argument) will not trigger a rerender since it is the same reference
+        setUserData(realm.objectForPrimaryKey('User', userId));  // note to self: since we actually do not have to refetch data, maybe its better if we update some integer in state to trigger the rerender?
       });
     }
     catch (err) {
@@ -83,6 +80,7 @@ function AuthProvider({ children }) {
 
   const closeRealm = () => {
     const realm = realmRef.current;
+    realm?.objectForPrimaryKey('User', BSON.ObjectId(realmUser.id)).removeAllListeners();
     realm?.removeAllListeners();
     realm?.close();
     realmRef.current = null;
@@ -139,6 +137,8 @@ function AuthProvider({ children }) {
     return realmUser.functions.setDisplayName(name);
   };
 
+  const createGroup = (name) => realmUser.functions.createGroup(name);
+
   return (
     <AuthContext.Provider value={{
       realmUser,
@@ -146,7 +146,8 @@ function AuthProvider({ children }) {
       logIn,
       logOut,
       signUp,
-      setDisplayName
+      setDisplayName,
+      createGroup
     }}>
       {children}
     </AuthContext.Provider>

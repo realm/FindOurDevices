@@ -1,37 +1,37 @@
 import React from 'react';
-import { View, FlatList, StyleSheet } from 'react-native';
+import { View, Alert, StyleSheet } from 'react-native';
 
 import { useDevices } from '../providers/DevicesProvider';
+import useModalViaHeader from '../hooks/useModalViaHeader';
 import Button from '../components/Button';
-import ListItem from '../components/ListItem';
-import ListItemAction from '../components/ListItemAction';
-import ItemSeparator from '../components/ItemSeparator';
+import List from '../components/List';
+import ModalForm from '../components/ModalForm';
 import routes from '../navigation/routes';
 
 function DevicesScreen({ navigation }) {
-  const { devices } = useDevices();
+  const { devices, addCurrentDevice } = useDevices();
+  const { modalVisible, closeModal }= useModalViaHeader(navigation, 'plus-circle', false);
+
+  const handleAddDevice = async () => {
+    const res = await addCurrentDevice();
+    if (res?.error)
+      return Alert.alert(res.error.message);
+
+    closeModal();
+  };
   
   return (
+    <>
     <View style={styles.screen}>
-      <View style={styles.list}>
-        <FlatList
-          data={devices}
-          keyExtractor={device => device._id.toString()}
-          renderItem={({ item }) => (
-            <ListItem
-              text={item.name}
-              fadeOnPress={false}
-              renderRightActions={() => (
-                <ListItemAction
-                  action='delete'
-                  onPress={() => console.log(`Pressed btn to delete ${item.name}.`)}
-                />
-              )}
-            />
-          )}
-          ItemSeparatorComponent={ItemSeparator}
-        />
-      </View>
+      <List
+        items={devices}
+        keyExtractor={device => device._id.toString()}
+        itemTextFieldName='name'
+        onItemPress={(item) => console.log(`Clicked on ${item.name}.`)}
+        fadeOnPress={false}
+        rightActionType='delete'
+        rightActionOnPress={(item) => console.log(`Pressed btn to delete ${item.name}.`)}
+      />
       <View style={styles.buttonContainer}>
         <Button
           text='View Map'
@@ -40,14 +40,19 @@ function DevicesScreen({ navigation }) {
         />
       </View>
     </View>
+    <ModalForm
+      visible={modalVisible}
+      title='Add Current Device?'
+      submitText='Yes'
+      onSubmit={handleAddDevice}
+      onCancel={closeModal}
+    />
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   screen: {
-    flex: 1
-  },
-  list: {
     flex: 1
   },
   buttonContainer: {

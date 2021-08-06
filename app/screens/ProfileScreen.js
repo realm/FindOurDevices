@@ -19,7 +19,7 @@ function ProfileScreen() {
           size={80}
         />
         <Text style={styles.displayName}>
-          {userData.displayName}
+          {userData?.displayName}
         </Text>
       </View>
       <View style={styles.lowerView}>
@@ -31,7 +31,7 @@ function ProfileScreen() {
               size={30}
             />
             <Text style={styles.userInfoItemText}>
-              {userData.email}
+              {userData?.email}
             </Text>
           </View>
         </View>

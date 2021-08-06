@@ -5,7 +5,7 @@ let app;
 // Returns the shared instance of the Realm app.
 const getRealmApp = () => {
   if (!app) {
-    const appId = 'findourdevices-gvqwl'; // Set Realm app ID here.
+    const appId = 'findourdevices-jkqdq'; // Set Realm app ID here.
     // Create a Realm app and connect to your MongoDB Realm instance using your Realm app ID.
     const config = {
       id: appId,

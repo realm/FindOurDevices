@@ -1,15 +1,12 @@
 import { BSON } from 'realm';
 
 class Device {
-  constructor({ id = new BSON.ObjectId(), partition, ownerId, iosOrAndroidId, name, phoneNumber, location }) {
+  constructor({ id = new BSON.ObjectId(), partition, ownerId, iosOrAndroidId, name, location }) {
     this._id = id;
     this._partition = partition;
     this.ownerId = ownerId;
     this.iosOrAndroidId = iosOrAndroidId;
     this.name = name;
-
-    if (phoneNumber)
-      this.phoneNumber = phoneNumber;
 
     if (location)
       this.location = location;
@@ -25,7 +22,6 @@ class Device {
       ownerId: 'objectId',
       iosOrAndroidId: 'string',
       name: 'string',
-      phoneNumber: 'string?',
       location: 'Location?'
     }
   };

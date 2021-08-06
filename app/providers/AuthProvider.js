@@ -4,6 +4,7 @@ import Realm, { BSON } from 'realm';
 import getRealmApp from '../getRealmApp';
 import User from '../models/User';
 import GroupMembership from '../models/GroupMembership';
+import GroupInvitation from '../models/GroupInvitation';
 
 const app = getRealmApp();
 
@@ -33,7 +34,7 @@ function AuthProvider({ children }) {
     try {
       // Open a local realm file with the schemas that are part of this partition
       const config = {
-        schema: [User.schema, GroupMembership.schema],
+        schema: [User.schema, GroupMembership.schema, GroupInvitation.schema],
         sync: {
           user: realmUser,
           partitionValue: `user=${realmUser.id}`,

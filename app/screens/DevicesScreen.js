@@ -9,7 +9,7 @@ import ModalForm from '../components/ModalForm';
 import routes from '../navigation/routes';
 
 function DevicesScreen({ navigation }) {
-  const { devices, addCurrentDevice } = useDevices();
+  const { devices, currentIosOrAndroidId, addCurrentDevice } = useDevices();
   const { modalVisible, closeModal }= useModalViaHeader(navigation, 'plus-circle', false);
 
   const handleAddDevice = async () => {
@@ -26,13 +26,16 @@ function DevicesScreen({ navigation }) {
       <List
         items={devices}
         keyExtractor={(device) => device._id.toString()}
-        itemTextExtractor={(device) => device.name}
+        itemTextExtractor={(device) => device.iosOrAndroidId === currentIosOrAndroidId
+          ? `${device.name} (current)`
+          : device.name
+        }
         onItemPress={(device) => console.log(`Clicked on ${device.name}.`)}
         fadeOnPress={false}
         rightActions={[
           {
             actionType: 'remove',
-            onPress: (device) => console.log(`Pressed btn to delete ${device.name}.`)
+            onPress: (device) => console.log(`Pressed btn to remove ${device.name}.`)
           }
         ]}
       />

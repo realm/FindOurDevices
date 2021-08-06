@@ -59,9 +59,10 @@ function AuthProvider({ children }) {
       // When querying a realm to find objects (e.g. realm.objects('User')) the result we get back
       // and the objects in it are "live" and will always reflect the latest state.
       const userId = BSON.ObjectId(realmUser.id);
-      const user = realm.objectForPrimaryKey('User', userId);
-      if (user)
-        setUserData(user);
+      //const user = realm.objectForPrimaryKey('User', userId); // NOTE: Object listener not working for embedded docs when changed by backend function
+      const users = realm.objects('User').filtered('_id = $0', userId);
+      if (users?.length)
+        setUserData(users[0]);
 
       // Live queries and objects emit notifications when something has changed that we can listen for.
       user.addListener((/*object, changes*/) => {
@@ -80,7 +81,8 @@ function AuthProvider({ children }) {
 
   const closeRealm = () => {
     const realm = realmRef.current;
-    realm?.objectForPrimaryKey('User', BSON.ObjectId(realmUser.id)).removeAllListeners();
+    //realm?.objectForPrimaryKey('User', BSON.ObjectId(realmUser.id)).removeAllListeners(); // TODO: Add this if object listener issue is solved
+    realm?.objects('User').removeAllListeners();
     realm?.removeAllListeners();
     realm?.close();
     realmRef.current = null;

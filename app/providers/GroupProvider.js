@@ -52,10 +52,12 @@ function GroupProvider({ children, groupId }) {
       // Temporary workaround: Use collection listener
       // TODO: Change this to get object directly, instead of array (w/ objectForPrimaryKey)
       const groups = realm.objects('Group').filtered('_id = $0', groupId);
-      if (groups)
-        setGroup(realm.objectForPrimaryKey('Group', groupId));
+      if (groups?.length)
+        setGroup(groups[0]);
 
       groups.addListener((/*collection, changes*/) => {
+        // TODO: handle group being deleted
+
         setGroup(realm.objectForPrimaryKey('Group', groupId));
       });
     }
@@ -65,9 +67,10 @@ function GroupProvider({ children, groupId }) {
   };
 
   const closeRealm = () => {
-    console.log('Closing Realm');
+    console.log('Closing group realm');
+
     const realm = realmRef.current;
-    //realm?.objectForPrimaryKey('Group', BSON.ObjectId(groupId)).removeAllListeners(); // TODO: Add this if object listener issue is solved
+    //realm?.objectForPrimaryKey('Group', groupId).removeAllListeners(); // TODO: Add this if object listener issue is solved
     realm?.objects('Group').removeAllListeners();
     realm?.removeAllListeners();
     realm?.close();

@@ -65,7 +65,7 @@ function AuthProvider({ children }) {
         setUserData(users[0]);
 
       // Live queries and objects emit notifications when something has changed that we can listen for.
-      user.addListener((/*object, changes*/) => {
+      users.addListener((/*object, changes*/) => {
         // [add comment]
 
         // By querying the object again, we get a new reference to the Result and triggers

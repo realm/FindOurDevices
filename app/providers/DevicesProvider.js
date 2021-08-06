@@ -61,7 +61,7 @@ function DevicesProvider({ children }) {
       realmRef.current = realm;
 
       const devices = realm.objects('Device');
-      if (devices.length)
+      if (devices?.length)
         setDevices(devices);
 
       devices.addListener((/*collection, changes*/) => {

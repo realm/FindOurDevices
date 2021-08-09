@@ -4,7 +4,7 @@ import { View, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import MapMarker from './MapMarker';
+import { MapMarker } from './MapMarker';
 import colors from '../styles/colors';
 
 // If you are developing for Android and want to use Google Maps for the map functionality,
@@ -19,7 +19,7 @@ const LATITUDE_DELTA = 0.01;
 const LONGITUDE_DELTA = 0.001;
 const PICKER_VALUE_ALL_MARKERS = 'all';
 
-function Map({ markers, pluralItemType, onBackPress }) {
+export function Map({ markers, pluralItemType, onBackPress }) {
   const [pickerIsOpen, setPickerIsOpen] = useState(false);
   const [pickerValue, setPickerValue] = useState(PICKER_VALUE_ALL_MARKERS);
   const [pickerItems, setPickerItems] = useState([]);
@@ -174,5 +174,3 @@ const styles = StyleSheet.create({
     shadowRadius: 3
   }
 });
-
-export default Map;

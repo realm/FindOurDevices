@@ -25,7 +25,7 @@ class GroupMembership {
       groupPartition: 'string',
       groupName: 'string',
       deviceId: 'objectId',
-      shareLocation: 'bool',
+      shareLocation: 'bool'
     }
   };
 }

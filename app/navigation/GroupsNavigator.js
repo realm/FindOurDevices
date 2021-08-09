@@ -4,15 +4,15 @@ import { createStackNavigator } from '@react-navigation/stack';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { GroupProvider } from '../providers/GroupProvider';
-import GroupsScreen from '../screens/GroupsScreen';
-import GroupScreen from '../screens/GroupScreen';
-import GroupMapScreen from '../screens/GroupMapScreen';
+import { GroupsScreen } from '../screens/GroupsScreen';
+import { GroupScreen } from '../screens/GroupScreen';
+import { GroupMapScreen } from '../screens/GroupMapScreen';
 import routes from './routes';
 import colors from '../styles/colors';
 
 const Stack = createStackNavigator();
 
-function GroupsNavigator() {
+export function GroupsNavigator() {
   const [groupId, setGroupId] = useState(null);
 
   return (
@@ -93,5 +93,3 @@ const styles = StyleSheet.create({
     shadowRadius: 3
   }
 });
-
-export default GroupsNavigator;

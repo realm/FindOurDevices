@@ -3,10 +3,10 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import { useAuth } from '../providers/AuthProvider';
 import { DevicesProvider } from '../providers/DevicesProvider';
-import AuthNavigator from './AuthNavigator';
-import AppNavigator from './AppNavigator';
+import { AuthNavigator } from './AuthNavigator';
+import { AppNavigator } from './AppNavigator';
 
-function RootNavigationContainer() {
+export function RootNavigationContainer() {
   const { realmUser } = useAuth();
 
   return (
@@ -19,5 +19,3 @@ function RootNavigationContainer() {
     </NavigationContainer>
   );
 }
-
-export default RootNavigationContainer;

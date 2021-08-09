@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { Image, View, Text, TextInput, Platform, StyleSheet } from 'react-native';
+import { Image, View, Text, TextInput, Platform, StyleSheet, KeyboardAvoidingView } from 'react-native';
 
 import { useAuth } from '../providers/AuthProvider';
-import Button from '../components/Button';
+import { Button } from '../components/Button';
 import routes from '../navigation/routes';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
-function LoginScreen({ navigation }) {
+export function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { logIn } = useAuth();
@@ -15,14 +15,19 @@ function LoginScreen({ navigation }) {
   const handleSubmit = () => logIn(email, password);
 
   return (
-    <View style={styles.screen}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.screen}
+    >
       <View>
         <Image
           source={require('../assets/map_pin_purple.png')}
           style={styles.logo}
         />
       </View>
-      <Text style={styles.title}>Log In</Text>
+      <View>
+        <Text style={styles.title}>Log In</Text>
+      </View>
       <View style={styles.inputContainer}>
         <TextInput
           placeholder='Email'
@@ -55,13 +60,14 @@ function LoginScreen({ navigation }) {
         useShadow={false}
         onPress={() => navigation.navigate(routes.SIGNUP)}
       />
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 20,
     paddingHorizontal: 15,
@@ -69,7 +75,6 @@ const styles = StyleSheet.create({
   },
   logo: {
     height: 100,
-    marginTop: 80,
     resizeMode: 'contain',
     alignSelf: 'center'
   },
@@ -92,5 +97,3 @@ const styles = StyleSheet.create({
     fontSize: fonts.sizeM
   }
 });
-
-export default LoginScreen;

@@ -6,7 +6,12 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
-function ListItem({ text, fadeOnPress = true, onPress = () => {}, renderRightActions }) {
+export function ListItem({ 
+  text,
+  fadeOnPress = true,
+  onPress = () => {},
+  renderRightActions
+}) {
   return (
     <Swipeable renderRightActions={renderRightActions}>
       <Pressable
@@ -48,5 +53,3 @@ const styles = StyleSheet.create({
     fontSize: fonts.sizeM
   }
 });
-
-export default ListItem;

@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text, TextInput, Modal, TouchableOpacity, Platform, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Modal, TouchableOpacity, Platform, StyleSheet, KeyboardAvoidingView } from 'react-native';
 
-import Button from './Button';
+import { Button } from './Button';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
-function ModalForm({ animationType = 'fade', visible, title, textInputProps, submitText, onSubmit, onCancel }) {
+export function ModalForm({ animationType = 'fade', visible, title, textInputProps, submitText, onSubmit, onCancel }) {
   // Our application is not expecting various types of layouts in the forms provided,
   // thus this component only allows one (or none) text input and one (or none) drop down.
   // If you want to allow more flexibility in what form fields to allow, simply make use
@@ -17,7 +17,10 @@ function ModalForm({ animationType = 'fade', visible, title, textInputProps, sub
       transparent={true}
       visible={visible}
     >
-      <View style={styles.modal}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
+        style={styles.modal}
+      >
         <View style={styles.form}>
           <Text style={styles.title}>{title}</Text>
           {textInputProps && (
@@ -31,7 +34,7 @@ function ModalForm({ animationType = 'fade', visible, title, textInputProps, sub
           <Button
             text={submitText}
             onPress={onSubmit}
-            otherStyles={{ padding: 10 }}
+            style={{ padding: 10 }}
           />
           <TouchableOpacity
             onPress={onCancel}
@@ -40,7 +43,7 @@ function ModalForm({ animationType = 'fade', visible, title, textInputProps, sub
             <Text style={styles.cancelButtonText}>Cancel</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }
@@ -61,16 +64,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.white,
     borderRadius: 10,
-    // iOS box shadow props
-    shadowColor: colors.black,
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    // Android box shadow prop
-    elevation: 5
+    ...Platform.select({
+      ios: {
+        shadowColor: colors.black,
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 5
+      },
+    })
   },
   title: {
     marginBottom: 15,
@@ -101,5 +108,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   }
 });
-
-export default ModalForm;

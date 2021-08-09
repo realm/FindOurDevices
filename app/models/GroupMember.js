@@ -24,7 +24,7 @@ class GroupMember {
       userId: 'objectId',
       displayName: 'string',
       deviceId: 'objectId',
-      location: 'Location?',
+      location: 'Location?'
     }
   };
 }

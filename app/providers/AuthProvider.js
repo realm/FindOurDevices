@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, createContext, useContext } from 'react';
 import Realm, { BSON } from 'realm';
 
-import getRealmApp from '../getRealmApp';
+import { getRealmApp } from '../getRealmApp';
 import User from '../models/User';
 import GroupMembership from '../models/GroupMembership';
 import GroupInvitation from '../models/GroupInvitation';

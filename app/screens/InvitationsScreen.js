@@ -3,11 +3,11 @@ import { View, Alert, StyleSheet } from 'react-native';
 
 import { useAuth } from '../providers/AuthProvider';
 import { useDevices } from '../providers/DevicesProvider';  // USE LATER
-import useGroupManager from '../hooks/useGroupManager';
-import List from '../components/List';
-import ModalForm from '../components/ModalForm';
+import { useGroupManager } from '../hooks/useGroupManager';
+import { List } from '../components/List';
+import { ModalForm } from '../components/ModalForm';
 
-function InvitationsScreen() {
+export function InvitationsScreen() {
   const { userData } = useAuth();
   //const { devices } = useDevices(); // USE LATER
   const { respondToInvitation } = useGroupManager();
@@ -81,5 +81,3 @@ const styles = StyleSheet.create({
     flex: 1
   }
 });
-
-export default InvitationsScreen;

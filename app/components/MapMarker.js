@@ -6,7 +6,7 @@ import Moment from 'react-moment';
 const LATITUDE_DELTA = 0.01;
 const LONGITUDE_DELTA = 0.001;
 
-function MapMarker({ location, color }) {
+export const MapMarker = memo(function MapMarker({ location, color }) {
   return (
     <Marker.Animated
       coordinate={new AnimatedRegion({ // animation not working
@@ -24,7 +24,7 @@ function MapMarker({ location, color }) {
       </Callout>
     </Marker.Animated>
   );
-}
+}, shouldNotRerender);
 
 const styles = StyleSheet.create({
   callout: {
@@ -36,5 +36,3 @@ const shouldNotRerender = (prevProps, nextProps) => (
   prevProps.location.updatedAt === nextProps.location.updatedAt
   && prevProps.color === nextProps.color
 );
-
-export default memo(MapMarker, shouldNotRerender);

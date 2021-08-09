@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 
 import colors from '../styles/colors';
 
-function ItemSeparator() {
+export function ItemSeparator() {
   return (
     <View style={styles.separator} />
   );
@@ -15,5 +15,3 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1
   }
 });
-
-export default ItemSeparator;

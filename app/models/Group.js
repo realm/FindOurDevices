@@ -27,7 +27,7 @@ class Group {
       _partition: 'string',
       ownerId: 'objectId',
       name: 'string',
-      members: { type: "list", objectType: "GroupMember" },
+      members: { type: 'list', objectType: 'GroupMember' },
     }
   };
 }

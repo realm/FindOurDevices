@@ -1,6 +1,15 @@
 import { BSON } from 'realm';
 
+/** Class representing a group. */
 class Group {
+  /**
+   * Create a Group.
+   * @param {BSON.ObjectId} [id=new BSON.ObjectId()] - The id of the group.
+   * @param {string} partition - The partition value to use on the realm.
+   * @param {BSON.ObjectId} ownerId - The id of the owner of the group.
+   * @param {string} name - The group's name.
+   * @param {GroupMember[]} [members=[]] - The members of the group.
+   */
   constructor({ id = new BSON.ObjectId(), partition, ownerId, name, members = [] }) {
     this._id = id;
     this._partition = partition;

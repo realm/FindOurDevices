@@ -1,6 +1,17 @@
 import { BSON } from 'realm';
 
+/** Class representing a user. */
 class User {
+  /**
+   * Create a User.
+   * @param {BSON.ObjectId} [id=new BSON.ObjectId()] - The id of the user.
+   * @param {string} partition - The partition value to use on the realm.
+   * @param {string} email - The user's email.
+   * @param {string} displayName - The user's name to be displayed.
+   * @param {BSON.ObjectId[]} [deviceIds=[]] - The array of device's IDs which belong to the user.
+   * @param {GroupMembership[]} [groupMemberships=[]] - The array of group memberships of the user.
+   * @param {GroupInvitation[]} [groupInvitations=[]] - The array of group invitations of the user.
+   */
   constructor({ id = new BSON.ObjectId(), partition, email, displayName, deviceIds = [], groupMemberships = [], groupInvitations = [] }) {
     this._id = id;
     this._partition = partition;

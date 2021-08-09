@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
@@ -42,16 +42,20 @@ const styles = ({ isPrimary }) => StyleSheet.create({
     fontWeight: 'bold'
   },
   shadow: {
-    // iOS box shadow props
-    shadowColor: colors.black,
-    shadowOffset: {
-      width: 0,
-      height: 3
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    // Android box shadow prop
-    elevation: 2
+    ...Platform.select({
+      ios: {
+        shadowColor: colors.black,
+        shadowOffset: {
+          width: 0,
+          height: 3
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+      },
+      android: {
+        elevation: 2
+      },
+    })
   }
 });
 

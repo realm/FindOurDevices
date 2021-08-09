@@ -1,8 +1,8 @@
 import React, { useState, useLayoutEffect } from 'react';
 
-import HeaderButton from '../components/HeaderButton';
+import { HeaderButton } from '../components/HeaderButton';
 
-function useModalViaHeader(navigation, iconName, initialVisibility) {
+export function useModalViaHeader(navigation, iconName, initialVisibility) {
   const [modalVisible, setModalVisible] = useState(initialVisibility);
 
   useLayoutEffect(() => {
@@ -24,5 +24,3 @@ function useModalViaHeader(navigation, iconName, initialVisibility) {
 
   return { modalVisible, openModal, closeModal };
 }
-
-export default useModalViaHeader;

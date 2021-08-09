@@ -2,14 +2,14 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import DevicesScreen from '../screens/DevicesScreen';
-import DevicesMapScreen from '../screens/DevicesMapScreen';
+import { DevicesScreen } from '../screens/DevicesScreen';
+import { DevicesMapScreen } from '../screens/DevicesMapScreen';
 import routes from './routes';
 import colors from '../styles/colors';
 
 const Stack = createStackNavigator();
 
-function DevicesNavigator() {
+export function DevicesNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerStyle: styles.shadow }}>
       <Stack.Screen
@@ -41,5 +41,3 @@ const styles = StyleSheet.create({
     shadowRadius: 3
   }
 });
-
-export default DevicesNavigator;

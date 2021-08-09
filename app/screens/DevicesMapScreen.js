@@ -1,9 +1,9 @@
 import React, {useMemo} from 'react';
 
 import { useDevices } from '../providers/DevicesProvider';
-import Map from '../components/Map';
+import { Map } from '../components/Map';
 
-function DevicesMapScreen({ navigation }) {
+export function DevicesMapScreen({ navigation }) {
   const { devices, currentIosOrAndroidId } = useDevices();
 
   const isCurrentDevice = (device) => device.iosOrAndroidId === currentIosOrAndroidId;
@@ -29,5 +29,3 @@ function DevicesMapScreen({ navigation }) {
     />
   );
 }
-
-export default DevicesMapScreen;

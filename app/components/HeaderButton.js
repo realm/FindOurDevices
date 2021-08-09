@@ -4,7 +4,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import colors from '../styles/colors';
 
-function HeaderButton({ iconName, onPress }) {
+export function HeaderButton({ iconName, onPress }) {
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -31,5 +31,3 @@ const styles = StyleSheet.create({
     shadowRadius: 3
   }
 });
-
-export default HeaderButton;

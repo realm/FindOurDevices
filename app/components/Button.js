@@ -4,7 +4,7 @@ import { Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
-function Button({
+export function Button({
   text,
   isPrimary = true,
   useShadow = true,
@@ -58,5 +58,3 @@ const styles = ({ isPrimary }) => StyleSheet.create({
     })
   }
 });
-
-export default Button;

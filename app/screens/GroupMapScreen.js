@@ -1,9 +1,9 @@
 import React, {useMemo} from 'react';
 
 import { useGroup } from '../providers/GroupProvider';
-import Map from '../components/Map';
+import { Map } from '../components/Map';
 
-function GroupMapScreen({ navigation }) {
+export function GroupMapScreen({ navigation }) {
   const group = useGroup();
 
   // Filter out the members that have their location set, then
@@ -29,5 +29,3 @@ function GroupMapScreen({ navigation }) {
     />
   );
 }
-
-export default GroupMapScreen;

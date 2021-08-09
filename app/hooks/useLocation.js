@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import RNLocation from 'react-native-location';
 
-function useLocation() {
+export function useLocation() {
   const [location, setLocation] = useState(null);
   const unsubscribeRef = useRef(null);
 
@@ -65,5 +65,3 @@ function useLocation() {
 
   return location;
 }
-
-export default useLocation;

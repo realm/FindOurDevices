@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { Image, View, Text, TextInput, Platform, StyleSheet } from 'react-native';
 
 import { useAuth } from '../providers/AuthProvider';
-import Button from '../components/Button';
+import { Button } from '../components/Button';
 import routes from '../navigation/routes';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
-function LoginScreen({ navigation }) {
+export function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { logIn } = useAuth();
@@ -92,5 +92,3 @@ const styles = StyleSheet.create({
     fontSize: fonts.sizeM
   }
 });
-
-export default LoginScreen;

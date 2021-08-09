@@ -2,13 +2,13 @@ import React, { useState} from 'react';
 import { View, Alert, StyleSheet } from 'react-native';
 
 import { useAuth } from '../providers/AuthProvider';
-import useGroupManager from '../hooks/useGroupManager';
-import useModalViaHeader from '../hooks/useModalViaHeader';
-import List from '../components/List';
-import ModalForm from '../components/ModalForm';
+import { useGroupManager } from '../hooks/useGroupManager';
+import { useModalViaHeader } from '../hooks/useModalViaHeader';
+import { List } from '../components/List';
+import { ModalForm } from '../components/ModalForm';
 import routes from '../navigation/routes';
 
-function GroupsScreen({ navigation, setGroupId }) {
+export function GroupsScreen({ navigation, setGroupId }) {
   const { userData } = useAuth();
   const { createGroup, leaveGroup, removeGroup } = useGroupManager();
   const [newGroupName, setNewGroupName] = useState('');
@@ -102,5 +102,3 @@ const styles = StyleSheet.create({
     flex: 1
   }
 });
-
-export default GroupsScreen;

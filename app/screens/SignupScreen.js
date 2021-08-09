@@ -3,11 +3,11 @@ import { Alert, Image, View, Text, TextInput, Platform, StyleSheet } from 'react
 import routes from '../navigation/routes';
 
 import { useAuth } from '../providers/AuthProvider';
-import Button from '../components/Button';
+import { Button } from '../components/Button';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
-function SignupScreen({ navigation }) {
+export function SignupScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmationPassword, setConfirmationPassword] = useState('');
@@ -127,5 +127,3 @@ const styles = StyleSheet.create({
     fontSize: fonts.sizeM
   }
 });
-
-export default SignupScreen;

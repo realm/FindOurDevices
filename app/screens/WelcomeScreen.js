@@ -1,11 +1,11 @@
 import React from 'react';
 import { Image, ImageBackground, View, Text, Platform, StyleSheet } from 'react-native';
 
-import Button from '../components/Button';
+import { Button } from '../components/Button';
 import fonts from '../styles/fonts';
 import routes from '../navigation/routes';
 
-function WelcomeScreen({ navigation }) {
+export function WelcomeScreen({ navigation }) {
   return (
     <ImageBackground
       source={require('../assets/purple_bg.png')}
@@ -57,5 +57,3 @@ const styles = StyleSheet.create({
     fontFamily: Platform.OS === 'ios' ? 'AvenirNext-Heavy' : 'Roboto'
   }
 });
-
-export default WelcomeScreen;

@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 
-import ListItem from './ListItem';
-import ListItemAction from './ListItemAction';
-import ItemSeparator from './ItemSeparator';
+import { ListItem } from './ListItem';
+import { ListItemAction } from './ListItemAction';
+import { ItemSeparator } from './ItemSeparator';
 
-function List({
+export function List({
   items,
   keyExtractor,
   itemTextExtractor = () => {},
@@ -54,5 +54,3 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   }
 });
-
-export default List;

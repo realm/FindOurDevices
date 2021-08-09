@@ -4,7 +4,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import colors from '../styles/colors';
 
-function ListItemAction({ action, onPress }) {
+export function ListItemAction({ action, onPress }) {
   const getIconNameAndColor = () => {
     switch (action) {
       case 'remove':
@@ -47,5 +47,3 @@ const styles = StyleSheet.create({
     borderRadius: 25
   },
 });
-
-export default ListItemAction;

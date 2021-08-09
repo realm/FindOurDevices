@@ -3,11 +3,11 @@ import { View, Text, StyleSheet } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { useAuth } from '../providers/AuthProvider';
-import Button from '../components/Button';
+import { Button } from '../components/Button';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
-function ProfileScreen() {
+export function ProfileScreen() {
   const { userData, logOut } = useAuth();
 
   return (
@@ -85,5 +85,3 @@ const styles = StyleSheet.create({
     fontSize: fonts.sizeM
   }
 });
-
-export default ProfileScreen;

@@ -3,7 +3,7 @@ import Realm, { BSON } from 'realm';
 import { getUniqueId, getDeviceName } from 'react-native-device-info';
 
 import { useAuth } from './AuthProvider';
-import useLocation from '../hooks/useLocation';
+import { useLocation } from '../hooks/useLocation';
 import Device from '../models/Device';
 import Location from '../models/Location';
 

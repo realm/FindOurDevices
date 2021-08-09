@@ -1,6 +1,6 @@
 import { useAuth } from '../providers/AuthProvider';
 
-function useGroupManager() {
+export function useGroupManager() {
   const { realmUser } = useAuth();
 
   // We can call our configured MongoDB Realm functions as methods on the User.functions
@@ -38,5 +38,3 @@ function useGroupManager() {
     /*setGroupName*/
   };
 }
-
-export default useGroupManager;

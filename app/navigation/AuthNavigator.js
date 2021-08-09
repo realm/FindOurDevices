@@ -1,14 +1,14 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import WelcomeScreen from '../screens/WelcomeScreen';
-import LoginScreen from '../screens/LoginScreen';
-import SignupScreen from '../screens/SignupScreen';
+import { WelcomeScreen } from '../screens/WelcomeScreen';
+import { LoginScreen } from '../screens/LoginScreen';
+import { SignupScreen } from '../screens/SignupScreen';
 import routes from './routes';
 
 const Stack = createStackNavigator();
 
-function AuthNavigator() {
+export function AuthNavigator() {
   return (
     <Stack.Navigator initialRouteName={routes.WELCOME}>
       <Stack.Screen
@@ -29,5 +29,3 @@ function AuthNavigator() {
     </Stack.Navigator>
   );
 }
-
-export default AuthNavigator;

@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text, TextInput, Modal, TouchableOpacity, Platform, StyleSheet } from 'react-native';
 
-import Button from './Button';
+import { Button } from './Button';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
-function ModalForm({ animationType = 'fade', visible, title, textInputProps, submitText, onSubmit, onCancel }) {
+export function ModalForm({ animationType = 'fade', visible, title, textInputProps, submitText, onSubmit, onCancel }) {
   // Our application is not expecting various types of layouts in the forms provided,
   // thus this component only allows one (or none) text input and one (or none) drop down.
   // If you want to allow more flexibility in what form fields to allow, simply make use
@@ -105,5 +105,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   }
 });
-
-export default ModalForm;

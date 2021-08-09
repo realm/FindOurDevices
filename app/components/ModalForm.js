@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, Modal, TouchableOpacity, Platform, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Modal, TouchableOpacity, Platform, StyleSheet, KeyboardAvoidingView } from 'react-native';
 
 import { Button } from './Button';
 import colors from '../styles/colors';
@@ -17,7 +17,10 @@ export function ModalForm({ animationType = 'fade', visible, title, textInputPro
       transparent={true}
       visible={visible}
     >
-      <View style={styles.modal}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
+        style={styles.modal}
+      >
         <View style={styles.form}>
           <Text style={styles.title}>{title}</Text>
           {textInputProps && (
@@ -40,7 +43,7 @@ export function ModalForm({ animationType = 'fade', visible, title, textInputPro
             <Text style={styles.cancelButtonText}>Cancel</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }

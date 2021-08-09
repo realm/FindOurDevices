@@ -6,7 +6,7 @@ function useLocation() {
   const unsubscribeRef = useRef(null);
 
   const getLocation = async () => {
-    const METERS_BEFORE_UPDATING_LOCATION = 20;
+    const METERS_BEFORE_UPDATING_LOCATION = 50;
     RNLocation.configure({
       distanceFilter: METERS_BEFORE_UPDATING_LOCATION,
       desiredAccuracy: {

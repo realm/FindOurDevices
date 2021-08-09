@@ -10,11 +10,15 @@ function ListItemAction({ action, onPress }) {
       case 'remove':
         return { name: 'trash-can', color: colors.red }
       case 'edit':
-        return { name: 'lead-pencil', color: colors.blue }
+        return { name: 'lead-pencil', color: colors.green }
       case 'leave':
-        return { name: 'logout', color: colors.red }
+        return { name: 'logout', color: colors.blue }
       case 'remove-member':
         return { name: 'account-remove', color: colors.red }
+      case 'accept':
+        return { name: 'check', color: colors.green }
+      case 'decline':
+        return { name: 'close', color: colors.red }
       default:
         throw new Error('Unsupported list item action type: ', action);
     }

@@ -19,8 +19,13 @@ function useGroupManager() {
   
   const removeGroup = (groupId) => realmUser.functions.removeGroup(groupId.toString());
 
-  const addGroupMember = (groupId, newGroupMemberEmail) => realmUser.functions.addGroupMember(groupId.toString(), newGroupMemberEmail);
+  // REMOVE
+  //const addGroupMember = (groupId, newGroupMemberEmail) => realmUser.functions.addGroupMember(groupId.toString(), newGroupMemberEmail);
+  
+  const inviteGroupMember = (groupId, newMemberEmail) => realmUser.functions.inviteGroupMember(groupId.toString(), newMemberEmail);
 
+  const respondToInvitation = (groupId, accept, deviceId = '') => realmUser.functions.respondToInvitation(groupId.toString(), accept, deviceId.toString());
+  
   const removeGroupMember = (groupId, memberId) => realmUser.functions.removeGroupMember(groupId.toString(), memberId.toString());
 
   const setShareLocation = (groupId, shareLocation) => realmUser.functions.setShareLocation(groupId.toString(), shareLocation);
@@ -32,7 +37,9 @@ function useGroupManager() {
     createGroup,
     leaveGroup,
     removeGroup,
-    addGroupMember,
+    inviteGroupMember,
+    respondToInvitation,
+    //addGroupMember,       // REMOVE
     removeGroupMember,
     setShareLocation
     /*setGroupName*/

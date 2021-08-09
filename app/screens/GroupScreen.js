@@ -11,17 +11,17 @@ import routes from '../navigation/routes';
 
 function GroupScreen({ navigation }) {
   const group = useGroup();
-  const { addGroupMember, removeGroupMember } = useGroupManager();
+  const { inviteGroupMember, removeGroupMember } = useGroupManager();
   const [newMemberEmail, setNewMemberEmail] = useState('');
   const { modalVisible, closeModal }= useModalViaHeader(navigation, 'account-plus', false);
 
-  const handleAddMember = async () => {
+  const handleInviteMember = async () => {
     if (!newMemberEmail)
       return;
 
     // Our MongoDB Realm backend function will return an object
     // containing an error property if any errors occurred.
-    const { error } = await addGroupMember(group._id, newMemberEmail);
+    const { error } = await inviteGroupMember(group._id, newMemberEmail);
     if (error)
       return Alert.alert(error.message);
 
@@ -35,7 +35,7 @@ function GroupScreen({ navigation }) {
       return Alert.alert(error.message);
   };
 
-  const handleCancelAddMember = () => {
+  const handleCancelInviteMember = () => {
     closeModal();
 
     if (newMemberEmail)
@@ -69,7 +69,7 @@ function GroupScreen({ navigation }) {
     </View>
     <ModalForm
       visible={modalVisible}
-      title='Add Member'
+      title='Invite Member'
       textInputProps={{
         placeholder: 'Email',
         value: newMemberEmail,
@@ -79,9 +79,9 @@ function GroupScreen({ navigation }) {
         keyboardType: 'email-address',
         textContentType: 'emailAddress'  // iOS only
       }}
-      submitText='Add'
-      onSubmit={handleAddMember}
-      onCancel={handleCancelAddMember}
+      submitText='Invite'
+      onSubmit={handleInviteMember}
+      onCancel={handleCancelInviteMember}
     />
     </>
   );

@@ -4,6 +4,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import DevicesNavigator from './DevicesNavigator';
 import GroupsNavigator from './GroupsNavigator';
+import InvitationsNavigator from './InvitationsNavigator';
 import ProfileScreen from '../screens/ProfileScreen';
 import routes from './routes';
 import colors from '../styles/colors';
@@ -39,6 +40,19 @@ function AppNavigator() {
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name='account-group-outline'
+              color={color}
+              size={size}
+            />
+          )
+        }}
+      />
+      <Tab.Screen
+        name={routes.INVITATIONS}
+        component={InvitationsNavigator}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name='bell-outline'
               color={color}
               size={size}
             />

@@ -9,14 +9,14 @@ export function Button({
   isPrimary = true,
   useShadow = true,
   onPress,
-  otherStyles
+  style
 }) {
   return (
     <TouchableOpacity
       style={[
         styles({ isPrimary }).button,
         useShadow && styles({}).shadow,
-        otherStyles
+        style
       ]}
       onPress={onPress}
     >

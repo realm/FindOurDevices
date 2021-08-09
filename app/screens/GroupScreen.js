@@ -63,7 +63,7 @@ export function GroupScreen({ navigation }) {
         <Button
           text='View Map'
           onPress={() => navigation.navigate(routes.GROUP_MAP)}
-          otherStyles={{ marginBottom: 30 }}
+          style={{ marginBottom: 30 }}
         />
       </View>
     </View>

@@ -24,7 +24,7 @@ export function WelcomeScreen({ navigation }) {
         text='Get Started'
         isPrimary={false}
         onPress={() => navigation.navigate(routes.LOGIN)}
-        otherStyles={{ marginBottom: 100 }}
+        style={{ marginBottom: 100 }}
       />
     </ImageBackground>
   );

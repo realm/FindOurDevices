@@ -43,7 +43,7 @@ export function DevicesScreen({ navigation }) {
         <Button
           text='View Map'
           onPress={() => navigation.navigate(routes.DEVICES_MAP)}
-          otherStyles={{ marginBottom: 30 }}
+          style={{ marginBottom: 30 }}
         />
       </View>
     </View>

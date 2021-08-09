@@ -31,7 +31,7 @@ export function ModalForm({ animationType = 'fade', visible, title, textInputPro
           <Button
             text={submitText}
             onPress={onSubmit}
-            otherStyles={{ padding: 10 }}
+            style={{ padding: 10 }}
           />
           <TouchableOpacity
             onPress={onCancel}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 
 import { useDevices } from '../providers/DevicesProvider';
 import Map from '../components/Map';
@@ -10,7 +10,8 @@ function DevicesMapScreen({ navigation }) {
 
   // Filter out the devices that have their location set, then
   // map each to an object that the Map component expects.
-  const getMarkers = () => devices
+  // useMemo makes it so markers is not recreated with every render, but only when changes to "devices" happen
+  const markers = useMemo(() => devices
     .filter(device => device.location)
     .map(device => ({
       id: device._id.toString(),
@@ -18,12 +19,11 @@ function DevicesMapScreen({ navigation }) {
       updatedAt: device.location.updatedAt,
       longitude: device.location.longitude,
       latitude: device.location.latitude
-    })
-  );
+    })), [devices]);
   
   return (
     <Map
-      markers={getMarkers()}
+      markers={markers}
       pluralItemType='devices'
       onBackPress={() => navigation.goBack()}
     />

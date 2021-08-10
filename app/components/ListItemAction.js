@@ -10,13 +10,13 @@ export function ListItemAction({ action, onPress }) {
       case 'remove':
         return { name: 'trash-can-outline', color: colors.red }
       case 'edit':
-        return { name: 'lead-pencil', color: colors.green }
+        return { name: 'lead-pencil', color: colors.primary }
       case 'leave':
-        return { name: 'logout', color: colors.blue }
+        return { name: 'logout', color: colors.orange }
       case 'remove-member':
         return { name: 'account-remove', color: colors.red }
       case 'accept':
-        return { name: 'check', color: colors.green }
+        return { name: 'check', color: colors.primary }
       case 'decline':
         return { name: 'close', color: colors.red }
       default:

@@ -20,7 +20,7 @@ export function GroupsNavigator() {
       <Stack.Screen
         name={routes.GROUPS}
         // 'options.headerRight' is set in the GroupsScreen with
-        // 'navigation.setOptions' via our useModal hook
+        // 'navigation.setOptions' via our useToggle hook
       >
         {/* To pass custom props to a screen component, return the component */}
         {/* from a function as the child of this Stack.Screen. All regular */}
@@ -65,7 +65,7 @@ export function GroupsNavigator() {
                     />
                   )
                   // 'options.headerRight' is set in the GroupScreen with
-                  // 'navigation.setOptions' via our useModal hook
+                  // 'navigation.setOptions' via our useToggle hook
                 }}
               />
               <Stack.Screen

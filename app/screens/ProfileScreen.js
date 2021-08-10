@@ -28,7 +28,7 @@ export function ProfileScreen() {
             <MaterialCommunityIcons
               name='email-outline'
               color={colors.grayDark}
-              size={30}
+              size={25}
             />
             <Text style={styles.userInfoItemText}>
               {userData?.email}

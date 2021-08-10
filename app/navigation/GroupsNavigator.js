@@ -55,7 +55,6 @@ export function GroupsNavigator() {
                 name={routes.GROUP}
                 component={GroupScreen}
                 options={{
-                  headerTitle: 'Members',
                   headerBackTitleVisible: false,
                   headerBackImage: ({/* tintColor */ }) => (
                     <MaterialCommunityIcons

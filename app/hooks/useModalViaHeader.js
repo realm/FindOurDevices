@@ -17,7 +17,7 @@ export function useModalViaHeader(navigation, iconName, initialVisibility) {
         />
       )
     })
-  });
+  }, [navigation]);
 
   const openModal = () => setModalVisible(true);
   const closeModal = () => setModalVisible(false);

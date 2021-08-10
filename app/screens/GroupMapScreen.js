@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, { useMemo } from 'react';
 
 import { useGroup } from '../providers/GroupProvider';
 import { Map } from '../components/Map';
@@ -19,7 +19,8 @@ export function GroupMapScreen({ navigation }) {
         longitude: member.location.longitude,
         latitude: member.location.latitude
       }))
-    : [], [group]);
+    : []
+  , [group]);
 
   return (
     <Map

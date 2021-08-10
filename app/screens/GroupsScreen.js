@@ -54,7 +54,6 @@ export function GroupsScreen({ navigation, setGroupId }) {
         <List
           items={userData.groups}
           keyExtractor={(group) => group.groupId.toString()}
-          //itemTextExtractor={(group) => group.isOwner ? `${group.groupName} (owner)` : group.groupName} // TODO: Add 'isOwner' on GroupMembership model
           itemTextExtractor={(group) => group.groupName}
           onItemPress={(group) => {
             // When the groupId is set, GroupsNavigator rerenders and passes the

@@ -9,7 +9,7 @@ const LONGITUDE_DELTA = 0.001;
 export const MapMarker = memo(function MapMarker({ location, color }) {
   return (
     <Marker.Animated
-      coordinate={new AnimatedRegion({ // animation not working
+      coordinate={new AnimatedRegion({ // NOTE: animation not working
         latitude: location.latitude,
         longitude: location.longitude,
         latitudeDelta: LATITUDE_DELTA,

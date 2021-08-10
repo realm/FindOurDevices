@@ -65,8 +65,6 @@ function DevicesProvider({ children }) {
         setDevices(devices);
 
       devices.addListener((/*collection, changes*/) => {
-        console.log(`Handling changes on iOS or Android ID: ${currentIosOrAndroidId}`)
-
         // If wanting to handle deletions, insertions, and modifications differently
         // you can access them through the two arguments. (Always handle them in the
         // following order: deletions, insertions, modifications)
@@ -104,7 +102,7 @@ function DevicesProvider({ children }) {
     // hence succeed or fail together. A transcation is the smallest unit of transfer
     // in Realm so we want to be mindful of how much we put into one single transaction
     // and split them up if appropriate (more commonly seen server side). Since clients
-    // may occasionally be online during short time spans we want to increase the possibility
+    // may occasionally be online during short time spans we want to increase the probability
     // of sync participants to successfully sync everything in the transaction, otherwise
     // no changes propagate and the transaction needs to start over when connectivity allows.
     realm.write(() => {
@@ -127,7 +125,8 @@ function DevicesProvider({ children }) {
     if (!realm)
       return;
 
-    if (deviceAlreadyExists())
+    const deviceAlreadyExists = devices.some(device => device.iosOrAndroidId === currentIosOrAndroidId);
+    if (deviceAlreadyExists)
       return { error: { message: 'The device has already been added.' } };
 
     const device = new Device({
@@ -144,8 +143,6 @@ function DevicesProvider({ children }) {
       realm.create('Device', device);
     });
   };
-
-  const deviceAlreadyExists = () => devices.some(device => device.iosOrAndroidId === currentIosOrAndroidId);
 
   return (
     <DevicesContext.Provider value={{

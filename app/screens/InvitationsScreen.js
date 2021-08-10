@@ -4,6 +4,7 @@ import { View, Alert, StyleSheet } from 'react-native';
 import { useAuth } from '../providers/AuthProvider';
 import { useDevices } from '../providers/DevicesProvider';  // USE LATER
 import { useGroupManager } from '../hooks/useGroupManager';
+import { FormTextInput } from '../components/FormTextInput';
 import { List } from '../components/List';
 import { ModalForm } from '../components/ModalForm';
 
@@ -59,18 +60,19 @@ export function InvitationsScreen() {
         <ModalForm
           visible={!!selectedInvitation}
           title='Accept Invitation'
-          // TEMPORARY (TODO: pass in the device names to use for dropdown)
-          textInputProps={{
-            placeholder: 'Device ID to join with',
-            value: temporaryDeviceId,
-            onChangeText: setTemporaryDeviceId,
-            autoCorrect: false,
-            autoCapitalize: 'none'
-          }}
           submitText='Accept'
           onSubmit={handleAccept}
           onCancel={handleCancelAccept}
-        />
+        >
+          <FormTextInput
+            placeholder='Device ID to join with'
+            value={temporaryDeviceId}
+            onChangeText={setTemporaryDeviceId}
+            autoCorrect={false}
+            autoCapitalize='none'
+          />
+          {/* TEMPORARY (TODO: add dropdown for device names here) */}
+        </ModalForm>
         </>
       )}
     </View>

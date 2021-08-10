@@ -3,7 +3,8 @@ import { View, Alert, StyleSheet } from 'react-native';
 
 import { useAuth } from '../providers/AuthProvider';
 import { useGroupManager } from '../hooks/useGroupManager';
-import { useModalViaHeader } from '../hooks/useModalViaHeader';
+import { useToggle } from '../hooks/useToggle';
+import { FormTextInput } from '../components/FormTextInput';
 import { List } from '../components/List';
 import { ModalForm } from '../components/ModalForm';
 import routes from '../navigation/routes';
@@ -12,7 +13,7 @@ export function GroupsScreen({ navigation, setGroupId }) {
   const { userData } = useAuth();
   const { createGroup, leaveGroup, removeGroup } = useGroupManager();
   const [newGroupName, setNewGroupName] = useState('');
-  const { modalVisible, closeModal }= useModalViaHeader(navigation, 'plus-circle', false);
+  const [modalVisible, closeModal]= useToggle(navigation, 'plus-circle');
 
   const handleCreateGroup = async () => {
     if (!newGroupName)
@@ -81,17 +82,18 @@ export function GroupsScreen({ navigation, setGroupId }) {
     <ModalForm
       visible={modalVisible}
       title='Create Group'
-      textInputProps={{
-        placeholder: 'Name',
-        value: newGroupName,
-        onChangeText: setNewGroupName,
-        autoCorrect: false,
-        autoCapitalize: 'none'
-      }}
       submitText='Create'
       onSubmit={handleCreateGroup}
       onCancel={handleCancelCreateGroup}
-    />
+    >
+      <FormTextInput
+        placeholder='Name'
+        value={newGroupName}
+        onChangeText={setNewGroupName}
+        autoCorrect={false}
+        autoCapitalize='none'
+      />
+    </ModalForm>
     </>
   );
 }

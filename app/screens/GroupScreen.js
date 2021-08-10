@@ -5,8 +5,9 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { useAuth } from '../providers/AuthProvider';
 import { useGroup } from '../providers/GroupProvider';
 import { useGroupManager } from '../hooks/useGroupManager';
-import { useModalViaHeader } from '../hooks/useModalViaHeader';
+import { useToggle } from '../hooks/useToggle';
 import { Button } from '../components/Button';
+import { FormTextInput } from '../components/FormTextInput';
 import { List } from '../components/List';
 import { ItemSeparator } from '../components/ItemSeparator';
 import { ModalForm } from '../components/ModalForm';
@@ -19,7 +20,7 @@ export function GroupScreen({ navigation }) {
   const group = useGroup();
   const { inviteGroupMember, removeGroupMember, setShareLocation } = useGroupManager();
   const [newMemberEmail, setNewMemberEmail] = useState('');
-  const { modalVisible, closeModal }= useModalViaHeader(navigation, 'account-plus', false);
+  const [modalVisible, closeModal]= useToggle(navigation, 'plus-circle');
 
   useLayoutEffect(() => {
     // In order to set header options based on information available only in this component
@@ -82,7 +83,7 @@ export function GroupScreen({ navigation }) {
               <MaterialCommunityIcons
                 name={shareLocation ? 'eye-outline' : 'eye-off-outline'}
                 color={shareLocation ? colors.primary : colors.grayMedium}
-                size={30}
+                size={25}
               />
             </View>
           </Pressable>
@@ -92,7 +93,6 @@ export function GroupScreen({ navigation }) {
           items={group.members}
           keyExtractor={(member) => member.userId.toString()}
           itemTextExtractor={(member) => member.displayName}
-          onItemPress={(member) => console.log(`Pressed group member ${member.displayName}.`)}
           rightActions={[
             {
               actionType: 'remove-member',
@@ -113,19 +113,20 @@ export function GroupScreen({ navigation }) {
     <ModalForm
       visible={modalVisible}
       title='Invite Member'
-      textInputProps={{
-        placeholder: 'Email',
-        value: newMemberEmail,
-        onChangeText: setNewMemberEmail,
-        autoCorrect: false,
-        autoCapitalize: 'none',
-        keyboardType: 'email-address',
-        textContentType: 'emailAddress'  // iOS only
-      }}
       submitText='Invite'
       onSubmit={handleInviteMember}
       onCancel={handleCancelInviteMember}
-    />
+    >
+      <FormTextInput
+        placeholder='Email'
+        value={newMemberEmail}
+        onChangeText={setNewMemberEmail}
+        autoCorrect={false}
+        autoCapitalize='none'
+        keyboardType='email-address'
+        textContentType='emailAddress'  // iOS only
+      />
+    </ModalForm>
     </>
   );
 }

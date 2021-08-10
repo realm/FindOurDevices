@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Alert, StyleSheet } from 'react-native';
 
 import { useDevices } from '../providers/DevicesProvider';
-import { useModalViaHeader } from '../hooks/useModalViaHeader';
+import { useToggle } from '../hooks/useToggle';
 import { Button } from '../components/Button';
 import { List } from '../components/List';
 import { ModalForm } from '../components/ModalForm';
@@ -10,7 +10,7 @@ import routes from '../navigation/routes';
 
 export function DevicesScreen({ navigation }) {
   const { devices, currentIosOrAndroidId, addCurrentDevice } = useDevices();
-  const { modalVisible, closeModal }= useModalViaHeader(navigation, 'plus-circle', false);
+  const [modalVisible, closeModal]= useToggle(navigation, 'plus-circle');
 
   const handleAddDevice = async () => {
     const res = await addCurrentDevice();

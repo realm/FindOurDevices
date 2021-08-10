@@ -1,16 +1,19 @@
-import React from 'react';
-import { View, Text, TextInput, Modal, TouchableOpacity, Platform, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import React, { useLayoutEffect } from 'react';
+import { View, Text, Modal, TouchableOpacity, Platform, StyleSheet, KeyboardAvoidingView } from 'react-native';
 
 import { Button } from './Button';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
-export function ModalForm({ animationType = 'fade', visible, title, textInputProps, submitText, onSubmit, onCancel }) {
-  // Our application is not expecting various types of layouts in the forms provided,
-  // thus this component only allows one (or none) text input and one (or none) drop down.
-  // If you want to allow more flexibility in what form fields to allow, simply make use
-  // of the 'children' prop and allow users of this component to add their own fields.
-  // TODO: Implement drop down
+export function ModalForm({
+  animationType = 'fade',
+  visible,
+  title,
+  submitText,
+  onSubmit,
+  onCancel,
+  children
+}) {
   return (
     <Modal
       animationType={animationType}
@@ -23,14 +26,7 @@ export function ModalForm({ animationType = 'fade', visible, title, textInputPro
       >
         <View style={styles.form}>
           <Text style={styles.title}>{title}</Text>
-          {textInputProps && (
-            <View style={styles.inputContainer}>
-              <TextInput
-                {...textInputProps}
-                style={styles.input}
-              />
-            </View>
-          )}
+          {children}
           <Button
             text={submitText}
             onPress={onSubmit}
@@ -84,19 +80,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: fonts.sizeL,
     fontWeight: 'bold'
-  },
-  inputContainer: {
-    marginVertical: 10,
-    padding: Platform.OS === 'ios' ? 15 : 0,
-    alignSelf: 'stretch',
-    backgroundColor: colors.grayLight,
-    borderColor: colors.grayMedium,
-    borderRadius: 10,
-    borderColor: '#e1e1e1',
-    borderWidth: 1
-  },
-  input: {
-    fontSize: fonts.sizeM
   },
   cancelButton: {
     marginTop: 20,

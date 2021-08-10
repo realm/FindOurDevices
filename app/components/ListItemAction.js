@@ -8,7 +8,7 @@ export function ListItemAction({ action, onPress }) {
   const getIconNameAndColor = () => {
     switch (action) {
       case 'remove':
-        return { name: 'trash-can', color: colors.red }
+        return { name: 'trash-can-outline', color: colors.red }
       case 'edit':
         return { name: 'lead-pencil', color: colors.green }
       case 'leave':
@@ -32,7 +32,7 @@ export function ListItemAction({ action, onPress }) {
       <View style={styles.container}>
         <MaterialCommunityIcons
           {...getIconNameAndColor()}
-          size={30}
+          size={25}
         />
       </View>
     </Pressable>
@@ -41,13 +41,13 @@ export function ListItemAction({ action, onPress }) {
 
 const styles = StyleSheet.create({
   container: {
-    width: 50,
-    height: 50,
+    width: 46,
+    height: 46,
     marginRight: 10,
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: colors.grayMedium,
     borderWidth: 1,
-    borderRadius: 25
+    borderRadius: 23
   },
 });

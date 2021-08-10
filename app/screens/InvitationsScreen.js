@@ -43,6 +43,7 @@ export function InvitationsScreen() {
           items={userData.invitations}
           keyExtractor={(invitation) => invitation.groupId.toString()}
           itemTextExtractor={(invitation) => invitation.groupName}
+          itemSubTextExtractor={(invitation) => `From: ${invitation.senderEmail}`}
           fadeOnPress={false}
           rightActions={[
             {

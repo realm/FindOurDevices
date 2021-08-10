@@ -26,11 +26,8 @@ export function DevicesScreen({ navigation }) {
       <List
         items={devices}
         keyExtractor={(device) => device._id.toString()}
-        itemTextExtractor={(device) => device.iosOrAndroidId === currentIosOrAndroidId
-          ? `${device.name} (current)`
-          : device.name
-        }
-        onItemPress={(device) => console.log(`Clicked on ${device.name}.`)}
+        itemTextExtractor={(device) => device.name}
+        itemSubTextExtractor={(device) => device.iosOrAndroidId === currentIosOrAndroidId ? 'current' : '' }
         fadeOnPress={false}
         rightActions={[
           {

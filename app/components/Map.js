@@ -5,6 +5,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { MapMarker } from './MapMarker';
+import { Dropdown } from './Dropdown';
 import colors from '../styles/colors';
 
 // If you are developing for Android and want to use Google Maps for the map functionality,
@@ -13,11 +14,11 @@ import colors from '../styles/colors';
 // 'react-native-maps' that let's us use OpenStreetMaps instead of Google Maps. (The library
 // API is mostly the same, thus the usage shown here is the same for 'react-native-maps'.)
 
-const PICKER_VALUE_ALL_MARKERS = 'all';
+const PICKER_VALUE_ALL_MARKERS = 0;
 
 export function Map({ markers, pluralItemType, onBackPress }) {
   const [pickerIsOpen, setPickerIsOpen] = useState(false);
-  const [pickerValue, setPickerValue] = useState(PICKER_VALUE_ALL_MARKERS);
+  const [pickerValue, setPickerValue] = useState({ name: `All ${pluralItemType}`, value: PICKER_VALUE_ALL_MARKERS });
   const [pickerItems, setPickerItems] = useState([]);
   const mapViewRef = useRef(null);
 
@@ -34,21 +35,21 @@ export function Map({ markers, pluralItemType, onBackPress }) {
       return;
 
     setPickerItems([
-      { label: `All ${pluralItemType}`, value: PICKER_VALUE_ALL_MARKERS },
-      ...markers.map((marker, idx) => ({ label: marker.label, value: idx + 1 }))
+      { name: `All ${pluralItemType}`, value: PICKER_VALUE_ALL_MARKERS },
+      ...markers.map((marker, idx) => ({ name: marker.label, value: idx + 1 }))
     ]);
   };
 
   const getSelectedMarker = () => {
     // The picker values are 1-based numbers based of the 'markers' indexes
-    return markers[pickerValue - 1];
+    return markers[pickerValue.value - 1];
   };
 
   const updateFocusedRegion = () => {
     if (!pickerValue || !mapViewRef.current)
       return;
-    
-    if (pickerValue === PICKER_VALUE_ALL_MARKERS) {
+
+    if (pickerValue.value === PICKER_VALUE_ALL_MARKERS) {
       mapViewRef.current.fitToCoordinates(markers, {
         edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
         animated: true
@@ -57,7 +58,7 @@ export function Map({ markers, pluralItemType, onBackPress }) {
     else {
       const ANIMATION_DURATION_MS = 1000;
       const newRegion = {
-        latitude : getSelectedMarker().latitude,
+        latitude: getSelectedMarker().latitude,
         longitude: getSelectedMarker().longitude,
         latitudeDelta: 0.01,
         longitudeDelta: 0.001
@@ -86,7 +87,7 @@ export function Map({ markers, pluralItemType, onBackPress }) {
         ))}
       </MapView>
       <View style={[styles.overlay, styles.shadow]}>
-        <DropDownPicker
+        {/* <DropDownPicker
           style={styles.dropdown}
           dropDownContainerStyle={styles.dropDownContainer}
           open={pickerIsOpen}
@@ -97,6 +98,14 @@ export function Map({ markers, pluralItemType, onBackPress }) {
           setItems={setPickerItems}
           labelProps={{ numberOfLines: 1 }}
           dropDownDirection='TOP'
+        /> */}
+        <Dropdown
+          open={pickerIsOpen}
+          value={pickerValue}
+          items={pickerItems}
+          setOpen={setPickerIsOpen}
+          setValue={setPickerValue}
+          top={true}
         />
       </View>
       <TouchableOpacity

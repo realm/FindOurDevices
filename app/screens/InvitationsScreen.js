@@ -21,7 +21,7 @@ export function InvitationsScreen() {
   const [pickerItems, setPickerItems] = useState([]);
   
   useEffect(() => {
-    setPickerItems(devices.map((device, idx) => ({ name: device.name, id: device._id.toString() })));
+    setPickerItems(devices.map(device => ({ name: device.name, value: device._id.toString() })));
   }, [devices]);
 
   const handleAccept = async () => {
@@ -32,7 +32,8 @@ export function InvitationsScreen() {
 
     // Our MongoDB Realm backend function will return an object
     // containing an error property if any errors occurred.
-    const { error } = await respondToInvitation(selectedInvitation.groupId, true, pickerValue.id);
+    const selectedDeviceId = pickerValue.value;
+    const { error } = await respondToInvitation(selectedInvitation.groupId, true, selectedDeviceId);
     if (error)
       return Alert.alert(error.message);
 

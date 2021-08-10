@@ -21,7 +21,7 @@ export function Dropdown({
     <Pressable style={styles.item} onPress={() => { selectValue(item) }}>
       <View style={{ flexDirection: "row", justifyContent: 'space-between', }}>
           <Text style={styles.text} > {item.name} </Text>
-          { item.name == value && <Text> ✓ </Text> }
+          { item.value == value?.value && <Text> ✓ </Text> }
         </View>
     </Pressable>
   );
@@ -32,7 +32,7 @@ export function Dropdown({
         <FlatList
           data={items}
           renderItem={renderItem}
-          keyExtractor={item => item.id}
+          keyExtractor={(_, index) => index}
           style={styles.flatlist}
         />
       }
@@ -46,7 +46,7 @@ export function Dropdown({
         <FlatList
           data={items}
           renderItem={renderItem}
-          keyExtractor={item => item.id}
+          keyExtractor={(_, index) => index}
           style={styles.flatlist}
         />
       }
@@ -57,7 +57,7 @@ export function Dropdown({
 const styles = StyleSheet.create({
   container: {
     alignSelf: 'stretch',
-    maxHeight: 200,
+    maxHeight: 500,
     marginVertical: 10,
   },
   button: {

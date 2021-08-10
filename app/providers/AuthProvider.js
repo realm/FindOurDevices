@@ -89,16 +89,17 @@ function AuthProvider({ children }) {
     realmRef.current = null;
     setUserData(null);
   };
-
+  
   const signUp = async (email, password) => {
+    // For the purpose of this example app we have configured our app to automatically confirm
+    // users, otherwise new users must always confirm their ownership of the email address
+    // before logging in. (That can be done by configuring Realm to send a confirmation email)
     try {
-      // For the purpose of this example app we have configured our app to automatically confirm
-      // users, otherwise new users must always confirm their ownership of the email address
-      // before logging in. (That can be done by configuring Realm to send a confirmation email)
       await app.emailPasswordAuth.registerUser(email, password);
+      return { success: true };
     }
     catch (err) {
-      console.warn('Could not sign up: ', err.message);
+      return { error: { message: err.message } };
     }
   };
 
@@ -107,15 +108,16 @@ function AuthProvider({ children }) {
       // Note: User email addresses are case-sensisitve
       const credentials = Realm.Credentials.emailPassword(email, password);
       const user = await app.logIn(credentials);
-
-      console.log('Logged in!');
       
       // Setting the realm user will rerender the RootNavigationContainer and in turn
       // conditionally render the AppNavigator to show the authenticated screens of the app
       setRealmUser(user);
+      
+      console.log('Logged in!');
+      return { success: true };
     }
     catch (err) {
-      console.error('Could not log in. ', err.message);
+      return { error: { message: err.message } };
     }
   };
 

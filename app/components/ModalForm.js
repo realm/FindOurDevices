@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react';
+import React from 'react';
 import { View, Text, Modal, TouchableOpacity, Platform, StyleSheet, KeyboardAvoidingView } from 'react-native';
 
 import { Button } from './Button';

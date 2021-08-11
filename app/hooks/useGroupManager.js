@@ -13,7 +13,7 @@ export function useGroupManager() {
 
   // Callers of these functions should be responsible for awaiting the results.
 
-  const createGroup = (name, deviceId = '') => realmUser.functions.createGroup(name, deviceId.toString());
+  const createGroup = (name, deviceId) => realmUser.functions.createGroup(name, deviceId.toString());
 
   const leaveGroup = (groupId) => realmUser.functions.leaveGroup(groupId.toString());
   
@@ -27,9 +27,6 @@ export function useGroupManager() {
 
   const setShareLocation = (groupId, shareLocation) => realmUser.functions.setShareLocation(groupId.toString(), shareLocation);
 
-  // TODO: Implement the backend function setGroupName
-  const setGroupName = (name) => realmUser.functions.setGroupName(name);
-
   return {
     createGroup,
     leaveGroup,
@@ -38,6 +35,5 @@ export function useGroupManager() {
     respondToInvitation,
     removeGroupMember,
     setShareLocation
-    /*setGroupName*/
   };
 }

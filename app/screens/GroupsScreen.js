@@ -72,13 +72,8 @@ export function GroupsScreen({ navigation, setGroupId }) {
               // new group id to the GroupsProvider, which opens the group realm.
               setGroupId(group.groupId);
               navigation.navigate(routes.GROUP);
-            }
-            }
+            }}
             rightActions={[
-              {
-                actionType: 'edit',
-                onPress: (group) => console.log(`Clicked button to edit group '${group.groupId}'`)
-              },
               {
                 actionType: 'leave',
                 onPress: (group) => handleLeaveGroup(group.groupId)

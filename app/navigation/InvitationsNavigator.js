@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { InvitationsScreen } from '../screens/InvitationsScreen';

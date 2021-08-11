@@ -10,7 +10,7 @@ import routes from '../navigation/routes';
 
 export function DevicesScreen({ navigation }) {
   const { devices, currentIosOrAndroidId, addCurrentDevice } = useDevices();
-  const [modalVisible, closeModal]= useToggle(navigation, 'plus-circle');
+  const { isOn: modalVisible, turnOff: closeModal }= useToggle(false, navigation, 'plus-circle');
 
   const handleAddDevice = async () => {
     const res = await addCurrentDevice();

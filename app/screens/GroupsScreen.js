@@ -13,7 +13,7 @@ export function GroupsScreen({ navigation, setGroupId }) {
   const { userData } = useAuth();
   const { createGroup, leaveGroup, removeGroup } = useGroupManager();
   const [newGroupName, setNewGroupName] = useState('');
-  const [modalVisible, closeModal]= useToggle(navigation, 'plus-circle');
+  const { isOn: modalVisible, turnOff: closeModal }= useToggle(false, navigation, 'plus-circle');
 
   const handleCreateGroup = async () => {
     if (!newGroupName)

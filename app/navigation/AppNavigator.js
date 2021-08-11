@@ -2,15 +2,16 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import DevicesNavigator from './DevicesNavigator';
-import GroupsNavigator from './GroupsNavigator';
-import ProfileScreen from '../screens/ProfileScreen';
+import { DevicesNavigator } from './DevicesNavigator';
+import { GroupsNavigator } from './GroupsNavigator';
+import { InvitationsNavigator } from './InvitationsNavigator';
+import { ProfileScreen } from '../screens/ProfileScreen';
 import routes from './routes';
 import colors from '../styles/colors';
 
 const Tab = createBottomTabNavigator();
 
-function AppNavigator() {
+export function AppNavigator() {
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -46,6 +47,19 @@ function AppNavigator() {
         }}
       />
       <Tab.Screen
+        name={routes.INVITATIONS}
+        component={InvitationsNavigator}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name='bell-outline'
+              color={color}
+              size={size}
+            />
+          )
+        }}
+      />
+      <Tab.Screen
         name={routes.PROFILE}
         component={ProfileScreen}
         options={{
@@ -61,5 +75,3 @@ function AppNavigator() {
     </Tab.Navigator>
   );
 }
-
-export default AppNavigator;

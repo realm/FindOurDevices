@@ -1,37 +1,36 @@
 import React from 'react';
-import { View, Text, TextInput, Modal, TouchableOpacity, Platform, StyleSheet } from 'react-native';
+import { View, Text, Modal, TouchableOpacity, Platform, StyleSheet, KeyboardAvoidingView } from 'react-native';
 
-import Button from './Button';
+import { Button } from './Button';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
-function ModalForm({ animationType = 'fade', visible, title, textInputProps, submitText, onSubmit, onCancel }) {
-  // Our application is not expecting various types of layouts in the forms provided,
-  // thus this component only allows one (or none) text input and one (or none) drop down.
-  // If you want to allow more flexibility in what form fields to allow, simply make use
-  // of the 'children' prop and allow users of this component to add their own fields.
-  // TODO: Implement drop down
+export function ModalForm({
+  animationType = 'fade',
+  visible,
+  title,
+  submitText,
+  onSubmit,
+  onCancel,
+  children
+}) {
   return (
     <Modal
       animationType={animationType}
       transparent={true}
       visible={visible}
     >
-      <View style={styles.modal}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
+        style={styles.modal}
+      >
         <View style={styles.form}>
           <Text style={styles.title}>{title}</Text>
-          {textInputProps && (
-            <View style={styles.inputContainer}>
-              <TextInput
-                {...textInputProps}
-                style={styles.input}
-              />
-            </View>
-          )}
+          {children}
           <Button
             text={submitText}
             onPress={onSubmit}
-            otherStyles={{ padding: 10 }}
+            style={{ padding: 10 }}
           />
           <TouchableOpacity
             onPress={onCancel}
@@ -40,7 +39,7 @@ function ModalForm({ animationType = 'fade', visible, title, textInputProps, sub
             <Text style={styles.cancelButtonText}>Cancel</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }
@@ -61,35 +60,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.white,
     borderRadius: 10,
-    // iOS box shadow props
-    shadowColor: colors.black,
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    // Android box shadow prop
-    elevation: 5
+    ...Platform.select({
+      ios: {
+        shadowColor: colors.black,
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 5
+      },
+    })
   },
   title: {
     marginBottom: 15,
     textAlign: 'center',
     fontSize: fonts.sizeL,
     fontWeight: 'bold'
-  },
-  inputContainer: {
-    marginVertical: 10,
-    padding: Platform.OS === 'ios' ? 15 : 0,
-    alignSelf: 'stretch',
-    backgroundColor: colors.grayLight,
-    borderColor: colors.grayMedium,
-    borderRadius: 10,
-    borderColor: '#e1e1e1',
-    borderWidth: 1
-  },
-  input: {
-    fontSize: fonts.sizeM
   },
   cancelButton: {
     marginTop: 20,
@@ -101,5 +91,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   }
 });
-
-export default ModalForm;

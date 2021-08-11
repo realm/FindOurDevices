@@ -3,11 +3,11 @@ import { View, Text, StyleSheet } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { useAuth } from '../providers/AuthProvider';
-import Button from '../components/Button';
+import { Button } from '../components/Button';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
-function ProfileScreen() {
+export function ProfileScreen() {
   const { userData, logOut } = useAuth();
 
   return (
@@ -19,7 +19,7 @@ function ProfileScreen() {
           size={80}
         />
         <Text style={styles.displayName}>
-          {userData.displayName}
+          {userData?.displayName}
         </Text>
       </View>
       <View style={styles.lowerView}>
@@ -28,10 +28,10 @@ function ProfileScreen() {
             <MaterialCommunityIcons
               name='email-outline'
               color={colors.grayDark}
-              size={30}
+              size={25}
             />
             <Text style={styles.userInfoItemText}>
-              {userData.email}
+              {userData?.email}
             </Text>
           </View>
         </View>
@@ -85,5 +85,3 @@ const styles = StyleSheet.create({
     fontSize: fonts.sizeM
   }
 });
-
-export default ProfileScreen;

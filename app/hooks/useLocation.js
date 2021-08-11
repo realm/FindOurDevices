@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import RNLocation from 'react-native-location';
 
-function useLocation() {
+export function useLocation() {
   const [location, setLocation] = useState(null);
   const unsubscribeRef = useRef(null);
 
   const getLocation = async () => {
-    const METERS_BEFORE_UPDATING_LOCATION = 20;
+    const METERS_BEFORE_UPDATING_LOCATION = 50;
     RNLocation.configure({
       distanceFilter: METERS_BEFORE_UPDATING_LOCATION,
       desiredAccuracy: {
@@ -65,5 +65,3 @@ function useLocation() {
 
   return location;
 }
-
-export default useLocation;

@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef, createContext, useContext } from 'react';
 import Realm, { BSON } from 'realm';
 
-import getRealmApp from '../getRealmApp';
+import { getRealmApp } from '../getRealmApp';
 import User from '../models/User';
 import GroupMembership from '../models/GroupMembership';
+import GroupInvitation from '../models/GroupInvitation';
 
 const app = getRealmApp();
 
@@ -33,7 +34,7 @@ function AuthProvider({ children }) {
     try {
       // Open a local realm file with the schemas that are part of this partition
       const config = {
-        schema: [User.schema, GroupMembership.schema],
+        schema: [User.schema, GroupMembership.schema, GroupInvitation.schema],
         sync: {
           user: realmUser,
           partitionValue: `user=${realmUser.id}`,
@@ -59,12 +60,13 @@ function AuthProvider({ children }) {
       // When querying a realm to find objects (e.g. realm.objects('User')) the result we get back
       // and the objects in it are "live" and will always reflect the latest state.
       const userId = BSON.ObjectId(realmUser.id);
-      const user = realm.objectForPrimaryKey('User', userId);
-      if (user)
-        setUserData(user);
+      //const user = realm.objectForPrimaryKey('User', userId); // NOTE: Object listener not working for embedded docs when changed by backend function
+      const users = realm.objects('User').filtered('_id = $0', userId);
+      if (users?.length)
+        setUserData(users[0]);
 
       // Live queries and objects emit notifications when something has changed that we can listen for.
-      user.addListener((/*object, changes*/) => {
+      users.addListener((/*object, changes*/) => {
         // [add comment]
 
         // By querying the object again, we get a new reference to the Result and triggers
@@ -80,22 +82,24 @@ function AuthProvider({ children }) {
 
   const closeRealm = () => {
     const realm = realmRef.current;
-    realm?.objectForPrimaryKey('User', BSON.ObjectId(realmUser.id)).removeAllListeners();
+    //realm?.objectForPrimaryKey('User', BSON.ObjectId(realmUser.id)).removeAllListeners(); // TODO: Add this if object listener issue is solved
+    realm?.objects('User').removeAllListeners();
     realm?.removeAllListeners();
     realm?.close();
     realmRef.current = null;
     setUserData(null);
   };
-
+  
   const signUp = async (email, password) => {
+    // For the purpose of this example app we have configured our app to automatically confirm
+    // users, otherwise new users must always confirm their ownership of the email address
+    // before logging in. (That can be done by configuring Realm to send a confirmation email)
     try {
-      // For the purpose of this example app we have configured our app to automatically confirm
-      // users, otherwise new users must always confirm their ownership of the email address
-      // before logging in. (That can be done by configuring Realm to send a confirmation email)
       await app.emailPasswordAuth.registerUser(email, password);
+      return { success: true };
     }
     catch (err) {
-      console.warn('Could not sign up: ', err.message);
+      return { error: { message: err.message } };
     }
   };
 
@@ -104,15 +108,16 @@ function AuthProvider({ children }) {
       // Note: User email addresses are case-sensisitve
       const credentials = Realm.Credentials.emailPassword(email, password);
       const user = await app.logIn(credentials);
-
-      console.log('Logged in!');
       
       // Setting the realm user will rerender the RootNavigationContainer and in turn
       // conditionally render the AppNavigator to show the authenticated screens of the app
       setRealmUser(user);
+      
+      console.log('Logged in!');
+      return { success: true };
     }
     catch (err) {
-      console.error('Could not log in. ', err.message);
+      return { error: { message: err.message } };
     }
   };
 
@@ -137,8 +142,6 @@ function AuthProvider({ children }) {
     return realmUser.functions.setDisplayName(name);
   };
 
-  const createGroup = (name) => realmUser.functions.createGroup(name);
-
   return (
     <AuthContext.Provider value={{
       realmUser,
@@ -146,8 +149,7 @@ function AuthProvider({ children }) {
       logIn,
       logOut,
       signUp,
-      setDisplayName,
-      createGroup
+      setDisplayName
     }}>
       {children}
     </AuthContext.Provider>

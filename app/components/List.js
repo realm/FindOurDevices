@@ -1,40 +1,52 @@
 import React from 'react';
-import { View, FlatList, StyleSheet } from 'react-native';
+import { Text, View, FlatList, StyleSheet } from 'react-native';
 
-import ListItem from './ListItem';
-import ListItemAction from './ListItemAction';
-import ItemSeparator from './ItemSeparator';
+import { ListItem } from './ListItem';
+import { ListItemAction } from './ListItemAction';
+import { ItemSeparator } from './ItemSeparator';
+import fonts from '../styles/fonts';
+import colors from '../styles/colors';
 
-function List({
+export function List({
   items,
   keyExtractor,
-  itemTextFieldName,
+  itemTextExtractor = () => {},
+  itemSubTextExtractor = () => {},
   onItemPress = () => {},
   fadeOnPress,
-  rightActionType,
-  rightActionOnPress = () => {}
+  rightActions = []
 }) {
   return (
     <View style={styles.list}>
-      {items && (
+      {items?.length ? (
         <FlatList
           data={items}
           keyExtractor={keyExtractor}
           renderItem={({ item }) => (
             <ListItem
-              text={item[itemTextFieldName]}
+              text={itemTextExtractor(item)}
+              subText={itemSubTextExtractor(item)}
               onPress={() => onItemPress(item)}
               fadeOnPress={fadeOnPress}
               renderRightActions={() => (
-                <ListItemAction
-                  action={rightActionType}
-                  onPress={() => rightActionOnPress(item)}
-                />
+                <View style={styles.actionsContainer}>
+                  {rightActions.map(({ actionType, onPress }, idx) => (
+                    <ListItemAction
+                      key={idx}
+                      action={actionType}
+                      onPress={() => onPress(item)}
+                    />
+                  ))}
+                </View>
               )}
             />
           )}
           ItemSeparatorComponent={ItemSeparator}
         />
+      ) : (
+        <Text style={styles.info}>
+          The list is empty.
+        </Text>
       )}
     </View>
   );
@@ -43,7 +55,16 @@ function List({
 const styles = StyleSheet.create({
   list: {
     flex: 1
+  },
+  actionsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  info: {
+    marginTop: 50,
+    textAlign: 'center',
+    fontSize: fonts.sizeM,
+    color: colors.grayDark
   }
 });
-
-export default List;

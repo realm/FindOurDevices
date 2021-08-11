@@ -4,15 +4,15 @@ import { createStackNavigator } from '@react-navigation/stack';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { GroupProvider } from '../providers/GroupProvider';
-import GroupsScreen from '../screens/GroupsScreen';
-import GroupScreen from '../screens/GroupScreen';
-import GroupMapScreen from '../screens/GroupMapScreen';
+import { GroupsScreen } from '../screens/GroupsScreen';
+import { GroupScreen } from '../screens/GroupScreen';
+import { GroupMapScreen } from '../screens/GroupMapScreen';
 import routes from './routes';
 import colors from '../styles/colors';
 
 const Stack = createStackNavigator();
 
-function GroupsNavigator() {
+export function GroupsNavigator() {
   const [groupId, setGroupId] = useState(null);
 
   return (
@@ -20,13 +20,18 @@ function GroupsNavigator() {
       <Stack.Screen
         name={routes.GROUPS}
         // 'options.headerRight' is set in the GroupsScreen with
-        // 'navigation.setOptions' via our useModal hook
+        // 'navigation.setOptions' via our useToggle hook
       >
         {/* To pass custom props to a screen component, return the component */}
         {/* from a function as the child of this Stack.Screen. All regular */}
         {/* props that screen components get (such as 'navigation' and 'route') */}
         {/* are passed as the first argument to this function. */}
-        {(props) => <GroupsScreen {...props} setGroupId={setGroupId} />}
+        {(props) => (
+          <GroupsScreen
+            {...props}
+            setGroupId={setGroupId}
+          />
+        )}
       </Stack.Screen>
       <Stack.Screen
         name={routes.GROUP}
@@ -50,7 +55,6 @@ function GroupsNavigator() {
                 name={routes.GROUP}
                 component={GroupScreen}
                 options={{
-                  headerTitle: 'Members',
                   headerBackTitleVisible: false,
                   headerBackImage: ({/* tintColor */ }) => (
                     <MaterialCommunityIcons
@@ -61,7 +65,7 @@ function GroupsNavigator() {
                     />
                   )
                   // 'options.headerRight' is set in the GroupScreen with
-                  // 'navigation.setOptions' via our useModal hook
+                  // 'navigation.setOptions' via our useToggle hook
                 }}
               />
               <Stack.Screen
@@ -88,5 +92,3 @@ const styles = StyleSheet.create({
     shadowRadius: 3
   }
 });
-
-export default GroupsNavigator;

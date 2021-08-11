@@ -6,7 +6,13 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
-function ListItem({ text, fadeOnPress = true, onPress = () => {}, renderRightActions }) {
+export function ListItem({ 
+  text,
+  subText,
+  fadeOnPress = true,
+  onPress = () => {},
+  renderRightActions
+}) {
   return (
     <Swipeable renderRightActions={renderRightActions}>
       <Pressable
@@ -17,12 +23,22 @@ function ListItem({ text, fadeOnPress = true, onPress = () => {}, renderRightAct
         }
       >
         <View style={styles.container}>
-          <Text
-            numberOfLines={1}
-            style={styles.text}
-          >
-            {text}
-          </Text>
+          <View>
+            <Text
+              numberOfLines={1}
+              style={styles.text}
+            >
+              {text}
+            </Text>
+            {subText ? (
+              <Text
+                numberOfLines={1}
+                style={styles.subText}
+              >
+                {subText}
+              </Text>
+            ) : <></>}
+          </View>
           <MaterialCommunityIcons
             name='chevron-left'
             color={colors.grayMedium}
@@ -36,7 +52,7 @@ function ListItem({ text, fadeOnPress = true, onPress = () => {}, renderRightAct
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
+    alignSelf: 'stretch',
     height: 80,
     paddingLeft: 40,
     paddingRight: 22,
@@ -46,7 +62,11 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: fonts.sizeM
+  },
+  subText: {
+    marginTop: 5,
+    fontSize: fonts.sizeS,
+    color: colors.grayDark,
+    textTransform: 'lowercase'
   }
 });
-
-export default ListItem;

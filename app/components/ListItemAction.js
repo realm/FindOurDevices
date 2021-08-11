@@ -4,17 +4,21 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import colors from '../styles/colors';
 
-function ListItemAction({ action, onPress }) {
+export function ListItemAction({ action, onPress }) {
   const getIconNameAndColor = () => {
     switch (action) {
-      case 'delete':
-        return { name: 'trash-can', color: colors.red }
+      case 'remove':
+        return { name: 'trash-can-outline', color: colors.red }
       case 'edit':
-        return { name: 'lead-pencil', color: colors.blue }
-      case 'leave-group':
-        return { name: 'logout', color: colors.red }
+        return { name: 'lead-pencil', color: colors.primary }
+      case 'leave':
+        return { name: 'logout', color: colors.orange }
       case 'remove-member':
         return { name: 'account-remove', color: colors.red }
+      case 'accept':
+        return { name: 'check', color: colors.primary }
+      case 'decline':
+        return { name: 'close', color: colors.red }
       default:
         throw new Error('Unsupported list item action type: ', action);
     }
@@ -28,7 +32,7 @@ function ListItemAction({ action, onPress }) {
       <View style={styles.container}>
         <MaterialCommunityIcons
           {...getIconNameAndColor()}
-          size={30}
+          size={25}
         />
       </View>
     </Pressable>
@@ -37,11 +41,13 @@ function ListItemAction({ action, onPress }) {
 
 const styles = StyleSheet.create({
   container: {
-    width: 80,
-    height: '100%',
+    width: 46,
+    height: 46,
+    marginRight: 10,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    borderColor: colors.grayMedium,
+    borderWidth: 1,
+    borderRadius: 23
   },
 });
-
-export default ListItemAction;

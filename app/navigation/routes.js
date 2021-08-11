@@ -8,5 +8,6 @@ export default Object.freeze({
   GROUPS: 'Groups',
   GROUP: 'Group',
   GROUP_MAP: 'GroupMap',
+  INVITATIONS: 'Invitations',
   PROFILE: 'Profile'
 });

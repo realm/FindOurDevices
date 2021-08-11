@@ -4,7 +4,7 @@ import { View, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import MapMarker from './MapMarker';
+import { MapMarker } from './MapMarker';
 import colors from '../styles/colors';
 
 // If you are developing for Android and want to use Google Maps for the map functionality,
@@ -13,25 +13,13 @@ import colors from '../styles/colors';
 // 'react-native-maps' that let's us use OpenStreetMaps instead of Google Maps. (The library
 // API is mostly the same, thus the usage shown here is the same for 'react-native-maps'.)
 
-const INIT_LAT = 37.3318208;
-const INIT_LON = -122.03038642;
-const LATITUDE_DELTA = 0.01;
-const LONGITUDE_DELTA = 0.001;
 const PICKER_VALUE_ALL_MARKERS = 'all';
 
-function Map({ markers, pluralItemType, onBackPress }) {
+export function Map({ markers, pluralItemType, onBackPress }) {
   const [pickerIsOpen, setPickerIsOpen] = useState(false);
   const [pickerValue, setPickerValue] = useState(PICKER_VALUE_ALL_MARKERS);
   const [pickerItems, setPickerItems] = useState([]);
   const mapViewRef = useRef(null);
-
-  // TEMPORARY INITIAL REGION
-  const initialRegion = {
-    latitude: INIT_LAT,
-    longitude: INIT_LON,
-    latitudeDelta: LATITUDE_DELTA,
-    longitudeDelta: LONGITUDE_DELTA
-  };
 
   useEffect(() => {
     createPickerItems();
@@ -42,7 +30,7 @@ function Map({ markers, pluralItemType, onBackPress }) {
   }, [pickerValue, markers]);
 
   const createPickerItems = () => {
-    if (markers.length === 0/* || pickerItems.length > 0*/) // don't think we should check pickerItems.length since new devices or members can't show up then
+    if (!markers.length)
       return;
 
     setPickerItems([
@@ -71,21 +59,22 @@ function Map({ markers, pluralItemType, onBackPress }) {
       const newRegion = {
         latitude : getSelectedMarker().latitude,
         longitude: getSelectedMarker().longitude,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.001
       };
       mapViewRef.current.animateToRegion(newRegion, ANIMATION_DURATION_MS);
     }
   };
 
-  // TEMPORARY COLORS
-  const markerColors = ['#8922ec', '#161a58', '#e328f5', '#f3ac56', '#1177ee', '#00bf00'];
+  const markerColors = [
+    '#8922ec', '#161a58', '#e328f5', '#f3ac56', '#1177ee', '#00bf00',
+    '#a3e36c', '#ffbf00', '#00ffff', '#007fff', '#3d2b1f', '#b5a642'
+  ];
 
   return (
     <View style={styles.screen}>
       <MapView
         ref={mapViewRef}
-        initialRegion={initialRegion/* update this later */}
         style={styles.map}
       >
         {markers.map((marker, idx) => (
@@ -174,5 +163,3 @@ const styles = StyleSheet.create({
     shadowRadius: 3
   }
 });
-
-export default Map;

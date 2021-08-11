@@ -13,7 +13,7 @@ export function useGroupManager() {
 
   // Callers of these functions should be responsible for awaiting the results.
 
-  const createGroup = (name) => realmUser.functions.createGroup(name);
+  const createGroup = (name, deviceId = '') => realmUser.functions.createGroup(name, deviceId.toString());
 
   const leaveGroup = (groupId) => realmUser.functions.leaveGroup(groupId.toString());
   

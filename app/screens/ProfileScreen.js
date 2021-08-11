@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Platform} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { useAuth } from '../providers/AuthProvider';
@@ -54,13 +54,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.primary,
-    shadowColor: colors.black,
-    shadowOffset: {
-      width: 0,
-      height: 3
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 3
+    ...Platform.select({
+      ios: {
+        shadowColor: colors.black,
+        shadowOffset: {
+          width: 0,
+          height: 3
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 3
+      },
+      android: {
+        elevation: 2
+      },
+    })
   },
   lowerView: {
     flex: 1,

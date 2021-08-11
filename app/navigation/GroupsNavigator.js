@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -19,8 +19,8 @@ export function GroupsNavigator() {
     <Stack.Navigator screenOptions={{ headerStyle: styles.shadow }}>
       <Stack.Screen
         name={routes.GROUPS}
-        // 'options.headerRight' is set in the GroupsScreen with
-        // 'navigation.setOptions' via our useToggle hook
+      // 'options.headerRight' is set in the GroupsScreen with
+      // 'navigation.setOptions' via our useToggle hook
       >
         {/* To pass custom props to a screen component, return the component */}
         {/* from a function as the child of this Stack.Screen. All regular */}
@@ -83,12 +83,19 @@ export function GroupsNavigator() {
 
 const styles = StyleSheet.create({
   shadow: {
-    shadowColor: colors.black,
-    shadowOffset: {
-      width: 0,
-      height: 1
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3
+    ...Platform.select({
+      ios: {
+        shadowColor: colors.black,
+        shadowOffset: {
+          width: 0,
+          height: 1
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 3
+      },
+      android: {
+        elevation: 2
+      },
+    })
   }
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { DevicesScreen } from '../screens/DevicesScreen';
@@ -32,12 +32,19 @@ export function DevicesNavigator() {
 
 const styles = StyleSheet.create({
   shadow: {
-    shadowColor: colors.black,
-    shadowOffset: {
-      width: 0,
-      height: 1
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3
+    ...Platform.select({
+      ios: {
+        shadowColor: colors.black,
+        shadowOffset: {
+          width: 0,
+          height: 1
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 3
+      },
+      android: {
+        elevation: 2
+      },
+    })
   }
 });

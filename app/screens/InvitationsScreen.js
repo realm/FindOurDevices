@@ -32,6 +32,7 @@ export function InvitationsScreen() {
       return Alert.alert(error.message);
 
     setSelectedInvitation(null);
+    setSelectedPickerItem(null);
   };
 
   const handleCancelAccept = () => setSelectedInvitation(null);

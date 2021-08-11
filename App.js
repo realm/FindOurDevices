@@ -4,12 +4,10 @@ import React from 'react';
 import { AuthProvider } from './app/providers/AuthProvider';
 import { RootNavigationContainer } from './app/navigation/RootNavigationContainer';
 
-function App() {
+export function App() {
   return (
     <AuthProvider>
       <RootNavigationContainer />
     </AuthProvider>
   );
 }
-
-export default App;

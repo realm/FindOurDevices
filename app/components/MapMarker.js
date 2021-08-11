@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { Marker, Callout } from 'react-native-maps-osmdroid';
-import { Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet, View } from 'react-native';
 import Moment from 'react-moment';
 
 const LATITUDE_DELTA = 0.01;
@@ -17,18 +17,23 @@ export const MapMarker = memo(function MapMarker({ location, color }) {
       }}
       pinColor={color}
     >
-      <Callout style={styles.callout}>
-        <Text>
-          {'Updated'} <Moment element={Text} fromNow>{location.updatedAt}</Moment>
-        </Text>
+      <Callout>
+        <View style={styles.calloutView}>
+          <Text style={styles.calloutText}>
+            {'Updated'} <Moment element={Text} fromNow>{location.updatedAt}</Moment>
+          </Text>
+        </View>
       </Callout>
     </Marker>
   );
 }, shouldNotRerender);
 
 const styles = StyleSheet.create({
-  callout: {
-    padding: 10
+  calloutView: {
+    width: 200
+  },
+  calloutText : {
+    textAlign: 'center'
   }
 });
 

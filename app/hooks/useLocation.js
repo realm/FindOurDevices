@@ -19,6 +19,18 @@ export function useLocation() {
     if (!granted)
       return console.log('Location permission not granted.');
 
+    // Set initial location
+    RNLocation.getLatestLocation({ timeout: 1000 })
+      .then(latestLocation => {
+        if (latestLocation) {
+          setLocation({
+            updatedAt: new Date(),
+            longitude: latestLocation.longitude,
+            latitude: latestLocation.latitude
+          })
+        }
+      })
+
     // The callback passed will be called everytime the device has moved METERS_BEFORE_UPDATING_LOCATION.
     // (The OS might batch location updates together, so our change handler may receive multiple location items)
     unsubscribeRef.current = RNLocation.subscribeToLocationUpdates((locations) => setLocation({
@@ -52,7 +64,7 @@ export function useLocation() {
   const unsubscribe = () => {
     if (unsubscribeRef.current)
       unsubscribeRef.current();
-    
+
     unsubscribeRef.current = null;
     setLocation(null);
   };

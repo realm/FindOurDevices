@@ -2,50 +2,40 @@ import React, { useState, useEffect } from 'react';
 import { View, Alert, StyleSheet } from 'react-native';
 
 import { useAuth } from '../providers/AuthProvider';
-import { useDevices } from '../providers/DevicesProvider';  // USE LATER
+import { useDevices } from '../providers/DevicesProvider';
 import { useGroupManager } from '../hooks/useGroupManager';
-import { FormTextInput } from '../components/FormTextInput';
 import { List } from '../components/List';
 import { ModalForm } from '../components/ModalForm';
-import { Dropdown } from '../components/Dropdown';
+import { DropdownPicker } from '../components/DropdownPicker';
 
 export function InvitationsScreen() {
   const { userData } = useAuth();
-  const { devices } = useDevices(); // USE LATER
+  const { devices } = useDevices();
   const { respondToInvitation } = useGroupManager();
   const [selectedInvitation, setSelectedInvitation] = useState(null);
-  const [temporaryDeviceId, setTemporaryDeviceId] = useState('');
-
-  const [pickerIsOpen, setPickerIsOpen] = useState(false);
-  const [pickerValue, setPickerValue] = useState(null);
+  const [selectedPickerItem, setSelectedPickerItem] = useState(null);
   const [pickerItems, setPickerItems] = useState([]);
   
   useEffect(() => {
-    setPickerItems(devices.map(device => ({ name: device.name, value: device._id.toString() })));
-  }, [devices]);
+    setPickerItems(devices.map(device => ({ label: device.name, value: device._id.toString() }) ));
+  }, [devices.length]);
 
   const handleAccept = async () => {
-    /* if (!selectedInvitation || !temporaryDeviceId)
-      return; */
-    if (!pickerValue)
-      return
+    if (!selectedInvitation || !selectedPickerItem)
+      return;
 
     // Our MongoDB Realm backend function will return an object
     // containing an error property if any errors occurred.
-    const selectedDeviceId = pickerValue.value;
+    const selectedDeviceId = selectedPickerItem.value;
     const { error } = await respondToInvitation(selectedInvitation.groupId, true, selectedDeviceId);
     if (error)
       return Alert.alert(error.message);
 
     setSelectedInvitation(null);
-    setTemporaryDeviceId('');
   };
 
   const handleCancelAccept = () => {
     setSelectedInvitation(null);
-
-    if (temporaryDeviceId)
-      setTemporaryDeviceId('');
   };
 
   return (
@@ -76,22 +66,11 @@ export function InvitationsScreen() {
             onSubmit={handleAccept}
             onCancel={handleCancelAccept}
           >
-            <Dropdown
-              open={pickerIsOpen}
-              value={pickerValue}
+            <DropdownPicker
+              selectedItem={selectedPickerItem}
               items={pickerItems}
-              setOpen={setPickerIsOpen}
-              setValue={setPickerValue}
-              top={false}
+              onSelectItem={setSelectedPickerItem}
             />
-           {/*  <FormTextInput
-              placeholder='Device ID to join with'
-              value={temporaryDeviceId}
-              onChangeText={setTemporaryDeviceId}
-              autoCorrect={false}
-              autoCapitalize='none'
-            /> */}
-            {/* TEMPORARY (TODO: add dropdown for device names here) */}
           </ModalForm>
         </>
       )}

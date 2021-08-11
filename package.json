@@ -18,7 +18,6 @@
     "react-moment": "^1.1.1",
     "react-native": "0.64.2",
     "react-native-device-info": "^8.1.5",
-    "react-native-dropdown-picker": "^5.1.23",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-get-random-values": "^1.7.0",
     "react-native-location": "^2.5.0",

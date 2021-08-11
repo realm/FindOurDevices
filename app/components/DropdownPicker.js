@@ -7,12 +7,7 @@ import { DropdownPickerItem } from './DropdownPickerItem';
 import fonts from '../styles/fonts';
 import colors from '../styles/colors';
 
-export function DropdownPicker({
-  selectedItem,
-  items,
-  onSelectItem,
-  openItemsDownward = true
-}) {
+export function DropdownPicker({ selectedItem, items, onSelectItem, openItemsDownward = true }) {
   const { isOn: isOpen, toggle: toggleOpen, turnOff: close } = useToggle(false);
 
   return (
@@ -39,7 +34,8 @@ export function DropdownPicker({
         style={[
           styles.item,
           styles.selectedItem,
-          isOpen && (openItemsDownward ? styles.selectedItemOnOpenDownward : styles.selectedItemOnOpenUpward)]}
+          isOpen && (openItemsDownward ? styles.selectedItemOnOpenDownward : styles.selectedItemOnOpenUpward)
+        ]}
       >
         <Text style={styles.label}>
           {selectedItem?.label || 'Select'}

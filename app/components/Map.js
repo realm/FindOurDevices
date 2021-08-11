@@ -16,7 +16,6 @@ import colors from '../styles/colors';
 const PICKER_VALUE_ALL_MARKERS = 'all';
 
 export function Map({ markers, pluralItemType, onBackPress }) {
-  //const [pickerIsOpen, setPickerIsOpen] = useState(false);
   const [selectedPickerItem, setSelectedPickerItem] = useState({ label: `All ${pluralItemType}`, value: PICKER_VALUE_ALL_MARKERS });
   const [pickerItems, setPickerItems] = useState([]);
   const mapViewRef = useRef(null);

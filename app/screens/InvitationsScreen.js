@@ -34,9 +34,7 @@ export function InvitationsScreen() {
     setSelectedInvitation(null);
   };
 
-  const handleCancelAccept = () => {
-    setSelectedInvitation(null);
-  };
+  const handleCancelAccept = () => setSelectedInvitation(null);
 
   return (
     <View style={styles.screen}>

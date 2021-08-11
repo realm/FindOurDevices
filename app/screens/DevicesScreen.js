@@ -35,6 +35,7 @@ export function DevicesScreen({ navigation }) {
             onPress: (device) => console.log(`Pressed btn to remove ${device.name}.`)
           }
         ]}
+        emptyListText='Add your first device.'
       />
       <View style={styles.buttonContainer}>
         <Button

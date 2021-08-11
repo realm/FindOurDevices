@@ -56,6 +56,7 @@ export function InvitationsScreen() {
                 onPress: (invitation) => respondToInvitation(invitation.groupId, false)
               }
             ]}
+            emptyListText='You currently have no invitations.'
           />
           <ModalForm
             visible={!!selectedInvitation}

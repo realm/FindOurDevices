@@ -76,6 +76,7 @@ export function GroupsScreen({ navigation, setGroupId }) {
               onPress: (group) => handleRemoveGroup(group.groupId)
             }
           ]}
+          emptyListText='Create a group.'
         />
       )}
     </View>

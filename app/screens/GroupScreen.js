@@ -99,6 +99,7 @@ export function GroupScreen({ navigation }) {
               onPress: (member) => handleRemoveMember(member.userId)
             }
           ]}
+          emptyListText='Invite another member.'
         />
         </>
       )}

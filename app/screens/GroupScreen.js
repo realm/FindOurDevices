@@ -101,18 +101,15 @@ export function GroupScreen({ navigation }) {
               ]}
               emptyListText='Invite another member.'
             />
+            <View style={styles.buttonContainer}>
+              <Button
+                text='View Map'
+                onPress={() => navigation.navigate(routes.GROUP_MAP)}
+                style={{ marginBottom: 30 }}
+              />
+            </View>
           </>
         )}
-        {
-          group &&
-          <View style={styles.buttonContainer}>
-            <Button
-              text='View Map'
-              onPress={() => navigation.navigate(routes.GROUP_MAP)}
-              style={{ marginBottom: 30 }}
-            />
-          </View>
-        }
       </View>
       <ModalForm
         visible={modalVisible}

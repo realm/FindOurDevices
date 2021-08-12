@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useLayoutEffect } from 'react';
+import React, { useState, useMemo, useLayoutEffect, useEffect } from 'react';
 import { Text, View, Alert, Pressable, StyleSheet } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -17,7 +17,7 @@ import fonts from '../styles/fonts';
 
 export function GroupScreen({ navigation }) {
   const { userData } = useAuth();
-  const group = useGroup();
+  const { group, wasUserRemovedFromGroup, wasGroupDeleted } = useGroup();
   const { inviteGroupMember, removeGroupMember, setShareLocation } = useGroupManager();
   const [newMemberEmail, setNewMemberEmail] = useState('');
   const { isOn: modalVisible, turnOff: closeModal } = useToggle(false, navigation, 'plus-circle');
@@ -27,6 +27,18 @@ export function GroupScreen({ navigation }) {
     // we need to define the header options using 'navigation.setOptions' inside this component.
     navigation.setOptions({ headerTitle: group ? group.name : 'Loading...' });
   }, [navigation, group]);
+
+  // React to user being removed from the group or the group being deleted
+  useEffect(() => {
+    if (wasUserRemovedFromGroup) {
+      navigation.navigate(routes.GROUPS);
+      return Alert.alert(`You were removed from the group`);
+    }
+    if (wasGroupDeleted) {
+      navigation.navigate(routes.GROUPS);
+      return Alert.alert(`Group was deleted by the owner`);
+    }
+  }, [wasUserRemovedFromGroup, wasGroupDeleted]);
 
   const handleInviteMember = async () => {
     if (!newMemberEmail)

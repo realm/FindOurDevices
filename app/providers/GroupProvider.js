@@ -14,13 +14,15 @@ const GroupContext = createContext();
 function GroupProvider({ children, groupId }) {
   const { realmUser } = useAuth();
   const [group, setGroup] = useState(null);
+  const [wasUserRemovedFromGroup, setWasUserRemovedFromGroup] = useState(false);
+  const [wasGroupDeleted, setWasGroupDeleted] = useState(false);
   const realmRef = useRef();
   const subscriptionRef = useRef(null);
 
   useEffect(() => {
     if (!realmUser || !groupId)
       return;
-    
+
     openRealm();
 
     return closeRealm;
@@ -53,16 +55,25 @@ function GroupProvider({ children, groupId }) {
       // Temporary workaround: Use collection listener
       // TODO: Change this to get object directly, instead of array (w/ objectForPrimaryKey)
       const groups = realm.objects('Group').filtered('_id = $0', groupId);
-      
+
       subscriptionRef.current = groups;
-      
+
       if (groups?.length)
         setGroup(groups[0]);
 
-      groups.addListener((/*collection, changes*/) => {
-        // TODO: handle group being deleted
+      groups.addListener((groups, changes) => {
+        // Group was modified
+        changes.modifications.forEach((index) => {
+          const modifiedGroup = groups[index];
+          setWasUserRemovedFromGroup(!modifiedGroup.members.some(member => member.userId.toString() === realmUser.id));
+        });
 
         setGroup(realm.objectForPrimaryKey('Group', groupId));
+
+        // Group was deleted
+        changes.deletions.forEach(() => {
+          setWasGroupDeleted(true);
+        });
       });
     }
     catch (err) {
@@ -81,7 +92,11 @@ function GroupProvider({ children, groupId }) {
   };
 
   return (
-    <GroupContext.Provider value={group}>
+    <GroupContext.Provider value={{
+      group,
+      wasUserRemovedFromGroup,
+      wasGroupDeleted
+    }}>
       {children}
     </GroupContext.Provider>
   )

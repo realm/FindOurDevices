@@ -4,7 +4,7 @@ import { useGroup } from '../providers/GroupProvider';
 import { Map } from '../components/Map';
 
 export function GroupMapScreen({ navigation }) {
-  const group = useGroup();
+  const { group } = useGroup();
 
   // Filter out the members that have their location set, then
   // map each to an object that the Map component expects.

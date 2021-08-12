@@ -20,7 +20,7 @@ export function GroupScreen({ navigation }) {
   const group = useGroup();
   const { inviteGroupMember, removeGroupMember, setShareLocation } = useGroupManager();
   const [newMemberEmail, setNewMemberEmail] = useState('');
-  const { isOn: modalVisible, turnOff: closeModal }= useToggle(false, navigation, 'plus-circle');
+  const { isOn: modalVisible, turnOff: closeModal } = useToggle(false, navigation, 'plus-circle');
 
   useLayoutEffect(() => {
     // In order to set header options based on information available only in this component
@@ -58,7 +58,7 @@ export function GroupScreen({ navigation }) {
   // Every GroupMembership object in the user's "groups" array contains the field "shareLocation"
   const shareLocation = useMemo(() => userData.groups
     .filter(groupMembership => groupMembership.groupId.toString() === group?._id.toString())[0]?.shareLocation
-  , [userData, group]);
+    , [userData, group]);
 
   const handleSetShareLocation = async () => {
     const { error } = await setShareLocation(group._id, !shareLocation);
@@ -68,66 +68,69 @@ export function GroupScreen({ navigation }) {
 
   return (
     <>
-    <View style={styles.screen}>
-      {group && (
-        <>
-        <View style={styles.infoContainer}>
-          <Text
-            numberOfLines={1}
-            style={styles.infoText}
-          >
-            Location sharing:
-          </Text>
-          <Pressable onPress={handleSetShareLocation}>
-            <View style={styles.infoIconContainer}>
-              <MaterialCommunityIcons
-                name={shareLocation ? 'eye-outline' : 'eye-off-outline'}
-                color={shareLocation ? colors.primary : colors.grayMedium}
-                size={25}
-              />
+      <View style={styles.screen}>
+        {group && (
+          <>
+            <View style={styles.infoContainer}>
+              <Text
+                numberOfLines={1}
+                style={styles.infoText}
+              >
+                Location sharing:
+              </Text>
+              <Pressable onPress={handleSetShareLocation}>
+                <View style={styles.infoIconContainer}>
+                  <MaterialCommunityIcons
+                    name={shareLocation ? 'eye-outline' : 'eye-off-outline'}
+                    color={shareLocation ? colors.primary : colors.grayMedium}
+                    size={25}
+                  />
+                </View>
+              </Pressable>
             </View>
-          </Pressable>
-        </View>
-        <ItemSeparator />
-        <List
-          items={group.members}
-          keyExtractor={(member) => member.userId.toString()}
-          itemTextExtractor={(member) => member.displayName}
-          rightActions={[
-            {
-              actionType: 'remove-member',
-              onPress: (member) => handleRemoveMember(member.userId)
-            }
-          ]}
-          emptyListText='Invite another member.'
-        />
-        </>
-      )}
-      <View style={styles.buttonContainer}>
-        <Button
-          text='View Map'
-          onPress={() => navigation.navigate(routes.GROUP_MAP)}
-          style={{ marginBottom: 30 }}
-        />
+            <ItemSeparator />
+            <List
+              items={group.members}
+              keyExtractor={(member) => member.userId.toString()}
+              itemTextExtractor={(member) => member.displayName}
+              rightActions={[
+                {
+                  actionType: 'remove-member',
+                  onPress: (member) => handleRemoveMember(member.userId)
+                }
+              ]}
+              emptyListText='Invite another member.'
+            />
+          </>
+        )}
+        {
+          group &&
+          <View style={styles.buttonContainer}>
+            <Button
+              text='View Map'
+              onPress={() => navigation.navigate(routes.GROUP_MAP)}
+              style={{ marginBottom: 30 }}
+            />
+          </View>
+        }
       </View>
-    </View>
-    <ModalForm
-      visible={modalVisible}
-      title='Invite Member'
-      submitText='Invite'
-      onSubmit={handleInviteMember}
-      onCancel={handleCancelInviteMember}
-    >
-      <FormTextInput
-        placeholder='Email'
-        value={newMemberEmail}
-        onChangeText={setNewMemberEmail}
-        autoCorrect={false}
-        autoCapitalize='none'
-        keyboardType='email-address'
-        textContentType='emailAddress'  // iOS only
-      />
-    </ModalForm>
+      <ModalForm
+        visible={modalVisible}
+        title='Invite Member'
+        submitText='Invite'
+        onSubmit={handleInviteMember}
+        onCancel={handleCancelInviteMember}
+      >
+        <FormTextInput
+          placeholder='Email'
+          value={newMemberEmail}
+          onChangeText={setNewMemberEmail}
+          autoCorrect={false}
+          autoCapitalize='none'
+          keyboardType='email-address'
+          textContentType='emailAddress'  // iOS only
+        />
+      </ModalForm>
     </>
   );
 }

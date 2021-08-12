@@ -15,6 +15,7 @@ function GroupProvider({ children, groupId }) {
   const { realmUser } = useAuth();
   const [group, setGroup] = useState(null);
   const realmRef = useRef();
+  const subscriptionRef = useRef(null);
 
   useEffect(() => {
     if (!realmUser || !groupId)
@@ -52,6 +53,9 @@ function GroupProvider({ children, groupId }) {
       // Temporary workaround: Use collection listener
       // TODO: Change this to get object directly, instead of array (w/ objectForPrimaryKey)
       const groups = realm.objects('Group').filtered('_id = $0', groupId);
+      
+      subscriptionRef.current = groups;
+      
       if (groups?.length)
         setGroup(groups[0]);
 
@@ -67,14 +71,12 @@ function GroupProvider({ children, groupId }) {
   };
 
   const closeRealm = () => {
-    console.log('Closing group realm');
-
     const realm = realmRef.current;
-    //realm?.objectForPrimaryKey('Group', groupId).removeAllListeners(); // TODO: Add this if object listener issue is solved
-    realm?.objects('Group').removeAllListeners();
-    realm?.removeAllListeners();
+    const subscription = subscriptionRef.current;
+    subscription?.removeAllListeners();
     realm?.close();
     realmRef.current = null;
+    subscriptionRef.current = null;
     setGroup(null);
   };
 

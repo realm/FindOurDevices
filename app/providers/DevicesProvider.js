@@ -18,6 +18,7 @@ function DevicesProvider({ children }) {
   const [currentIosOrAndroidId] = useState(getUniqueId());
   const [devices, setDevices] = useState([]);
   const realmRef = useRef(null);
+  const subscriptionRef = useRef(null);
 
   useEffect(() => {
     if (!realmUser)
@@ -61,6 +62,9 @@ function DevicesProvider({ children }) {
       realmRef.current = realm;
 
       const devices = realm.objects('Device');
+
+      subscriptionRef.current = devices;
+
       if (devices?.length)
         setDevices(devices);
 
@@ -79,10 +83,11 @@ function DevicesProvider({ children }) {
 
   const closeRealm = () => {
     const realm = realmRef.current;
-    realm?.objects('Device').removeAllListeners();
-    realm?.removeAllListeners();
+    const subscription = subscriptionRef.current;
+    subscription?.removeAllListeners();
     realm?.close();
     realmRef.current = null;
+    subscriptionRef.current = null;
     setDevices([]);
   };
 

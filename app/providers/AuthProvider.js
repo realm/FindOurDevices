@@ -18,6 +18,8 @@ function AuthProvider({ children }) {
   // We store a reference to our realm using useRef that allows us to access it via
   // realmRef.current for the component's lifetime without causing rerenders if updated.
   const realmRef = useRef(null);
+  
+  const subscriptionRef = useRef(null);
 
   useEffect(() => {
     // The user will be set once it logs in
@@ -62,6 +64,9 @@ function AuthProvider({ children }) {
       const userId = BSON.ObjectId(realmUser.id);
       //const user = realm.objectForPrimaryKey('User', userId); // NOTE: Object listener not working for embedded docs when changed by backend function
       const users = realm.objects('User').filtered('_id = $0', userId);
+      
+      subscriptionRef.current = users;
+      
       if (users?.length)
         setUserData(users[0]);
 
@@ -82,11 +87,11 @@ function AuthProvider({ children }) {
 
   const closeRealm = () => {
     const realm = realmRef.current;
-    //realm?.objectForPrimaryKey('User', BSON.ObjectId(realmUser.id)).removeAllListeners(); // TODO: Add this if object listener issue is solved
-    realm?.objects('User').removeAllListeners();
-    realm?.removeAllListeners();
+    const subscription = subscriptionRef.current;
+    subscription?.removeAllListeners();
     realm?.close();
     realmRef.current = null;
+    subscriptionRef.current = null;
     setUserData(null);
   };
   

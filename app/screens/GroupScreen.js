@@ -1,6 +1,5 @@
 import React, { useState, useMemo, useLayoutEffect } from 'react';
 import { Text, View, Alert, Pressable, StyleSheet } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { useAuth } from '../providers/AuthProvider';
 import { useGroup } from '../providers/GroupProvider';
@@ -8,6 +7,7 @@ import { useGroupManager } from '../hooks/useGroupManager';
 import { useToggle } from '../hooks/useToggle';
 import { Button } from '../components/Button';
 import { FormTextInput } from '../components/FormTextInput';
+import { Icon } from '../components/Icon';
 import { List } from '../components/List';
 import { ItemSeparator } from '../components/ItemSeparator';
 import { ModalForm } from '../components/ModalForm';
@@ -20,7 +20,7 @@ export function GroupScreen({ navigation }) {
   const group = useGroup();
   const { inviteGroupMember, removeGroupMember, setShareLocation } = useGroupManager();
   const [newMemberEmail, setNewMemberEmail] = useState('');
-  const { isOn: modalVisible, turnOff: closeModal } = useToggle(false, navigation, 'plus-circle');
+  const { isOn: modalVisible, turnOff: closeModal } = useToggle(false, navigation, 'account-plus');
 
   useLayoutEffect(() => {
     // In order to set header options based on information available only in this component
@@ -56,9 +56,10 @@ export function GroupScreen({ navigation }) {
   };
 
   // Every GroupMembership object in the user's "groups" array contains the field "shareLocation"
-  const shareLocation = useMemo(() => userData.groups
-    .filter(groupMembership => groupMembership.groupId.toString() === group?._id.toString())[0]?.shareLocation
-    , [userData, group]);
+  const shareLocation = useMemo(
+    () => userData.groups.filter(groupMembership => groupMembership.groupId.toString() === group?._id.toString())[0]?.shareLocation,
+    [userData, group]
+  );
 
   const handleSetShareLocation = async () => {
     const { error } = await setShareLocation(group._id, !shareLocation);
@@ -80,7 +81,7 @@ export function GroupScreen({ navigation }) {
               </Text>
               <Pressable onPress={handleSetShareLocation}>
                 <View style={styles.infoIconContainer}>
-                  <MaterialCommunityIcons
+                  <Icon
                     name={shareLocation ? 'eye-outline' : 'eye-off-outline'}
                     color={shareLocation ? colors.primary : colors.grayMedium}
                     size={25}

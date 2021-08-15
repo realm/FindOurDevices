@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, { useMemo } from 'react';
 
 import { useDevices } from '../providers/DevicesProvider';
 import { Map } from '../components/Map';

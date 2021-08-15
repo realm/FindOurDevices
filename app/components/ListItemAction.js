@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Pressable, StyleSheet } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import { Icon } from './Icon';
 import colors from '../styles/colors';
 
 export function ListItemAction({ action, onPress }) {
-  const getIconNameAndColor = () => {
+  const iconNameAndColor = useMemo(() => {
     switch (action) {
       case 'remove':
         return { name: 'trash-can-outline', color: colors.red }
@@ -22,7 +22,7 @@ export function ListItemAction({ action, onPress }) {
       default:
         throw new Error('Unsupported list item action type: ', action);
     }
-  }
+  }, [action]);
 
   return (
     <Pressable
@@ -30,8 +30,8 @@ export function ListItemAction({ action, onPress }) {
       style={({ pressed }) => pressed ? { opacity: 0.2 } : {}}
     >
       <View style={styles.container}>
-        <MaterialCommunityIcons
-          {...getIconNameAndColor()}
+        <Icon
+          {...iconNameAndColor}
           size={25}
         />
       </View>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, Platform } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import { Icon } from './Icon';
 import colors from '../styles/colors';
 
 export function HeaderButton({ iconName, onPress }) {
@@ -10,7 +10,7 @@ export function HeaderButton({ iconName, onPress }) {
       onPress={onPress}
       style={styles.button}
     >
-      <MaterialCommunityIcons
+      <Icon
         name={iconName}
         color={colors.primary}
         size={30}

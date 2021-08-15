@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import { Icon } from './Icon';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
@@ -39,7 +39,7 @@ export function ListItem({
               </Text>
             ) : <></>}
           </View>
-          <MaterialCommunityIcons
+          <Icon
             name='chevron-left'
             color={colors.grayMedium}
             size={30}

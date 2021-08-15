@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { StyleSheet, Platform } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { GroupProvider } from '../providers/GroupProvider';
 import { GroupsScreen } from '../screens/GroupsScreen';
 import { GroupScreen } from '../screens/GroupScreen';
 import { GroupMapScreen } from '../screens/GroupMapScreen';
+import { Icon } from '../components/Icon';
 import routes from './routes';
 import colors from '../styles/colors';
 
@@ -57,7 +57,7 @@ export function GroupsNavigator() {
                 options={{
                   headerBackTitleVisible: false,
                   headerBackImage: ({/* tintColor */ }) => (
-                    <MaterialCommunityIcons
+                    <Icon
                       name='chevron-left'
                       color={colors.primary}
                       size={30}

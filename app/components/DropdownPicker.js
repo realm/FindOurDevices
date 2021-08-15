@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, Pressable, Platform } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { useToggle } from '../hooks/useToggle';
+import { Icon } from './Icon';
 import { DropdownPickerItem } from './DropdownPickerItem';
 import fonts from '../styles/fonts';
 import colors from '../styles/colors';
@@ -46,7 +46,7 @@ export function DropdownPicker({
         <Text style={styles.label}>
           {selectedItem?.label || noSelectedItemText}
         </Text>
-        <MaterialCommunityIcons
+        <Icon
           name={isOpen ? 'chevron-up' : 'chevron-down'}
           color={colors.grayDark}
           size={18}

@@ -1,8 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { View, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
 import MapView from 'react-native-maps-osmdroid';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import { Icon } from './Icon';
 import { MapMarker } from './MapMarker';
 import { DropdownPicker } from './DropdownPicker';
 import colors from '../styles/colors';
@@ -97,7 +97,7 @@ export function Map({ markers, pluralItemType, onBackPress }) {
         style={[styles.backButton, styles.shadow]}
         onPress={onBackPress}
       >
-        <MaterialCommunityIcons
+        <Icon
           name='arrow-left'
           color={colors.white}
           size={30}

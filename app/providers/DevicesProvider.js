@@ -48,9 +48,9 @@ function DevicesProvider({ children }) {
           user: realmUser,
           partitionValue: `device=${realmUser.id}`,
           error: (session, syncError) => {
-            console.error('syncError.name: ', syncError.name);
+            console.error('Sync error name: ', syncError.name);
             if (syncError.message)
-              console.error('syncError.message: ', message);
+              console.error('Sync error message: ', message);
           }
         }
       };

@@ -41,9 +41,9 @@ function AuthProvider({ children }) {
           partitionValue: `user=${realmUser.id}`,
           // Add a callback on the 'error' property to log any sync errors while developing
           error: (session, syncError) => {
-            console.error('syncError.name: ', syncError.name);
+            console.error('Sync error name: ', syncError.name);
             if (syncError.message)
-              console.error('syncError.message: ', message);
+              console.error('Sync error message: ', message);
           }
         }
       };

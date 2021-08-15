@@ -45,17 +45,22 @@ function AuthProvider({ children }) {
             if (syncError.message)
               console.error('Sync error message: ', message);
           }
+        },
+        // We can specify the behavior when opening a realm for the first time
+        // ('newRealmFileBehavior') and for subsequent ones ('existingRealmFileBehavior').
+        // If the user has logged in at least 1 time before, the realm will exist on disk
+        // and can be opened even when offline.
+        // We can either create the new file and sync in the background ('openImmediately'),
+        // or wait for the file to be synced ('downloadBeforeOpen')
+        newRealmFileBehavior: {
+          type: 'openImmediately'
+        },
+        existingRealmFileBehavior: {
+          type: 'openImmediately'
         }
       };
 
-      // If the realm already exists on disk, it means the user has logged in
-      // at least 1 time before. Thus, you may then open the realm synchronously
-      // to make sure it works even when offline. If it does not exist,
-      // open it asynchronusly to sync data from the server to the device
-      const realm = Realm.exists(config)
-        ? new Realm(config)
-        : await Realm.open(config);
-
+      const realm = await Realm.open(config);
       realmRef.current = realm;
 
       // When querying a realm to find objects (e.g. realm.objects('User')) the result we get back

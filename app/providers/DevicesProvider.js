@@ -52,13 +52,16 @@ function DevicesProvider({ children }) {
             if (syncError.message)
               console.error('Sync error message: ', message);
           }
+        },
+        newRealmFileBehavior: {
+          type: 'openImmediately'
+        },
+        existingRealmFileBehavior: {
+          type: 'openImmediately'
         }
       };
 
-      const realm = Realm.exists(config)
-        ? new Realm(config)
-        : await Realm.open(config);
-
+      const realm = await Realm.open(config);
       realmRef.current = realm;
 
       const devices = realm.objects('Device');

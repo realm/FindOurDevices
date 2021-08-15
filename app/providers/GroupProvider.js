@@ -34,19 +34,21 @@ function GroupProvider({ children, groupId }) {
         sync: {
           user: realmUser,
           partitionValue: `group=${groupId.toString()}`,
-          // Add a callback on the 'error' property to log any sync errors while developing
           error: (session, syncError) => {
             console.error('Sync error name: ', syncError.name);
             if (syncError.message)
               console.error('Sync error message: ', message);
           }
+        },
+        newRealmFileBehavior: {
+          type: 'openImmediately'
+        },
+        existingRealmFileBehavior: {
+          type: 'openImmediately'
         }
       };
 
-      const realm = Realm.exists(config)
-        ? new Realm(config)
-        : await Realm.open(config);
-
+      const realm = await Realm.open(config);
       realmRef.current = realm;
 
       // NOTE: Object listener not firing when object is changed via a trigger function.

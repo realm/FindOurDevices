@@ -79,14 +79,18 @@ export function GroupScreen({ navigation }) {
               >
                 Location sharing:
               </Text>
-              <Pressable onPress={handleSetShareLocation}>
-                <View style={styles.infoIconContainer}>
-                  <Icon
-                    name={shareLocation ? 'eye-outline' : 'eye-off-outline'}
-                    color={shareLocation ? colors.primary : colors.grayMedium}
-                    size={25}
-                  />
-                </View>
+              <Pressable
+                onPress={handleSetShareLocation}
+                style={({ pressed }) => ([
+                  styles.infoIconContainer,
+                  pressed && styles.pressed
+                ])}
+              >
+                <Icon
+                  name={shareLocation ? 'eye-outline' : 'eye-off-outline'}
+                  color={shareLocation ? colors.primary : colors.grayMedium}
+                  size={25}
+                />
               </Pressable>
             </View>
             <ItemSeparator />
@@ -161,5 +165,8 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginHorizontal: 15
+  },
+  pressed: {
+    opacity: 0.2
   }
 });

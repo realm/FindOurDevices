@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { View, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Dimensions, StyleSheet, Pressable } from 'react-native';
 import MapView from 'react-native-maps-osmdroid';
 
 import { Icon } from './Icon';
@@ -93,16 +93,20 @@ export function Map({ markers, pluralItemType, onBackPress }) {
           noSelectedItemText='Select marker'
         />
       </View>
-      <TouchableOpacity
-        style={[styles.backButton, styles.shadow]}
+      <Pressable
         onPress={onBackPress}
+        style={({ pressed }) => ([
+          styles.backButton,
+          styles.shadow,
+          pressed && styles.pressed
+        ])}
       >
         <Icon
           name='arrow-left'
           color={colors.white}
           size={30}
         />
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 }
@@ -128,6 +132,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.primary,
     borderRadius: 30
+  },
+  pressed: {
+    opacity: 0.2
   },
   dropdownContainer: {
     width: Dimensions.get('window').width - 60,

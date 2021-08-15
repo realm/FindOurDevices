@@ -17,10 +17,7 @@ export function ListItem({
     <Swipeable renderRightActions={renderRightActions}>
       <Pressable
         onPress={onPress}
-        style={({ pressed }) => pressed
-          ? { opacity: fadeOnPress ? 0.2 : 1 }
-          : {}
-        }
+        style={({ pressed }) => ({ opacity: pressed && fadeOnPress ? 0.2 : 1 })}
       >
         <View style={styles.container}>
           <View>

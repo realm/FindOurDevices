@@ -1,21 +1,24 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet, Platform } from 'react-native';
+import { Pressable, StyleSheet, Platform } from 'react-native';
 
 import { Icon } from './Icon';
 import colors from '../styles/colors';
 
 export function HeaderButton({ iconName, onPress }) {
   return (
-    <TouchableOpacity
+    <Pressable
       onPress={onPress}
-      style={styles.button}
+      style={({ pressed }) => ([
+        styles.button,
+        pressed && styles.pressed
+      ])}
     >
       <Icon
         name={iconName}
         color={colors.primary}
         size={30}
       />
-    </TouchableOpacity>
+    </Pressable>
   );
 }
 
@@ -37,4 +40,7 @@ const styles = StyleSheet.create({
       },
     })
   },
+  pressed: {
+    opacity: 0.2
+  }
 });

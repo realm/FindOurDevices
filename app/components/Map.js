@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { View, Dimensions, StyleSheet, Pressable } from 'react-native';
+import { View, StyleSheet, Pressable } from 'react-native';
 import MapView from 'react-native-maps-osmdroid';
 
 import { Icon } from './Icon';
@@ -119,8 +119,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   map: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height
+    width: '100%',
+    height: '100%'
   },
   backButton: {
     width: 50,
@@ -137,7 +137,8 @@ const styles = StyleSheet.create({
     opacity: 0.2
   },
   dropdownContainer: {
-    width: Dimensions.get('window').width - 60,
+    width: '100%',
+    paddingHorizontal: 30,
     position: 'absolute',
     bottom: 30
   }

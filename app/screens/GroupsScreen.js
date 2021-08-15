@@ -105,6 +105,7 @@ export function GroupsScreen({ navigation, setGroupId }) {
           selectedItem={selectedPickerItem}
           items={pickerItems}
           onSelectItem={setSelectedPickerItem}
+          noSelectedItemText='Select device to join with'
         />
       </ModalForm>
     </>

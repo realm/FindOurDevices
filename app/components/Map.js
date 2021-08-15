@@ -90,6 +90,7 @@ export function Map({ markers, pluralItemType, onBackPress }) {
           items={pickerItems}
           onSelectItem={setSelectedPickerItem}
           openItemsDownward={false}
+          noSelectedItemText='Select marker'
         />
       </View>
       <TouchableOpacity

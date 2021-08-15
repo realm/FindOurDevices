@@ -62,12 +62,10 @@ function DevicesProvider({ children }) {
       realmRef.current = realm;
 
       const devices = realm.objects('Device');
-
-      subscriptionRef.current = devices;
-
       if (devices?.length)
         setDevices(devices);
-
+      
+      subscriptionRef.current = devices;
       devices.addListener((/*collection, changes*/) => {
         // If wanting to handle deletions, insertions, and modifications differently
         // you can access them through the two arguments. (Always handle them in the
@@ -82,12 +80,13 @@ function DevicesProvider({ children }) {
   };
 
   const closeRealm = () => {
-    const realm = realmRef.current;
     const subscription = subscriptionRef.current;
     subscription?.removeAllListeners();
+    subscriptionRef.current = null;
+
+    const realm = realmRef.current;
     realm?.close();
     realmRef.current = null;
-    subscriptionRef.current = null;
     setDevices([]);
   };
 
@@ -124,8 +123,6 @@ function DevicesProvider({ children }) {
   };
 
   const addCurrentDevice = async () => {
-    console.log('current device location: ', currentDeviceLocation);  // TEMPORARY (add getLatestLocation in useLocation to update immediately)
-
     const realm = realmRef.current;
     if (!realm)
       return;

@@ -53,15 +53,11 @@ function GroupProvider({ children, groupId }) {
       // Temporary workaround: Use collection listener
       // TODO: Change this to get object directly, instead of array (w/ objectForPrimaryKey)
       const groups = realm.objects('Group').filtered('_id = $0', groupId);
-      
-      subscriptionRef.current = groups;
-      
       if (groups?.length)
         setGroup(groups[0]);
-
+      
+      subscriptionRef.current = groups;
       groups.addListener((/*collection, changes*/) => {
-        // TODO: handle group being deleted
-
         setGroup(realm.objectForPrimaryKey('Group', groupId));
       });
     }
@@ -71,12 +67,13 @@ function GroupProvider({ children, groupId }) {
   };
 
   const closeRealm = () => {
-    const realm = realmRef.current;
     const subscription = subscriptionRef.current;
     subscription?.removeAllListeners();
+    subscriptionRef.current = null;
+    
+    const realm = realmRef.current;
     realm?.close();
     realmRef.current = null;
-    subscriptionRef.current = null;
     setGroup(null);
   };
 

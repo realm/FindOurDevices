@@ -20,16 +20,14 @@ export function useLocation() {
       return console.log('Location permission not granted.');
 
     // Set initial location
-    RNLocation.getLatestLocation({ timeout: 1000 })
-      .then(latestLocation => {
-        if (latestLocation) {
-          setLocation({
-            updatedAt: new Date(),
-            longitude: latestLocation.longitude,
-            latitude: latestLocation.latitude
-          })
-        }
-      })
+    const latestLocation = await RNLocation.getLatestLocation({ timeout: 3000 });
+    if (latestLocation) {
+      setLocation({
+        updatedAt: new Date(),
+        longitude: latestLocation.longitude,
+        latitude: latestLocation.latitude
+      });
+    }
 
     // The callback passed will be called everytime the device has moved METERS_BEFORE_UPDATING_LOCATION.
     // (The OS might batch location updates together, so our change handler may receive multiple location items)
@@ -77,3 +75,7 @@ export function useLocation() {
 
   return location;
 }
+
+// Currently we are not listening for potential permission status changes that the user
+// might do in the phone settings outside of the application scope. To handle such a
+// scenario, you may want to use RNLocation.subscribeToPermissionUpdates.

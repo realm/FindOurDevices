@@ -65,22 +65,22 @@ export function GroupsScreen({ navigation, setGroupId }) {
         {userData && (
           <List
             items={userData.groups}
-            keyExtractor={(group) => group.groupId.toString()}
-            itemTextExtractor={(group) => group.groupName}
-            onItemPress={(group) => {
+            keyExtractor={(groupMembership) => groupMembership.groupId.toString()}
+            itemTextExtractor={(groupMembership) => groupMembership.groupName}
+            onItemPress={(groupMembership) => {
               // When the groupId is set, GroupsNavigator rerenders and passes the
               // new group id to the GroupsProvider, which opens the group realm.
-              setGroupId(group.groupId);
+              setGroupId(groupMembership.groupId);
               navigation.navigate(routes.GROUP);
             }}
             rightActions={[
               {
                 actionType: 'leave',
-                onPress: (group) => handleLeaveGroup(group.groupId)
+                onPress: (groupMembership) => handleLeaveGroup(groupMembership.groupId)
               },
               {
                 actionType: 'remove',
-                onPress: (group) => handleRemoveGroup(group.groupId)
+                onPress: (groupMembership) => handleRemoveGroup(groupMembership.groupId)
               }
             ]}
             emptyListText='Create a group.'

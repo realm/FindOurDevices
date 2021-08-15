@@ -146,11 +146,14 @@ function DevicesProvider({ children }) {
     });
   };
 
+  // TODO: add function "setDeviceName"
+
   return (
     <DevicesContext.Provider value={{
       devices,
       currentIosOrAndroidId,
-      addCurrentDevice
+      addCurrentDevice,
+      // TODO: export "setDeviceName"
     }}>
       {children}
     </DevicesContext.Provider>

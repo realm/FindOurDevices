@@ -66,8 +66,8 @@ export function Map({ markers, pluralItemType, onBackPress }) {
   };
 
   const markerColors = [
-    '#8922ec', '#161a58', '#e328f5', '#f3ac56', '#1177ee', '#00bf00',
-    '#a3e36c', '#ffbf00', '#00ffff', '#007fff', '#3d2b1f', '#b5a642'
+    '#8922ec', '#ffbf00', '#f3ac56', '#1177ee', '#00bf00', '#e328f5', 
+    '#007fff', '#00ffff', '#3d2b1f', '#b5a642' , '#a3e36c', '#161a58',
   ];
 
   return (

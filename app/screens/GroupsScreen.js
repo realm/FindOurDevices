@@ -47,14 +47,14 @@ export function GroupsScreen({ navigation, setGroupId }) {
       setNewGroupName('');
   };
 
-  const handleRemoveGroup = async (groupId) => {
-    const { error } = await removeGroup(groupId);
+  const handleRemoveGroup = async (groupMembership) => {
+    const { error } = await removeGroup(groupMembership.groupId);
     if (error)
       return Alert.alert(error.message);
   };
 
-  const handleLeaveGroup = async (groupId) => {
-    const { error } = await leaveGroup(groupId);
+  const handleLeaveGroup = async (groupMembership) => {
+    const { error } = await leaveGroup(groupMembership.groupId);
     if (error)
       return Alert.alert(error.message);
   };
@@ -76,11 +76,11 @@ export function GroupsScreen({ navigation, setGroupId }) {
             rightActions={[
               {
                 actionType: 'leave',
-                onPress: (groupMembership) => handleLeaveGroup(groupMembership.groupId)
+                onPress: handleLeaveGroup
               },
               {
                 actionType: 'remove',
-                onPress: (groupMembership) => handleRemoveGroup(groupMembership.groupId)
+                onPress: handleRemoveGroup
               }
             ]}
             emptyListText='Create a group.'

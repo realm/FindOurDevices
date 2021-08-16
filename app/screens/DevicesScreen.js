@@ -10,10 +10,11 @@ import { FormTextInput } from '../components/FormTextInput';
 import routes from '../navigation/routes';
 
 export function DevicesScreen({ navigation }) {
-  const { devices, currentIosOrAndroidId, addCurrentDevice/*, TODO: import "setDeviceName" */ } = useDevices();
+  const { devices, currentIosOrAndroidId, addCurrentDevice, setDeviceName } = useDevices();
   const [newDeviceName, setNewDeviceName] = useState('');
+  const [deviceToEdit, setDeviceToEdit] = useState(null);
   const { isOn: addDeviceModalVisible, turnOff: closeAddDeviceModal } = useToggle(false, navigation, 'plus-circle');
-  const { isOn: deviceNameModalVisible, turnOn: openDeviceNameModal, turnOff: closeDeviceNameModal } = useToggle(false);
+  const { isOn: editDeviceModalVisible, turnOn: openEditDeviceModal, turnOff: closeEditDeviceModal } = useToggle(false);
 
   const handleAddDevice = async () => {
     const res = await addCurrentDevice();
@@ -23,24 +24,34 @@ export function DevicesScreen({ navigation }) {
     closeAddDeviceModal();
   };
 
-  const handleSetNewDeviceName = async () => {
+  const handleEditDeviceName = (device) => {
+    setDeviceToEdit(device);
+    openEditDeviceModal();
+  };
+
+  const handleSaveDeviceName = () => {
+    if (!deviceToEdit)
+      return Alert.alert('Please select which device to edit.');
+  
     if (!newDeviceName)
       return Alert.alert('Please enter a name for the device.');
 
-    // TODO: uncomment after importing "setDeviceName"
-    // const res = await setDeviceName(newDeviceName);
-    // if (res?.error)
-    //   return Alert.alert(res.error.message);
+    const res = setDeviceName(deviceToEdit, newDeviceName);
+    if (res?.error)
+      return Alert.alert(res.error.message);
 
-    closeDeviceNameModal();
+    closeEditDeviceModal();
+    setDeviceToEdit(null);
     setNewDeviceName('');
   };
 
-  const handleCancelSetNewDeviceName = () => {
-    closeDeviceNameModal();
+  const handleCancelEditDeviceName = () => {
+    closeEditDeviceModal();
 
-    if (newDeviceName)
+    if (deviceToEdit || newDeviceName) {
+      setDeviceToEdit(null);
       setNewDeviceName('');
+    }
   };
 
   return (
@@ -55,7 +66,7 @@ export function DevicesScreen({ navigation }) {
           rightActions={[
             {
               actionType: 'edit',
-              onPress: openDeviceNameModal
+              onPress: handleEditDeviceName
             }
           ]}
           emptyListText='Add your first device.'
@@ -78,11 +89,11 @@ export function DevicesScreen({ navigation }) {
         onCancel={closeAddDeviceModal}
       />
       <ModalForm
-        visible={deviceNameModalVisible}
+        visible={editDeviceModalVisible}
         title='New Device Name:'
         submitText='Save'
-        onSubmit={handleSetNewDeviceName}
-        onCancel={handleCancelSetNewDeviceName}
+        onSubmit={handleSaveDeviceName}
+        onCancel={handleCancelEditDeviceName}
       >
         <FormTextInput
           placeholder='Name'

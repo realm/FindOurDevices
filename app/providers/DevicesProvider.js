@@ -128,7 +128,7 @@ function DevicesProvider({ children }) {
   const addCurrentDevice = async () => {
     const realm = realmRef.current;
     if (!realm)
-      return;
+      return { error: { message: 'We have encountered an error.. Try again later.' } };
 
     const deviceAlreadyExists = devices.some(device => device.iosOrAndroidId === currentIosOrAndroidId);
     if (deviceAlreadyExists)
@@ -149,14 +149,22 @@ function DevicesProvider({ children }) {
     });
   };
 
-  // TODO: add function "setDeviceName"
+  const setDeviceName = (device, newName) => {
+    const realm = realmRef.current;
+    if (!realm)
+      return { error: { message: 'We have encountered an error.. Try again later.' } };
+
+    realm.write(() => {
+      device.name = newName;
+    });
+  };
 
   return (
     <DevicesContext.Provider value={{
       devices,
       currentIosOrAndroidId,
       addCurrentDevice,
-      // TODO: export "setDeviceName"
+      setDeviceName
     }}>
       {children}
     </DevicesContext.Provider>

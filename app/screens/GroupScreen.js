@@ -124,7 +124,7 @@ export function GroupScreen({ navigation }) {
         onCancel={handleCancelInviteMember}
       >
         <FormTextInput
-          placeholder='Email'
+          placeholder='Member Email'
           value={newMemberEmail}
           onChangeText={setNewMemberEmail}
           autoCorrect={false}

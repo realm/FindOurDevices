@@ -79,6 +79,7 @@ export function Map({ markers, pluralItemType, onBackPress }) {
         {markers.map((marker, idx) => (
           <MapMarker
             key={marker.id}
+            label={marker.label}
             location={marker}
             color={markerColors[idx % markerColors.length]}
           />

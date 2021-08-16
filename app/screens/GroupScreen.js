@@ -99,6 +99,7 @@ export function GroupScreen({ navigation }) {
               keyExtractor={(member) => member.userId.toString()}
               itemTextExtractor={(member) => member.displayName}
               itemSubTextExtractor={(member) => member.deviceName}
+              fadeOnPress={false}
               rightActions={[
                 {
                   actionType: 'remove-member',

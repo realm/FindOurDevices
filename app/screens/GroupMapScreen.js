@@ -15,7 +15,7 @@ export function GroupMapScreen({ navigation }) {
     ? group.members 
       .filter(member => member.location)
       .map(member => ({
-        id: member.deviceId.toString(),
+        id: member.userId.toString(),
         label: member.displayName,
         updatedAt: member.location.updatedAt,
         longitude: member.location.longitude,

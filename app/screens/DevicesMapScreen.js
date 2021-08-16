@@ -8,9 +8,11 @@ export function DevicesMapScreen({ navigation }) {
 
   const isCurrentDevice = (device) => device.iosOrAndroidId === currentIosOrAndroidId;
 
-  // Filter out the devices that have their location set, then
-  // map each to an object that the Map component expects.
-  // useMemo makes it so markers is not recreated with every render, but only when changes to "devices" happen
+  // Filter out the devices that have their location set, then map each to an object
+  // with fields that the Map component expects.
+  // "useMemo" returns the value that its callback returns and memoizes the result.
+  // This means that this component will not have to call "devices.filter(..).map(..)"
+  // on each rerender, only if the "devices" changes (as seen by the 2nd arg to "useMemo")
   const markers = useMemo(() => devices
     .filter(device => device.location)
     .map(device => ({

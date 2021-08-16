@@ -67,6 +67,7 @@ export function GroupsScreen({ navigation, setGroupId }) {
             items={userData.groups}
             keyExtractor={(groupMembership) => groupMembership.groupId.toString()}
             itemTextExtractor={(groupMembership) => groupMembership.groupName}
+            itemSubTextExtractor={(groupMembership) => groupMembership.isOwner ? 'Owner' : ''}
             onItemPress={(groupMembership) => {
               // When the groupId is set, GroupsNavigator rerenders and passes the
               // new group id to the GroupsProvider, which opens the group realm.

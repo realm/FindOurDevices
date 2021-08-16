@@ -3,16 +3,16 @@ class GroupMembership {
   /**
    * Create a GroupMembership.
    * @param {BSON.ObjectId} groupId - The id of the group.
-   * @param {string} groupPartition - The partition value to use on the realm.
    * @param {string} groupName - The group's name to be displayed.
    * @param {BSON.ObjectId} deviceId - The id of the user's device to be used in the group.
-   * @param {boolean} [shareLocation=true] - A boolean which tells if a user allows its location to be shared with the group.
+   * @param {boolean} - Whether or not the user is the owner of the group.
+   * @param {boolean} [shareLocation=true] - Whether or not the user allows its location to be shared with the group.
    */
-  constructor({ groupId, groupPartition, groupName, deviceId, shareLocation = true }) {
+  constructor({ groupId, groupName, deviceId, isOwner, shareLocation = true }) {
     this.groupId = groupId;
-    this.groupPartition = groupPartition;
     this.groupName = groupName;
     this.deviceId = deviceId;
+    this.isOwner = isOwner;
     this.shareLocation = shareLocation;
   }
 
@@ -22,9 +22,9 @@ class GroupMembership {
     embedded: true, // default: false
     properties: {
       groupId: 'objectId',
-      groupPartition: 'string',
       groupName: 'string',
       deviceId: 'objectId',
+      isOwner: 'bool',
       shareLocation: 'bool'
     }
   };

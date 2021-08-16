@@ -13,10 +13,10 @@ import colors from '../styles/colors';
 // 'react-native-maps' that let's us use OpenStreetMaps instead of Google Maps. (The library
 // API is mostly the same, thus the usage shown here is the same for 'react-native-maps'.)
 
-const PICKER_VALUE_ALL_MARKERS = 'all';
+const PICKER_VALUE_ALL_MARKERS = 0; // Represents and all markers view, all other markers start at index 1
 
 export function Map({ markers, pluralItemType, onBackPress }) {
-  const [selectedPickerItem, setSelectedPickerItem] = useState({ label: `All ${pluralItemType}`, value: PICKER_VALUE_ALL_MARKERS });
+  const [selectedPickerItem, setSelectedPickerItem] = useState(null);
   const [pickerItems, setPickerItems] = useState([]);
   const mapViewRef = useRef(null);
 
@@ -29,16 +29,24 @@ export function Map({ markers, pluralItemType, onBackPress }) {
   }, [selectedPickerItem, markers]);
 
   const createPickerItems = () => {
-    if (!markers.length)
+    if (!markers.length) {
+      setPickerItems([]);
+      setSelectedPickerItem(null);
       return;
+    }
 
     setPickerItems([
       { label: `All ${pluralItemType}`, value: PICKER_VALUE_ALL_MARKERS },
       ...markers.map((marker, idx) => ({ label: marker.label, value: idx + 1 }))
     ]);
+    setSelectedPickerItem({ label: `All ${pluralItemType}`, value: PICKER_VALUE_ALL_MARKERS });
   };
 
   const getSelectedMarker = () => {
+    // No markers exist or selected marker is invalid
+    if (markers.length === 0 || selectedPickerItem === null || selectedPickerItem.value > markers.length)
+      return null;
+
     // The picker values are 1-based numbers based of the 'markers' indexes
     return markers[selectedPickerItem.value - 1];
   };
@@ -54,10 +62,15 @@ export function Map({ markers, pluralItemType, onBackPress }) {
       });
     }
     else {
+      const selectedMarker = getSelectedMarker();
+
+      if (selectedMarker === null)
+        return;
+
       const ANIMATION_DURATION_MS = 1000;
       const newRegion = {
-        latitude: getSelectedMarker().latitude,
-        longitude: getSelectedMarker().longitude,
+        latitude: selectedMarker.latitude,
+        longitude: selectedMarker.longitude,
         latitudeDelta: 0.01,
         longitudeDelta: 0.001
       };
@@ -84,14 +97,17 @@ export function Map({ markers, pluralItemType, onBackPress }) {
           />
         ))}
       </MapView>
-      <View style={styles.dropdownContainer}>
-        <DropdownPicker
-          selectedItem={selectedPickerItem}
-          items={pickerItems}
-          onSelectItem={setSelectedPickerItem}
-          openItemsDownward={false}
-        />
-      </View>
+      {
+        markers.length > 0 &&
+        <View style={styles.dropdownContainer}>
+          <DropdownPicker
+            selectedItem={selectedPickerItem}
+            items={pickerItems}
+            onSelectItem={setSelectedPickerItem}
+            openItemsDownward={false}
+          />
+        </View>
+      }
       <TouchableOpacity
         style={[styles.backButton, styles.shadow]}
         onPress={onBackPress}

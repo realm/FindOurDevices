@@ -98,7 +98,6 @@ function DevicesProvider({ children }) {
     if (!realm)
       return;
 
-    // TODO: Place index on iosOrAndroidId
     // We can filter out the user's current device by passing the iOS or Android ID using
     // argument placeholders (e.g. $0, $1, $2, ...) in the query. 
     const currentDevice = realm.objects('Device').filtered('iosOrAndroidId = $0', currentIosOrAndroidId)[0];

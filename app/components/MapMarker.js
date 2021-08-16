@@ -19,10 +19,10 @@ export const MapMarker = memo(function MapMarker({ label, location, color }) {
     >
       <Callout>
         <View style={styles.calloutView}>
-          <Text style={styles.calloutText}>
+          <Text style={styles.calloutLabel}>
             { label }
           </Text>
-          <Text style={styles.calloutText}>
+          <Text style={styles.calloutTimestamp}>
             {'Updated'} <Moment element={Text} fromNow>{location.updatedAt}</Moment>
           </Text>
         </View>
@@ -35,7 +35,11 @@ const styles = StyleSheet.create({
   calloutView: {
     width: 200
   },
-  calloutText: {
+  calloutLabel : {
+    textAlign: 'center',
+    fontWeight: 'bold'
+  },
+  calloutTimestamp: {
     textAlign: 'center'
   }
 });

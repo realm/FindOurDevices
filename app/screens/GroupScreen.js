@@ -9,7 +9,7 @@ import { Button } from '../components/Button';
 import { FormTextInput } from '../components/FormTextInput';
 import { Icon } from '../components/Icon';
 import { List } from '../components/List';
-import { ItemSeparator } from '../components/ItemSeparator';
+import { ListItemSeparator } from '../components/ListItemSeparator';
 import { ModalForm } from '../components/ModalForm';
 import routes from '../navigation/routes';
 import colors from '../styles/colors';
@@ -93,7 +93,7 @@ export function GroupScreen({ navigation }) {
                 />
               </Pressable>
             </View>
-            <ItemSeparator />
+            <ListItemSeparator />
             <List
               items={group.members}
               keyExtractor={(member) => member.userId.toString()}

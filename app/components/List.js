@@ -3,7 +3,7 @@ import { Text, View, FlatList, StyleSheet } from 'react-native';
 
 import { ListItem } from './ListItem';
 import { ListItemAction } from './ListItemAction';
-import { ItemSeparator } from './ItemSeparator';
+import { ListItemSeparator } from './ListItemSeparator';
 import fonts from '../styles/fonts';
 import colors from '../styles/colors';
 
@@ -42,7 +42,7 @@ export function List({
               )}
             />
           )}
-          ItemSeparatorComponent={ItemSeparator}
+          ItemSeparatorComponent={ListItemSeparator}
         />
       ) : (
         <Text style={styles.info}>

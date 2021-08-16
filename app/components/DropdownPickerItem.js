@@ -5,6 +5,12 @@ import { Icon } from './Icon';
 import fonts from '../styles/fonts';
 import colors from '../styles/colors';
 
+/**
+ * Create a dropdown picker item option component.
+ * @param {string} label - The item label.
+ * @param {boolean} isSelected - A boolean which adds a checkmark to the item if true.
+ * @param {function} onPress - Callback function to be called when the item is pressed.
+ */
 export function DropdownPickerItem({ label, isSelected, onPress }) {
   return (
     <Pressable

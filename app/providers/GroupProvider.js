@@ -34,17 +34,17 @@ function GroupProvider({ children, groupId }) {
         sync: {
           user: realmUser,
           partitionValue: `group=${groupId.toString()}`,
+          newRealmFileBehavior: {
+            type: 'openImmediately'
+          },
+          existingRealmFileBehavior: {
+            type: 'openImmediately'
+          },
           error: (session, syncError) => {
             console.error('Sync error name: ', syncError.name);
             if (syncError.message)
               console.error('Sync error message: ', message);
           }
-        },
-        newRealmFileBehavior: {
-          type: 'openImmediately'
-        },
-        existingRealmFileBehavior: {
-          type: 'openImmediately'
         }
       };
 

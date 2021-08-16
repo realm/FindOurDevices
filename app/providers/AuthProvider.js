@@ -39,24 +39,24 @@ function AuthProvider({ children }) {
         sync: {
           user: realmUser,
           partitionValue: `user=${realmUser.id}`,
+          // We can specify the behavior when opening a realm for the first time
+          // ('newRealmFileBehavior') and for subsequent ones ('existingRealmFileBehavior').
+          // If the user has logged in at least 1 time before, the realm will exist on disk
+          // and can be opened even when offline.
+          // We can either create the new file and sync in the background ('openImmediately'),
+          // or wait for the file to be synced ('downloadBeforeOpen')
+          newRealmFileBehavior: {
+            type: 'openImmediately'
+          },
+          existingRealmFileBehavior: {
+            type: 'openImmediately'
+          },
           // Add a callback on the 'error' property to log any sync errors while developing
           error: (session, syncError) => {
             console.error('Sync error name: ', syncError.name);
             if (syncError.message)
               console.error('Sync error message: ', message);
           }
-        },
-        // We can specify the behavior when opening a realm for the first time
-        // ('newRealmFileBehavior') and for subsequent ones ('existingRealmFileBehavior').
-        // If the user has logged in at least 1 time before, the realm will exist on disk
-        // and can be opened even when offline.
-        // We can either create the new file and sync in the background ('openImmediately'),
-        // or wait for the file to be synced ('downloadBeforeOpen')
-        newRealmFileBehavior: {
-          type: 'openImmediately'
-        },
-        existingRealmFileBehavior: {
-          type: 'openImmediately'
         }
       };
 

@@ -5,6 +5,16 @@ import { Button } from './Button';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
+/**
+ * Create a modal form component
+ * @param {string} [animationType=fade] - The animation type to use (same as react native <Modal> component).
+ * @param {boolean} visible - A boolean which specifies if the modal form should be visible if true.
+ * @param {string} title - The modal form title.
+ * @param {string} submitText - The modal submit button text.
+ * @param {function} onSubmit - Callback function to be called when the submit button is pressed.
+ * @param {function} onCancel - Callback function to be called when the cancel text is pressed.
+ * @param {React.Component} children - Components to be rendered on the modal form.
+ */
 export function ModalForm({
   animationType = 'fade',
   visible,

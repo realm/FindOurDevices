@@ -29,11 +29,8 @@ export function Map({ markers, pluralItemType, onBackPress }) {
   }, [selectedPickerItem, markers]);
 
   const createPickerItems = () => {
-    if (!markers.length) {
-      setPickerItems([]);
-      setSelectedPickerItem(null);
-      return;
-    }
+    if (!markers.length)
+      return resetPickerItems;
 
     setPickerItems([
       { label: `All ${pluralItemType}`, value: PICKER_VALUE_ALL_MARKERS },
@@ -42,12 +39,18 @@ export function Map({ markers, pluralItemType, onBackPress }) {
     setSelectedPickerItem({ label: `All ${pluralItemType}`, value: PICKER_VALUE_ALL_MARKERS });
   };
 
+  const resetPickerItems = () => {
+    setPickerItems([]);
+    setSelectedPickerItem(null);
+  };
+
   const getSelectedMarker = () => {
-    // No markers exist or selected marker is invalid
-    if (markers.length === 0 || selectedPickerItem === null || selectedPickerItem.value > markers.length)
+    // Handle the event where no markers exist or the marker is invalid
+    const isInvalid = selectedPickerItem.value > markers.length;
+    if (!markers.length || !selectedPickerItem || isInvalid)
       return null;
 
-    // The picker values are 1-based numbers based of the 'markers' indexes
+    // The picker values are 1-based numbers based of the "markers" indexes
     return markers[selectedPickerItem.value - 1];
   };
 
@@ -63,8 +66,7 @@ export function Map({ markers, pluralItemType, onBackPress }) {
     }
     else {
       const selectedMarker = getSelectedMarker();
-
-      if (selectedMarker === null)
+      if (!selectedMarker)
         return;
 
       const ANIMATION_DURATION_MS = 1000;

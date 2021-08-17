@@ -28,12 +28,14 @@ export function GroupScreen({ navigation }) {
     navigation.setOptions({ headerTitle: group ? group.name : 'Loading...' });
   }, [navigation, group]);
 
-  // React to user being removed from the group or the group being deleted
+  // If the user is removed from the group or if the group is deleted, we force
+  // the user to navigate away from the group screen and to the user's list of groups
   useEffect(() => {
     if (groupWasDeleted) {
       navigation.navigate(routes.GROUPS);
       return Alert.alert(`Group was deleted by the owner`);
     }
+
     if (userWasRemovedFromGroup) {
       navigation.navigate(routes.GROUPS);
       return Alert.alert(`You were removed from the group`);

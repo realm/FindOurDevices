@@ -64,14 +64,16 @@ function GroupProvider({ children, groupId }) {
       groups.addListener((collection, changes) => {
         setGroup(realm.objectForPrimaryKey('Group', groupId));
 
-        // Group was deleted
+        // We only check if there are deletions using ".length" rather then looping through
+        // the deletions since the "groups" collection will always be 1 single group
         if (changes.deletions.length)
-          setGroupWasDeleted(true);
+          return setGroupWasDeleted(true);
 
-        // Group was modified
         changes.modifications.forEach((index) => {
           const modifiedGroup = collection[index];
-          setUserWasRemovedFromGroup(!modifiedGroup.members.some(member => member.userId.toString() === realmUser.id));
+          const isMember = modifiedGroup.members.some(member => member.userId.toString() === realmUser.id);
+          if (!isMember)
+            setUserWasRemovedFromGroup(true);
         });
       });
     }

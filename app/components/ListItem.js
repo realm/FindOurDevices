@@ -6,6 +6,14 @@ import { Icon } from './Icon';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
+/**
+ * Create a list item component.
+ * @param {string} text - The list item text.
+ * @param {string} [subText] - A secondary text to appear below the main text prop.
+ * @param {boolean} [fadeOnPress=true] - A boolean which tells if the item should fade when being pressed if true.
+ * @param {function} [onPress=() => {}] - Callback function to be called when the list item is pressed.
+ * @param {function} renderRightActions - Callback function that is expected to return an action panel that is going to be revealed from the right side when user swipes left.
+ */
 export function ListItem({ 
   text,
   subText,

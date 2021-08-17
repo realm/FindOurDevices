@@ -44,12 +44,14 @@ function AuthProvider({ children }) {
           // If the user has logged in at least 1 time before, the realm will exist on disk
           // and can be opened even when offline.
           // We can either create the new file and sync in the background ('openImmediately'),
-          // or wait for the file to be synced ('downloadBeforeOpen')
+          // or wait for the file to be synced ('downloadBeforeOpen').
+          // WARNING: Read-only realms (such as this one) must not be synced in the
+          // background. Otherwise it will cause an error if your session is online.
           newRealmFileBehavior: {
-            type: 'openImmediately'
+            type: 'downloadBeforeOpen'    // default
           },
           existingRealmFileBehavior: {
-            type: 'openImmediately'
+            type: 'downloadBeforeOpen'    // default
           },
           // Add a callback on the 'error' property to log any sync errors while developing
           error: (session, syncError) => {

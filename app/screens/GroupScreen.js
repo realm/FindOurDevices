@@ -17,7 +17,7 @@ import fonts from '../styles/fonts';
 
 export function GroupScreen({ navigation }) {
   const { userData } = useAuth();
-  const { group, wasUserRemovedFromGroup, wasGroupDeleted } = useGroup();
+  const { group, groupWasDeleted, userWasRemovedFromGroup } = useGroup();
   const { inviteGroupMember, removeGroupMember, setShareLocation } = useGroupManager();
   const [newMemberEmail, setNewMemberEmail] = useState('');
   const { isOn: modalVisible, turnOff: closeModal } = useToggle(false, navigation, 'plus-circle');
@@ -30,15 +30,15 @@ export function GroupScreen({ navigation }) {
 
   // React to user being removed from the group or the group being deleted
   useEffect(() => {
-    if (wasUserRemovedFromGroup) {
-      navigation.navigate(routes.GROUPS);
-      return Alert.alert(`You were removed from the group`);
-    }
-    if (wasGroupDeleted) {
+    if (groupWasDeleted) {
       navigation.navigate(routes.GROUPS);
       return Alert.alert(`Group was deleted by the owner`);
     }
-  }, [wasUserRemovedFromGroup, wasGroupDeleted]);
+    if (userWasRemovedFromGroup) {
+      navigation.navigate(routes.GROUPS);
+      return Alert.alert(`You were removed from the group`);
+    }
+  }, [groupWasDeleted, userWasRemovedFromGroup]);
 
   const handleInviteMember = async () => {
     if (!newMemberEmail)

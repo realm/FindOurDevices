@@ -14,8 +14,8 @@ const GroupContext = createContext();
 function GroupProvider({ children, groupId }) {
   const { realmUser } = useAuth();
   const [group, setGroup] = useState(null);
-  const [wasUserRemovedFromGroup, setWasUserRemovedFromGroup] = useState(false);
-  const [wasGroupDeleted, setWasGroupDeleted] = useState(false);
+  const [groupWasDeleted, setGroupWasDeleted] = useState(false);
+  const [userWasRemovedFromGroup, setUserWasRemovedFromGroup] = useState(false);
   const realmRef = useRef();
   const subscriptionRef = useRef(null);
 
@@ -61,18 +61,17 @@ function GroupProvider({ children, groupId }) {
       if (groups?.length)
         setGroup(groups[0]);
 
-      groups.addListener((groups, changes) => {
-        // Group was modified
-        changes.modifications.forEach((index) => {
-          const modifiedGroup = groups[index];
-          setWasUserRemovedFromGroup(!modifiedGroup.members.some(member => member.userId.toString() === realmUser.id));
-        });
-
+      groups.addListener((collection, changes) => {
         setGroup(realm.objectForPrimaryKey('Group', groupId));
 
         // Group was deleted
-        changes.deletions.forEach(() => {
-          setWasGroupDeleted(true);
+        if (changes.deletions.length)
+          setGroupWasDeleted(true);
+
+        // Group was modified
+        changes.modifications.forEach((index) => {
+          const modifiedGroup = collection[index];
+          setUserWasRemovedFromGroup(!modifiedGroup.members.some(member => member.userId.toString() === realmUser.id));
         });
       });
     }
@@ -94,8 +93,8 @@ function GroupProvider({ children, groupId }) {
   return (
     <GroupContext.Provider value={{
       group,
-      wasUserRemovedFromGroup,
-      wasGroupDeleted
+      groupWasDeleted,
+      userWasRemovedFromGroup
     }}>
       {children}
     </GroupContext.Provider>

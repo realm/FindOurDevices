@@ -21,8 +21,8 @@ const PICKER_VALUE_ALL_MARKERS = 'all';
  * @param {string} markers[].id - The marker unique id.
  * @param {string} markers[].label - The marker label.
  * @param {Date} markers[].updatedAt - The timestamp of the marker location.
- * @param {string} markers[].longitude - The marker longitude.
- * @param {string} markers[].latitude - The marker latitude.
+ * @param {number} markers[].longitude - The marker longitude.
+ * @param {number} markers[].latitude - The marker latitude.
  * @param {string} pluralItemType - The type of items which the markers correspond to (ex. 'Devices', 'Members').
  * @param {function} onBackPress - Callback function to be called when the back button is pressed.
  */

@@ -13,10 +13,11 @@ import colors from '../styles/colors';
 // 'react-native-maps' that let's us use OpenStreetMaps instead of Google Maps. (The library
 // API is mostly the same, thus the usage shown here is the same for 'react-native-maps'.)
 
-const PICKER_VALUE_ALL_MARKERS = 'all';
+// The first picker value will start at index "0" and will show all markers
+const PICKER_VALUE_ALL_MARKERS = 0;
 
 export function Map({ markers, pluralItemType, onBackPress }) {
-  const [selectedPickerItem, setSelectedPickerItem] = useState({ label: `All ${pluralItemType}`, value: PICKER_VALUE_ALL_MARKERS });
+  const [selectedPickerItem, setSelectedPickerItem] = useState(null);
   const [pickerItems, setPickerItems] = useState([]);
   const mapViewRef = useRef(null);
 
@@ -30,16 +31,28 @@ export function Map({ markers, pluralItemType, onBackPress }) {
 
   const createPickerItems = () => {
     if (!markers.length)
-      return;
+      return resetPickerItems();
 
     setPickerItems([
       { label: `All ${pluralItemType}`, value: PICKER_VALUE_ALL_MARKERS },
       ...markers.map((marker, idx) => ({ label: marker.label, value: idx + 1 }))
     ]);
+    setSelectedPickerItem({ label: `All ${pluralItemType}`, value: PICKER_VALUE_ALL_MARKERS });
+  };
+
+  const resetPickerItems = () => {
+    setPickerItems([]);
+    setSelectedPickerItem(null);
   };
 
   const getSelectedMarker = () => {
-    // The picker values are 1-based numbers based of the 'markers' indexes
+    // Handle the event where no markers exist or the selected marker is invalid
+    // The picker values for the markers start at index "1", thus if the value
+    // is equal to "markers.length" it is still considered valid.
+    const isValid = selectedPickerItem.value <= markers.length;
+    if (!markers.length || !selectedPickerItem || !isValid)
+      return null;
+
     return markers[selectedPickerItem.value - 1];
   };
 
@@ -54,10 +67,14 @@ export function Map({ markers, pluralItemType, onBackPress }) {
       });
     }
     else {
+      const selectedMarker = getSelectedMarker();
+      if (!selectedMarker)
+        return;
+
       const ANIMATION_DURATION_MS = 1000;
       const newRegion = {
-        latitude: getSelectedMarker().latitude,
-        longitude: getSelectedMarker().longitude,
+        latitude: selectedMarker.latitude,
+        longitude: selectedMarker.longitude,
         latitudeDelta: 0.01,
         longitudeDelta: 0.001
       };
@@ -66,8 +83,8 @@ export function Map({ markers, pluralItemType, onBackPress }) {
   };
 
   const markerColors = [
-    '#8922ec', '#ffbf00', '#f3ac56', '#1177ee', '#00bf00', '#e328f5', 
-    '#007fff', '#00ffff', '#3d2b1f', '#b5a642' , '#a3e36c', '#161a58',
+    '#8922ec', '#ffbf00', '#f3ac56', '#1177ee', '#00bf00', '#e328f5',
+    '#007fff', '#00ffff', '#3d2b1f', '#b5a642', '#a3e36c', '#161a58',
   ];
 
   return (
@@ -85,15 +102,17 @@ export function Map({ markers, pluralItemType, onBackPress }) {
           />
         ))}
       </MapView>
-      <View style={styles.dropdownContainer}>
-        <DropdownPicker
-          selectedItem={selectedPickerItem}
-          items={pickerItems}
-          onSelectItem={setSelectedPickerItem}
-          openItemsDownward={false}
-          noSelectedItemText='Select marker'
-        />
-      </View>
+      {markers.length > 0 && (
+        <View style={styles.dropdownContainer}>
+          <DropdownPicker
+            selectedItem={selectedPickerItem}
+            items={pickerItems}
+            onSelectItem={setSelectedPickerItem}
+            openItemsDownward={false}
+            noSelectedItemText='Select marker'
+          />
+        </View>
+      )}
       <Pressable
         onPress={onBackPress}
         style={({ pressed }) => ([

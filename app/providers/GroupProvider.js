@@ -14,13 +14,15 @@ const GroupContext = createContext();
 function GroupProvider({ children, groupId }) {
   const { realmUser } = useAuth();
   const [group, setGroup] = useState(null);
+  const [groupWasDeleted, setGroupWasDeleted] = useState(false);
+  const [userWasRemovedFromGroup, setUserWasRemovedFromGroup] = useState(false);
   const realmRef = useRef();
   const subscriptionRef = useRef(null);
 
   useEffect(() => {
     if (!realmUser || !groupId)
       return;
-    
+
     openRealm();
 
     return closeRealm;
@@ -62,8 +64,20 @@ function GroupProvider({ children, groupId }) {
         setGroup(groups[0]);
       
       subscriptionRef.current = groups;
-      groups.addListener((/*collection, changes*/) => {
+      groups.addListener((collection, changes) => {
         setGroup(realm.objectForPrimaryKey('Group', groupId));
+
+        // We only check if there are deletions using ".length" rather then looping through
+        // the deletions since the "groups" collection will always be 1 single group
+        if (changes.deletions.length)
+          return setGroupWasDeleted(true);
+
+        changes.modifications.forEach((index) => {
+          const modifiedGroup = collection[index];
+          const isMember = modifiedGroup.members.some(member => member.userId.toString() === realmUser.id);
+          if (!isMember)
+            setUserWasRemovedFromGroup(true);
+        });
       });
     }
     catch (err) {
@@ -83,7 +97,11 @@ function GroupProvider({ children, groupId }) {
   };
 
   return (
-    <GroupContext.Provider value={group}>
+    <GroupContext.Provider value={{
+      group,
+      groupWasDeleted,
+      userWasRemovedFromGroup
+    }}>
       {children}
     </GroupContext.Provider>
   )

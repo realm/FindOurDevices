@@ -6,7 +6,7 @@ import Moment from 'react-moment';
 const LATITUDE_DELTA = 0.01;
 const LONGITUDE_DELTA = 0.001;
 
-export const MapMarker = memo(function MapMarker({ location, color }) {
+export const MapMarker = memo(function MapMarker({ label, location, color }) {
   return (
     <Marker
       coordinate={{
@@ -19,7 +19,10 @@ export const MapMarker = memo(function MapMarker({ location, color }) {
     >
       <Callout>
         <View style={styles.calloutView}>
-          <Text style={styles.calloutText}>
+          <Text style={styles.calloutLabel}>
+            { label }
+          </Text>
+          <Text style={styles.calloutTimestamp}>
             {'Updated'} <Moment element={Text} fromNow>{location.updatedAt}</Moment>
           </Text>
         </View>
@@ -32,7 +35,11 @@ const styles = StyleSheet.create({
   calloutView: {
     width: 200
   },
-  calloutText : {
+  calloutLabel : {
+    textAlign: 'center',
+    fontWeight: 'bold'
+  },
+  calloutTimestamp: {
     textAlign: 'center'
   }
 });

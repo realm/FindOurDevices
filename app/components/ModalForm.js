@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Modal, TouchableOpacity, Platform, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { View, Text, Modal, Pressable, Platform, StyleSheet, KeyboardAvoidingView } from 'react-native';
 
 import { Button } from './Button';
 import colors from '../styles/colors';
@@ -12,13 +12,15 @@ export function ModalForm({
   submitText,
   onSubmit,
   onCancel,
-  children
+  children,
+  ...otherProps
 }) {
   return (
     <Modal
       animationType={animationType}
       transparent={true}
       visible={visible}
+      {...otherProps}
     >
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
@@ -32,12 +34,15 @@ export function ModalForm({
             onPress={onSubmit}
             style={{ padding: 10 }}
           />
-          <TouchableOpacity
+          <Pressable
             onPress={onCancel}
-            style={styles.cancelButton}
+            style={({ pressed }) => ([
+              styles.cancelButton,
+              pressed && styles.pressed
+            ])}
           >
             <Text style={styles.cancelButtonText}>Cancel</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </KeyboardAvoidingView>
     </Modal>
@@ -89,5 +94,8 @@ const styles = StyleSheet.create({
   cancelButtonText: {
     color: colors.grayDark,
     fontWeight: 'bold'
+  },
+  pressed: {
+    opacity: 0.2
   }
 });

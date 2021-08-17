@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, StyleSheet, Pressable } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import { Icon } from './Icon';
 import fonts from '../styles/fonts';
 import colors from '../styles/colors';
 
@@ -15,7 +15,7 @@ export function DropdownPickerItem({ label, isSelected, onPress }) {
         {label}
       </Text>
       {isSelected && (
-        <MaterialCommunityIcons
+        <Icon
           name='check'
           color={colors.grayDark}
           size={18}

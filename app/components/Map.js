@@ -1,8 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { View, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Pressable } from 'react-native';
 import MapView from 'react-native-maps-osmdroid';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import { Icon } from './Icon';
 import { MapMarker } from './MapMarker';
 import { DropdownPicker } from './DropdownPicker';
 import colors from '../styles/colors';
@@ -83,8 +83,8 @@ export function Map({ markers, pluralItemType, onBackPress }) {
   };
 
   const markerColors = [
-    '#8922ec', '#161a58', '#e328f5', '#f3ac56', '#1177ee', '#00bf00',
-    '#a3e36c', '#ffbf00', '#00ffff', '#007fff', '#3d2b1f', '#b5a642'
+    '#8922ec', '#ffbf00', '#f3ac56', '#1177ee', '#00bf00', '#e328f5',
+    '#007fff', '#00ffff', '#3d2b1f', '#b5a642', '#a3e36c', '#161a58',
   ];
 
   return (
@@ -96,32 +96,37 @@ export function Map({ markers, pluralItemType, onBackPress }) {
         {markers.map((marker, idx) => (
           <MapMarker
             key={marker.id}
+            label={marker.label}
             location={marker}
             color={markerColors[idx % markerColors.length]}
           />
         ))}
       </MapView>
-      {
-        markers.length > 0 &&
+      {markers.length > 0 && (
         <View style={styles.dropdownContainer}>
           <DropdownPicker
             selectedItem={selectedPickerItem}
             items={pickerItems}
             onSelectItem={setSelectedPickerItem}
             openItemsDownward={false}
+            noSelectedItemText='Select marker'
           />
         </View>
-      }
-      <TouchableOpacity
-        style={[styles.backButton, styles.shadow]}
+      )}
+      <Pressable
         onPress={onBackPress}
+        style={({ pressed }) => ([
+          styles.backButton,
+          styles.shadow,
+          pressed && styles.pressed
+        ])}
       >
-        <MaterialCommunityIcons
+        <Icon
           name='arrow-left'
           color={colors.white}
           size={30}
         />
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 }
@@ -134,8 +139,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   map: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height
+    width: '100%',
+    height: '100%'
   },
   backButton: {
     width: 50,
@@ -148,8 +153,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     borderRadius: 30
   },
+  pressed: {
+    opacity: 0.2
+  },
   dropdownContainer: {
-    width: Dimensions.get('window').width - 60,
+    width: '100%',
+    paddingHorizontal: 30,
     position: 'absolute',
     bottom: 30
   }

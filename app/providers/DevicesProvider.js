@@ -47,27 +47,31 @@ function DevicesProvider({ children }) {
         sync: {
           user: realmUser,
           partitionValue: `device=${realmUser.id}`,
+          // Since this realm is NOT read-only, we may sync the data in the background.
+          // (Always open read-only realms using 'downloadBeforeOpen'.)
+          // (See /app/providers/AuthProvider.js for more comments)
+          newRealmFileBehavior: {
+            type: 'openImmediately'
+          },
+          existingRealmFileBehavior: {
+            type: 'openImmediately'
+          },
           error: (session, syncError) => {
-            console.error('syncError.name: ', syncError.name);
+            console.error('Sync error name: ', syncError.name);
             if (syncError.message)
-              console.error('syncError.message: ', message);
+              console.error('Sync error message: ', message);
           }
         }
       };
 
-      const realm = Realm.exists(config)
-        ? new Realm(config)
-        : await Realm.open(config);
-
+      const realm = await Realm.open(config);
       realmRef.current = realm;
 
       const devices = realm.objects('Device');
-
-      subscriptionRef.current = devices;
-
       if (devices?.length)
         setDevices(devices);
-
+      
+      subscriptionRef.current = devices;
       devices.addListener((/*collection, changes*/) => {
         // If wanting to handle deletions, insertions, and modifications differently
         // you can access them through the two arguments. (Always handle them in the
@@ -82,12 +86,13 @@ function DevicesProvider({ children }) {
   };
 
   const closeRealm = () => {
-    const realm = realmRef.current;
     const subscription = subscriptionRef.current;
     subscription?.removeAllListeners();
+    subscriptionRef.current = null;
+
+    const realm = realmRef.current;
     realm?.close();
     realmRef.current = null;
-    subscriptionRef.current = null;
     setDevices([]);
   };
 
@@ -96,7 +101,6 @@ function DevicesProvider({ children }) {
     if (!realm)
       return;
 
-    // TODO: Place index on iosOrAndroidId
     // We can filter out the user's current device by passing the iOS or Android ID using
     // argument placeholders (e.g. $0, $1, $2, ...) in the query. 
     const currentDevice = realm.objects('Device').filtered('iosOrAndroidId = $0', currentIosOrAndroidId)[0];
@@ -124,11 +128,9 @@ function DevicesProvider({ children }) {
   };
 
   const addCurrentDevice = async () => {
-    console.log('current device location: ', currentDeviceLocation);  // TEMPORARY (add getLatestLocation in useLocation to update immediately)
-
     const realm = realmRef.current;
     if (!realm)
-      return;
+      return { error: { message: 'We have encountered an error.. Try again later.' } };
 
     const deviceAlreadyExists = devices.some(device => device.iosOrAndroidId === currentIosOrAndroidId);
     if (deviceAlreadyExists)
@@ -149,11 +151,22 @@ function DevicesProvider({ children }) {
     });
   };
 
+  const setDeviceName = (device, newName) => {
+    const realm = realmRef.current;
+    if (!realm)
+      return { error: { message: 'We have encountered an error.. Try again later.' } };
+
+    realm.write(() => {
+      device.name = newName;
+    });
+  };
+
   return (
     <DevicesContext.Provider value={{
       devices,
       currentIosOrAndroidId,
-      addCurrentDevice
+      addCurrentDevice,
+      setDeviceName
     }}>
       {children}
     </DevicesContext.Provider>

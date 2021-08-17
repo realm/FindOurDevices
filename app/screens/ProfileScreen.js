@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, Platform} from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { View, Text, StyleSheet, Platform } from 'react-native';
 
 import { useAuth } from '../providers/AuthProvider';
 import { Button } from '../components/Button';
+import { Icon } from '../components/Icon';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
@@ -13,7 +13,7 @@ export function ProfileScreen() {
   return (
     <View style={styles.screen}>
       <View style={styles.header}>
-        <MaterialCommunityIcons
+        <Icon
           name='account-circle'
           color={colors.white}
           size={80}
@@ -25,7 +25,7 @@ export function ProfileScreen() {
       <View style={styles.lowerView}>
         <View>
           <View style={styles.userInfoItem}>
-            <MaterialCommunityIcons
+            <Icon
               name='email-outline'
               color={colors.grayDark}
               size={25}

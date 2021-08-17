@@ -17,8 +17,7 @@ export function DevicesNavigator() {
         component={DevicesScreen}
         options={{
           headerTitle: 'My Devices'
-          // 'options.headerRight' is set in the DevicesScreen with
-          // 'navigation.setOptions' via our useToggle hook
+          // 'options.headerRight' is set in the DevicesScreen with 'navigation.setOptions' via our useToggle hook
         }}
       />
       <Stack.Screen

@@ -1,6 +1,5 @@
 import React, { useState, useMemo, useLayoutEffect, useEffect } from 'react';
 import { Text, View, Alert, Pressable, StyleSheet } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { useAuth } from '../providers/AuthProvider';
 import { useGroup } from '../providers/GroupProvider';
@@ -8,8 +7,9 @@ import { useGroupManager } from '../hooks/useGroupManager';
 import { useToggle } from '../hooks/useToggle';
 import { Button } from '../components/Button';
 import { FormTextInput } from '../components/FormTextInput';
+import { Icon } from '../components/Icon';
 import { List } from '../components/List';
-import { ItemSeparator } from '../components/ItemSeparator';
+import { ListItemSeparator } from '../components/ListItemSeparator';
 import { ModalForm } from '../components/ModalForm';
 import routes from '../navigation/routes';
 import colors from '../styles/colors';
@@ -20,7 +20,7 @@ export function GroupScreen({ navigation }) {
   const { group, groupWasDeleted, userWasRemovedFromGroup } = useGroup();
   const { inviteGroupMember, removeGroupMember, setShareLocation } = useGroupManager();
   const [newMemberEmail, setNewMemberEmail] = useState('');
-  const { isOn: modalVisible, turnOff: closeModal } = useToggle(false, navigation, 'plus-circle');
+  const { isOn: modalVisible, turnOff: closeModal } = useToggle(false, navigation, 'account-plus');
 
   useLayoutEffect(() => {
     // In order to set header options based on information available only in this component
@@ -70,9 +70,10 @@ export function GroupScreen({ navigation }) {
   };
 
   // Every GroupMembership object in the user's "groups" array contains the field "shareLocation"
-  const shareLocation = useMemo(() => userData.groups
-    .filter(groupMembership => groupMembership.groupId.toString() === group?._id.toString())[0]?.shareLocation
-    , [userData, group]);
+  const shareLocation = useMemo(
+    () => userData.groups.filter(groupMembership => groupMembership.groupId.toString() === group?._id.toString())[0]?.shareLocation,
+    [userData, group]
+  );
 
   const handleSetShareLocation = async () => {
     const { error } = await setShareLocation(group._id, !shareLocation);
@@ -92,21 +93,27 @@ export function GroupScreen({ navigation }) {
               >
                 Location sharing:
               </Text>
-              <Pressable onPress={handleSetShareLocation}>
-                <View style={styles.infoIconContainer}>
-                  <MaterialCommunityIcons
-                    name={shareLocation ? 'eye-outline' : 'eye-off-outline'}
-                    color={shareLocation ? colors.primary : colors.grayMedium}
-                    size={25}
-                  />
-                </View>
+              <Pressable
+                onPress={handleSetShareLocation}
+                style={({ pressed }) => ([
+                  styles.infoIconContainer,
+                  pressed && styles.pressed
+                ])}
+              >
+                <Icon
+                  name={shareLocation ? 'eye-outline' : 'eye-off-outline'}
+                  color={shareLocation ? colors.primary : colors.grayMedium}
+                  size={25}
+                />
               </Pressable>
             </View>
-            <ItemSeparator />
+            <ListItemSeparator />
             <List
               items={group.members}
               keyExtractor={(member) => member.userId.toString()}
               itemTextExtractor={(member) => member.displayName}
+              itemSubTextExtractor={(member) => member.deviceName}
+              fadeOnPress={false}
               rightActions={[
                 {
                   actionType: 'remove-member',
@@ -133,7 +140,7 @@ export function GroupScreen({ navigation }) {
         onCancel={handleCancelInviteMember}
       >
         <FormTextInput
-          placeholder='Email'
+          placeholder='Member Email'
           value={newMemberEmail}
           onChangeText={setNewMemberEmail}
           autoCorrect={false}
@@ -174,5 +181,8 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginHorizontal: 15
+  },
+  pressed: {
+    opacity: 0.2
   }
 });

@@ -18,7 +18,6 @@ function AuthProvider({ children }) {
   // We store a reference to our realm using useRef that allows us to access it via
   // realmRef.current for the component's lifetime without causing rerenders if updated.
   const realmRef = useRef(null);
-  
   const subscriptionRef = useRef(null);
 
   useEffect(() => {
@@ -40,23 +39,30 @@ function AuthProvider({ children }) {
         sync: {
           user: realmUser,
           partitionValue: `user=${realmUser.id}`,
+          // We can specify the behavior when opening a realm for the first time
+          // ('newRealmFileBehavior') and for subsequent ones ('existingRealmFileBehavior').
+          // If the user has logged in at least 1 time before, the realm will exist on disk
+          // and can be opened even when offline.
+          // We can either create the new file and sync in the background ('openImmediately'),
+          // or wait for the file to be synced ('downloadBeforeOpen').
+          // WARNING: Read-only realms (such as this one) must not be synced in the
+          // background. Otherwise it will cause an error if your session is online.
+          newRealmFileBehavior: {
+            type: 'downloadBeforeOpen'    // default
+          },
+          existingRealmFileBehavior: {
+            type: 'downloadBeforeOpen'    // default
+          },
           // Add a callback on the 'error' property to log any sync errors while developing
           error: (session, syncError) => {
-            console.error('syncError.name: ', syncError.name);
+            console.error('Sync error name: ', syncError.name);
             if (syncError.message)
-              console.error('syncError.message: ', message);
+              console.error('Sync error message: ', message);
           }
         }
       };
 
-      // If the realm already exists on disk, it means the user has logged in
-      // at least 1 time before. Thus, you may then open the realm synchronously
-      // to make sure it works even when offline. If it does not exist,
-      // open it asynchronusly to sync data from the server to the device
-      const realm = Realm.exists(config)
-        ? new Realm(config)
-        : await Realm.open(config);
-
+      const realm = await Realm.open(config);
       realmRef.current = realm;
 
       // When querying a realm to find objects (e.g. realm.objects('User')) the result we get back
@@ -64,13 +70,11 @@ function AuthProvider({ children }) {
       const userId = BSON.ObjectId(realmUser.id);
       //const user = realm.objectForPrimaryKey('User', userId); // NOTE: Object listener not working for embedded docs when changed by backend function
       const users = realm.objects('User').filtered('_id = $0', userId);
-      
-      subscriptionRef.current = users;
-      
       if (users?.length)
         setUserData(users[0]);
-
+      
       // Live queries and objects emit notifications when something has changed that we can listen for.
+      subscriptionRef.current = users;
       users.addListener((/*object, changes*/) => {
         // [add comment]
 
@@ -86,12 +90,13 @@ function AuthProvider({ children }) {
   };
 
   const closeRealm = () => {
-    const realm = realmRef.current;
     const subscription = subscriptionRef.current;
     subscription?.removeAllListeners();
+    subscriptionRef.current = null;
+    
+    const realm = realmRef.current;
     realm?.close();
     realmRef.current = null;
-    subscriptionRef.current = null;
     setUserData(null);
   };
   

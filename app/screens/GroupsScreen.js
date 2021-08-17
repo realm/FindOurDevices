@@ -47,14 +47,14 @@ export function GroupsScreen({ navigation, setGroupId }) {
       setNewGroupName('');
   };
 
-  const handleRemoveGroup = async (groupId) => {
-    const { error } = await removeGroup(groupId);
+  const handleRemoveGroup = async (groupMembership) => {
+    const { error } = await removeGroup(groupMembership.groupId);
     if (error)
       return Alert.alert(error.message);
   };
 
-  const handleLeaveGroup = async (groupId) => {
-    const { error } = await leaveGroup(groupId);
+  const handleLeaveGroup = async (groupMembership) => {
+    const { error } = await leaveGroup(groupMembership.groupId);
     if (error)
       return Alert.alert(error.message);
   };
@@ -65,22 +65,23 @@ export function GroupsScreen({ navigation, setGroupId }) {
         {userData && (
           <List
             items={userData.groups}
-            keyExtractor={(group) => group.groupId.toString()}
-            itemTextExtractor={(group) => group.groupName}
-            onItemPress={(group) => {
+            keyExtractor={(groupMembership) => groupMembership.groupId.toString()}
+            itemTextExtractor={(groupMembership) => groupMembership.groupName}
+            itemSubTextExtractor={(groupMembership) => groupMembership.isOwner ? 'Owner' : ''}
+            onItemPress={(groupMembership) => {
               // When the groupId is set, GroupsNavigator rerenders and passes the
               // new group id to the GroupsProvider, which opens the group realm.
-              setGroupId(group.groupId);
+              setGroupId(groupMembership.groupId);
               navigation.navigate(routes.GROUP);
             }}
             rightActions={[
               {
                 actionType: 'leave',
-                onPress: (group) => handleLeaveGroup(group.groupId)
+                onPress: handleLeaveGroup
               },
               {
                 actionType: 'remove',
-                onPress: (group) => handleRemoveGroup(group.groupId)
+                onPress: handleRemoveGroup
               }
             ]}
             emptyListText='Create a group.'
@@ -105,6 +106,7 @@ export function GroupsScreen({ navigation, setGroupId }) {
           selectedItem={selectedPickerItem}
           items={pickerItems}
           onSelectItem={setSelectedPickerItem}
+          noSelectedItemText='Select device to join with'
         />
       </ModalForm>
     </>

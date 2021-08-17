@@ -43,7 +43,10 @@ export function DropdownPicker({
           isOpen && (openItemsDownward ? styles.selectedItemOnOpenDownward : styles.selectedItemOnOpenUpward)
         ]}
       >
-        <Text style={styles.label}>
+        <Text
+          style={styles.label}
+          numberOfLines={1}
+        >
           {selectedItem?.label || noSelectedItemText}
         </Text>
         <Icon
@@ -114,7 +117,8 @@ const styles = StyleSheet.create({
   },
   label: {
     color: colors.black,
-    fontSize: fonts.sizeS
+    fontSize: fonts.sizeS,
+    maxWidth: '90%'
   },
   reverseOrder: {
     flexDirection: 'column-reverse'

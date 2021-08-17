@@ -11,7 +11,10 @@ export function DropdownPickerItem({ label, isSelected, onPress }) {
       onPress={onPress}
       style={styles.item}
     >
-      <Text style={styles.label}>
+      <Text
+        numberOfLines={1}
+        style={styles.label}
+      >
         {label}
       </Text>
       {isSelected && (
@@ -34,6 +37,7 @@ const styles = StyleSheet.create({
   },
   label: {
     color: colors.black,
-    fontSize: fonts.sizeS
+    fontSize: fonts.sizeS,
+    maxWidth: '90%'
   }
 });

@@ -13,7 +13,8 @@ import colors from '../styles/colors';
 // 'react-native-maps' that let's us use OpenStreetMaps instead of Google Maps. (The library
 // API is mostly the same, thus the usage shown here is the same for 'react-native-maps'.)
 
-const PICKER_VALUE_ALL_MARKERS = 0; // Represents and all markers view, all other markers start at index 1
+// The first picker value will start at index "0" and will show all markers
+const PICKER_VALUE_ALL_MARKERS = 0;
 
 export function Map({ markers, pluralItemType, onBackPress }) {
   const [selectedPickerItem, setSelectedPickerItem] = useState(null);
@@ -30,7 +31,7 @@ export function Map({ markers, pluralItemType, onBackPress }) {
 
   const createPickerItems = () => {
     if (!markers.length)
-      return resetPickerItems;
+      return resetPickerItems();
 
     setPickerItems([
       { label: `All ${pluralItemType}`, value: PICKER_VALUE_ALL_MARKERS },
@@ -45,12 +46,13 @@ export function Map({ markers, pluralItemType, onBackPress }) {
   };
 
   const getSelectedMarker = () => {
-    // Handle the event where no markers exist or the marker is invalid
-    const isInvalid = selectedPickerItem.value > markers.length;
-    if (!markers.length || !selectedPickerItem || isInvalid)
+    // Handle the event where no markers exist or the selected marker is invalid
+    // The picker values for the markers start at index "1", thus if the value
+    // is equal to "markers.length" it is still considered valid.
+    const isValid = selectedPickerItem.value <= markers.length;
+    if (!markers.length || !selectedPickerItem || !isValid)
       return null;
 
-    // The picker values are 1-based numbers based of the "markers" indexes
     return markers[selectedPickerItem.value - 1];
   };
 

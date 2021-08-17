@@ -29,7 +29,7 @@ export function GroupScreen({ navigation }) {
   }, [navigation, group]);
 
   // If the user is removed from the group or if the group is deleted, we force
-  // the user to navigate away from the group screen and to the user's list of groups
+  // the user to navigate away from the screen and to it's list of groups
   useEffect(() => {
     if (groupWasDeleted) {
       navigation.navigate(routes.GROUPS);

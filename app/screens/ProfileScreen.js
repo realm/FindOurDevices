@@ -79,7 +79,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
     color: colors.white,
     fontSize: fonts.sizeM,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginHorizontal: 20
   },
   userInfoItem: {
     flexDirection: 'row',
@@ -87,7 +89,7 @@ const styles = StyleSheet.create({
     marginVertical: 30,
   },
   userInfoItemText: {
-    marginLeft: 15,
+    marginHorizontal: 15,
     color: colors.grayDark,
     fontSize: fonts.sizeM
   }

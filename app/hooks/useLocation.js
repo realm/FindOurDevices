@@ -1,6 +1,17 @@
 import { useState, useEffect, useRef } from 'react';
 import RNLocation from 'react-native-location';
 
+/**
+ * @typedef {Object} Location
+ * @property {Date} location.updatedAt - The timestamp of the location.
+ * @property {number} location.longitude - The location longitude.
+ * @property {number} location.latitude - The location latitude.
+ */
+
+/**
+ * The useLocation hook provides the current device location (or null if it does not exist).
+ * @return {Location} - The location object
+ */
 export function useLocation() {
   const [location, setLocation] = useState(null);
   const unsubscribeRef = useRef(null);

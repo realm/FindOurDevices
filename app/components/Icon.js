@@ -8,7 +8,6 @@ import colors from '../styles/colors';
  * @param {string} name - The icon name.
  * @param {number} [size=30] - The icon size.
  * @param {string} [color=colors.primary] - The color to use for the icon.
- * @param {Object} otherProps - Other props to pass to <MaterialCommunityIcons> component.
  */
 export const Icon = memo(function Icon({ name, size = 30, color = colors.primary, ...otherProps }) {
   return (

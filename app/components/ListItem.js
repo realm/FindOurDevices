@@ -6,11 +6,11 @@ import { Icon } from './Icon';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
-export function ListItem({ 
+export function ListItem({
   text,
   subText,
   fadeOnPress = true,
-  onPress = () => {},
+  onPress = () => { },
   renderRightActions
 }) {
   return (
@@ -20,7 +20,7 @@ export function ListItem({
         style={({ pressed }) => ({ opacity: pressed && fadeOnPress ? 0.2 : 1 })}
       >
         <View style={styles.container}>
-          <View>
+          <View style={styles.textContainer}>
             <Text
               numberOfLines={1}
               style={styles.text}
@@ -65,5 +65,8 @@ const styles = StyleSheet.create({
     fontSize: fonts.sizeS,
     color: colors.grayDark,
     textTransform: 'lowercase'
+  },
+  textContainer: {
+    maxWidth: '90%'
   }
 });

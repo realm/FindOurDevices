@@ -45,13 +45,14 @@ function AuthProvider({ children }) {
           // and can be opened even when offline.
           // We can either create the new file and sync in the background ('openImmediately'),
           // or wait for the file to be synced ('downloadBeforeOpen').
-          // WARNING: Read-only realms (such as this one) must not be synced in the
-          // background. Otherwise it will cause an error if your session is online.
+          // WARNING: Read-only realms on a "realm level" (specified via "config.readOnly: true")
+          // must not be synced in the background. Otherwise it will cause an error if your session
+          // is online. (This realm is read-only on a "file level" and is not affected by this.)
           newRealmFileBehavior: {
-            type: 'downloadBeforeOpen'    // default
+            type: 'openImmediately'    // default is 'downloadBeforeOpen'
           },
           existingRealmFileBehavior: {
-            type: 'downloadBeforeOpen'    // default
+            type: 'openImmediately'    // default is 'downloadBeforeOpen'
           },
           // Add a callback on the 'error' property to log any sync errors while developing
           error: (session, syncError) => {
@@ -64,6 +65,7 @@ function AuthProvider({ children }) {
 
       const realm = await Realm.open(config);
       realmRef.current = realm;
+      
 
       // When querying a realm to find objects (e.g. realm.objects('User')) the result we get back
       // and the objects in it are "live" and will always reflect the latest state.

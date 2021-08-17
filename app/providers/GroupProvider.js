@@ -36,14 +36,11 @@ function GroupProvider({ children, groupId }) {
         sync: {
           user: realmUser,
           partitionValue: `group=${groupId.toString()}`,
-          // Since this realm is read-only, we may NOT sync the data in the background.
-          // (Always open read-only realms using 'downloadBeforeOpen'.)
-          // (See /app/providers/AuthProvider.js for more comments)
           newRealmFileBehavior: {
-            type: 'downloadBeforeOpen'
+            type: 'openImmediately'
           },
           existingRealmFileBehavior: {
-            type: 'downloadBeforeOpen'
+            type: 'openImmediately'
           },
           error: (session, syncError) => {
             console.error('Sync error name: ', syncError.name);

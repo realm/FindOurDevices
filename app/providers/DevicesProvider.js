@@ -47,9 +47,6 @@ function DevicesProvider({ children }) {
         sync: {
           user: realmUser,
           partitionValue: `device=${realmUser.id}`,
-          // Since this realm is NOT read-only, we may sync the data in the background.
-          // (Always open read-only realms using 'downloadBeforeOpen'.)
-          // (See /app/providers/AuthProvider.js for more comments)
           newRealmFileBehavior: {
             type: 'openImmediately'
           },

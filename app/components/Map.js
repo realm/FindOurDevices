@@ -16,13 +16,17 @@ import colors from '../styles/colors';
 const PICKER_VALUE_ALL_MARKERS = 'all';
 
 /**
+ * @typedef {Object} Marker
+ * @property {string} id - A unique ID of the marker.
+ * @property {string} label - The label to use for the marker.
+ * @property {Date} updatedAt - The date when the location of the marker was last updated.
+ * @property {number} longitude - The location longitude.
+ * @property {number} latitude - The location latitude.
+ */
+
+/**
  * Create a map component.
- * @param {Object[]} markers - An array of marker objects
- * @param {string} markers[].id - The marker unique id.
- * @param {string} markers[].label - The marker label.
- * @param {Date} markers[].updatedAt - The timestamp of the marker location.
- * @param {number} markers[].longitude - The marker longitude.
- * @param {number} markers[].latitude - The marker latitude.
+ * @param {Marker[]} markers - An array of marker objects
  * @param {string} pluralItemType - The type of items which the markers correspond to (ex. 'Devices', 'Members').
  * @param {function} onBackPress - Callback function to be called when the back button is pressed.
  */

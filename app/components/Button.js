@@ -7,8 +7,8 @@ import fonts from '../styles/fonts';
 /**
  * Create a button component.
  * @param {string} text - The button text.
- * @param {boolean} [isPrimary=true] - Boolean which tells if the button should use the primary color as the background color and have its text white if true, or the other way around if false.
- * @param {boolean} [useShadow=true] - Boolean which tells if the button should have shadow.
+ * @param {boolean} [isPrimary=true] - Whether or not the button should be styled as a primary button.
+ * @param {boolean} [useShadow=true] - Whether or not the button should have a shadow.
  * @param {function} onPress - Callback function to be called when the button is pressed.
  * @param {Object} style - Other style prop to override the default one.
  */

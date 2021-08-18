@@ -1,5 +1,9 @@
 import { useAuth } from '../providers/AuthProvider';
 
+/**
+ * A hook for managing a user's group.
+ * @return {Object} An object with functions to manage a group.
+ */
 export function useGroupManager() {
   const { realmUser } = useAuth();
 

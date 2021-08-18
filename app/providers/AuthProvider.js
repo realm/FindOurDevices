@@ -10,6 +10,10 @@ const app = getRealmApp();
 
 const AuthContext = createContext();
 
+/**
+ * A provider for storing and controlling User realm/partition.
+ * @return {React.Component} The provider of the context.
+*/
 function AuthProvider({ children }) {
   // The realmUser is the registered user created by Realm
   const [realmUser, setRealmUser] = useState(app.currentUser);

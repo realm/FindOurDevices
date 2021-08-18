@@ -12,6 +12,10 @@ import Location from '../models/Location';
 
 const DevicesContext = createContext();
 
+/**
+ * A provider for storing and controlling the Devices realm/partition.
+ * @return {React.Component} The provider of the context.
+*/
 function DevicesProvider({ children }) {
   const { realmUser } = useAuth();
   const currentDeviceLocation = useLocation();

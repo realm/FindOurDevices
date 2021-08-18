@@ -2,9 +2,9 @@
 class GroupInvitation {
   /**
    * Create a GroupInvitation.
-   * @param {BSON.ObjectId} groupId - The id of the group.
-   * @param {string} groupName - The group's name to be displayed on the invite.
-   * @param {string} senderEmail - The id of the user who sent the invitation.
+   * @param {BSON.ObjectId} groupId - The ID of the group.
+   * @param {string} groupName - The name of the group that the invite concerns.
+   * @param {string} senderEmail - The email of the user who sent the invitation.
    */
   constructor({ groupId, groupName, senderEmail }) {
     this.groupId = groupId;

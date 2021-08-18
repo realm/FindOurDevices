@@ -9,8 +9,8 @@ import RNLocation from 'react-native-location';
  */
 
 /**
- * The useLocation hook provides the current device location (or null if it does not exist).
- * @return {Location} - The location object
+ * A hook that provides the current device location (or null if it does not exist).
+ * @return {(Location|null)} - The location object.
  */
 export function useLocation() {
   const [location, setLocation] = useState(null);

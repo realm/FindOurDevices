@@ -11,6 +11,10 @@ import Location from '../models/Location';
 
 const GroupContext = createContext();
 
+/**
+ * A provider for storing and controlling the Group realm/partition.
+ * @return {React.Component} The provider of the context.
+*/
 function GroupProvider({ children, groupId }) {
   const { realmUser } = useAuth();
   const [group, setGroup] = useState(null);

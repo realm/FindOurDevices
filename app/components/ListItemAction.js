@@ -4,6 +4,11 @@ import { Pressable, StyleSheet } from 'react-native';
 import { Icon } from './Icon';
 import colors from '../styles/colors';
 
+/**
+ * Create a list item action component.
+ * @param {string} action - A string that specifies the icon that should be used.
+ * @param {function} onPress - Callback function to be called when the list item action is pressed.
+ */
 export function ListItemAction({ action, onPress }) {
   const iconNameAndColor = useMemo(() => {
     switch (action) {

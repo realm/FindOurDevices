@@ -16,6 +16,21 @@ import colors from '../styles/colors';
 // The first picker value will start at index "0" and will show all markers
 const PICKER_VALUE_ALL_MARKERS = 0;
 
+/**
+ * @typedef {Object} Marker
+ * @property {string} id - A unique ID of the marker.
+ * @property {string} label - The label to use for the marker.
+ * @property {Date} updatedAt - The date when the location of the marker was last updated.
+ * @property {number} longitude - The location longitude.
+ * @property {number} latitude - The location latitude.
+ */
+
+/**
+ * Create a map component.
+ * @param {Marker[]} markers - An array of marker objects
+ * @param {string} pluralItemType - The type of items which the markers correspond to (ex. 'Devices', 'Members').
+ * @param {function} onBackPress - Callback function to be called when the back button is pressed.
+ */
 export function Map({ markers, pluralItemType, onBackPress }) {
   const [selectedPickerItem, setSelectedPickerItem] = useState(null);
   const [pickerItems, setPickerItems] = useState([]);

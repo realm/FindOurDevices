@@ -2,10 +2,10 @@
 class GroupMembership {
   /**
    * Create a GroupMembership.
-   * @param {BSON.ObjectId} groupId - The id of the group.
+   * @param {BSON.ObjectId} groupId - The ID of the group.
    * @param {string} groupName - The group's name to be displayed.
-   * @param {BSON.ObjectId} deviceId - The id of the user's device to be used in the group.
-   * @param {boolean} - Whether or not the user is the owner of the group.
+   * @param {BSON.ObjectId} deviceId - The ID of the user's device to be used in the group.
+   * @param {boolean} isOwner - Whether or not the user is the owner of the group.
    * @param {boolean} [shareLocation=true] - Whether or not the user allows its location to be shared with the group.
    */
   constructor({ groupId, groupName, deviceId, isOwner, shareLocation = true }) {

@@ -4,6 +4,11 @@ import { Pressable, StyleSheet, Platform } from 'react-native';
 import { Icon } from './Icon';
 import colors from '../styles/colors';
 
+/**
+ * Create a header button to be used on react-navigation header.
+ * @param {string} iconName - The icon name to be passed to <Icon> component.
+ * @param {function} onPress - Callback function to be called when the header button is pressed.
+ */
 export function HeaderButton({ iconName, onPress }) {
   return (
     <Pressable

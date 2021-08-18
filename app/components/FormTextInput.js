@@ -4,6 +4,10 @@ import { View, TextInput, Platform, StyleSheet } from 'react-native';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
+/**
+ * Create a form text input container component.
+ * @param {Object} props - Props to pass to <TextInput> component.
+ */
 export function FormTextInput(props) {
   return (
     <View style={styles.inputContainer}>

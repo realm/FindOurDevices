@@ -6,6 +6,15 @@ import Moment from 'react-moment';
 const LATITUDE_DELTA = 0.01;
 const LONGITUDE_DELTA = 0.001;
 
+/**
+ * Create a marker component.
+ * @param {string} label - The marker label.
+ * @param {Object} location - The marker location.
+ * @param {number} location.latitude - The marker latitude.
+ * @param {number} location.longitude - The marker longitude.
+ * @param {Date} location.updatedAt - The timestamp of the marker location.
+ * @param {string} color - The color to use for the marker (iOS only).
+ */
 export const MapMarker = memo(function MapMarker({ label, location, color }) {
   return (
     <Marker

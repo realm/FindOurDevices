@@ -12,7 +12,11 @@ A React Native + MongoDB Realm application for allowing users to see location an
 
 # Get Started
 
-## 1. Clone the repo:
+## 1. Set up development environment
+
+In order to use React Native and iOS and/or Android simulators, please refer to the [React Native environment set-up docs](https://reactnative.dev/docs/environment-setup) and view instructions for **React Native CLI Quickstart**.
+
+## 2. Clone the repo:
 
 ```bash
 # using https
@@ -22,7 +26,7 @@ git clone https://github.com/realm/FindOurDevices
 git clone git@github.com:realm/FindOurDevices.git
 ```
 
-## 2. Install dependencies:
+## 3. Install dependencies:
 
 ```bash
 cd FindOurDevices
@@ -35,20 +39,20 @@ npm install
 npx pod-install
 ```
 
-## 3. Add your Realm App ID
+## 4. Add your Realm App ID
 
-If you have set up your Realm backend (see [FindOurDevices-backend](https://github.com/realm/FindOurDevices-backend)) you can copy the Realm App ID from the MongoDB Realm UI.
+If you have set up your Realm backend (see [FindOurDevices-backend](https://github.com/realm/FindOurDevices-backend)) you can copy the Realm App ID from the [MongoDB Realm UI](https://account.mongodb.com/account/login).
 
 Once copied, open `/app/config.js` and paste the ID as the value of `REALM_APP_ID`. 
 
-## 4. Run the app:
+## 5. Run the app:
 
-1. In one terminal:
+1. In one terminal, run:
 ```bash
 npx react-native start
 ```
 
-2. In another terminal:
+2. In another terminal, run:
 ```bash
 # open iOS simulator
 npx react-native run-ios
@@ -69,7 +73,14 @@ If you are developing for Android and want to use Google Maps for the map functi
 
 To circumvent this, we have chosen to use the library `react-native-maps-osmdroid` which is a wrapper around `react-native-maps` that let's us use OpenStreetMaps instead of Google Maps. (The library API is mostly the same, thus the usage is the same.)
 
-1. In `/app/components/Map.js`, replace...
+1. Install the dependency
+    ```bash
+    npm install react-native-maps
+
+    # If using iOS, also run:
+    npx pod-install
+    ```
+2. In `/app/components/Map.js`, replace...
     <s>
     ```jsx
     import MapView from 'react-native-maps-osmdroid';
@@ -80,4 +91,4 @@ To circumvent this, we have chosen to use the library `react-native-maps-osmdroi
     ```jsx
     import MapView from 'react-native-maps';
     ```
-2. Refer to the `react-native-maps` docs and Google Maps API docs for instructions on how to proceed.
+3. Refer to the `react-native-maps` docs and Google Maps API docs for instructions on how to proceed.

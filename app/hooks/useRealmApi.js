@@ -6,7 +6,7 @@ import { useNetInfo } from '@react-native-community/netinfo';
  * @return {function} A function for calling a MongoDB Realm function.
  */
 export function useRealmApi(realmUser) {
-  const netInfo = useNetInfo();
+  const { isConnected, isInternetReachable } = useNetInfo();
 
   /**
    * Call the MongoDB Realm backend API.
@@ -18,7 +18,7 @@ export function useRealmApi(realmUser) {
     if (!realmUser)
       return { error: { message: 'You need to be logged in to continue.' } };
       
-    const isOffline = !netInfo.isConnected || !netInfo.isInternetReachable;
+    const isOffline = !isConnected || !isInternetReachable;
     if (isOffline)
       return { error: { message: 'Please connect to the Internet to continue.' } };
   
@@ -27,7 +27,7 @@ export function useRealmApi(realmUser) {
     // and its arguments to User.callFunction('functionName', args) as seen below.
     
     // Changes made by the backend will be automatically synced by Realm and reacted to
-    // via our change listeners (see /app/providers).
+    // via our change listeners implemented in each provdider (see /app/providers).
 
     // For realms/partitions with read-only permissions, such as the User realm and Group realms,
     // we only show changes once synced from the server, thus not offline. This is because

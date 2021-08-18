@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, createContext, useContext } from 'r
 import Realm, { BSON } from 'realm';
 
 import { getRealmApp } from '../getRealmApp';
+import { useRealmApi } from '../hooks/useRealmApi';
 import User from '../models/User';
 import GroupMembership from '../models/GroupMembership';
 import GroupInvitation from '../models/GroupInvitation';
@@ -15,6 +16,7 @@ function AuthProvider({ children }) {
   const [realmUser, setRealmUser] = useState(app.currentUser);
   // The userData is the user object from our schema/model that we will set when opening the user realm
   const [userData, setUserData] = useState(null);
+  const callRealmApi = useRealmApi(realmUser);
   // We store a reference to our realm using useRef that allows us to access it via
   // realmRef.current for the component's lifetime without causing rerenders if updated.
   const realmRef = useRef(null);
@@ -65,7 +67,6 @@ function AuthProvider({ children }) {
 
       const realm = await Realm.open(config);
       realmRef.current = realm;
-      
 
       // When querying a realm to find objects (e.g. realm.objects('User')) the result we get back
       // and the objects in it are "live" and will always reflect the latest state.
@@ -121,11 +122,12 @@ function AuthProvider({ children }) {
       const credentials = Realm.Credentials.emailPassword(email, password);
       const user = await app.logIn(credentials);
       
+      console.log('Logged in!');
+
       // Setting the realm user will rerender the RootNavigationContainer and in turn
       // conditionally render the AppNavigator to show the authenticated screens of the app
       setRealmUser(user);
       
-      console.log('Logged in!');
       return { success: true };
     }
     catch (err) {
@@ -147,11 +149,11 @@ function AuthProvider({ children }) {
 
   const setDisplayName = (name) => {
     // We can call our configured MongoDB Realm functions as methods on the User.functions
-    // property (as seen below), or by passing the function name and its arguments to
-    // User.callFunction('functionName', args). When the backend changes the display name,
-    // the change listener will call our notification handler where we update the UI state.
-    // (Currently we only show changes once synced from the server, thus not offline)
-    return realmUser.functions.setDisplayName(name);
+    // property, or by passing the function name and and array of its arguments to
+    // User.callFunction('functionName', args). (See /app/hooks/useRealmApi.js).
+    // When the backend changes the display name, the change listener will call our
+    // notification handler where we update the UI state.
+    return callRealmApi('setDisplayName', [name])
   };
 
   return (

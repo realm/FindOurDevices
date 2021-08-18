@@ -1,31 +1,26 @@
+import { useRealmApi } from './useRealmApi';
 import { useAuth } from '../providers/AuthProvider';
 
 export function useGroupManager() {
   const { realmUser } = useAuth();
-
-  // We can call our configured MongoDB Realm functions as methods on the User.functions
-  // property (as seen below), or by passing the function name and its arguments to
-  // User.callFunction('functionName', args).
-  
-  // Changes made by the backend will be automatically synced by Realm and reacted to
-  // via our change listeners (see /app/providers).
-  // (Currently we only show changes once synced from the server, thus not offline)
+  const callRealmApi = useRealmApi(realmUser);
 
   // Callers of these functions should be responsible for awaiting the results.
 
-  const createGroup = (name, deviceId) => realmUser.functions.createGroup(name, deviceId.toString());
+  const createGroup = (name, deviceId) => callRealmApi('createGroup', [name, deviceId.toString()]);
 
-  const leaveGroup = (groupId) => realmUser.functions.leaveGroup(groupId.toString());
+  const leaveGroup = (groupId) => callRealmApi('leaveGroup', [groupId.toString()]);
   
-  const removeGroup = (groupId) => realmUser.functions.removeGroup(groupId.toString());
+  const removeGroup = (groupId) => callRealmApi('removeGroup', [groupId.toString()]);
 
-  const inviteGroupMember = (groupId, newMemberEmail) => realmUser.functions.inviteGroupMember(groupId.toString(), newMemberEmail);
+  const inviteGroupMember = (groupId, newMemberEmail) => callRealmApi('inviteGroupMember', [groupId.toString(), newMemberEmail]);
 
-  const respondToInvitation = (groupId, accept, deviceId = '') => realmUser.functions.respondToInvitation(groupId.toString(), accept, deviceId.toString());
+  // Since the "deviceId" is optional (if the user declines the invite) we use a default param to not get an exception when calling "deviceId.toString()"
+  const respondToInvitation = (groupId, accept, deviceId = '') => callRealmApi('respondToInvitation', [groupId.toString(), accept, deviceId.toString()]);
   
-  const removeGroupMember = (groupId, memberId) => realmUser.functions.removeGroupMember(groupId.toString(), memberId.toString());
+  const removeGroupMember = (groupId, memberId) => callRealmApi('removeGroupMember', [groupId.toString(), memberId.toString()]);
 
-  const setShareLocation = (groupId, shareLocation) => realmUser.functions.setShareLocation(groupId.toString(), shareLocation);
+  const setShareLocation = (groupId, shareLocation) => callRealmApi('setShareLocation', [groupId.toString(), shareLocation]);
 
   return {
     createGroup,

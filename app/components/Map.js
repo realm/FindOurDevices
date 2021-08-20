@@ -61,11 +61,11 @@ export function Map({ markers, pluralItemType, onBackPress }) {
   };
 
   const getSelectedMarker = () => {
-    // Handle the event where no markers exist or the selected marker is invalid
-    // The picker values for the markers start at index "1", thus if the value
-    // is equal to "markers.length" it is still considered valid.
-    const isValid = selectedPickerItem.value <= markers.length;
-    if (!markers.length || !selectedPickerItem || !isValid)
+    // Handle the event where the default picker item is selected (idnex 0) or
+    // the selected marker is invalid. The picker values for the markers start at
+    // index 0, thus if the value is equal to "markers.length" it is still considered valid.
+    const isValid = selectedPickerItem?.value >= 1 && selectedPickerItem?.value <= markers.length;
+    if (!markers.length || !isValid)
       return null;
 
     return markers[selectedPickerItem.value - 1];

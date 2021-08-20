@@ -13,20 +13,20 @@ A React Native + MongoDB Realm example application for allowing users to see loc
 # Table of Contents
 
 - [Getting Started](#getting-started)
-  - [1. Set up development environment](#set-up-development-environment)
-  - [2. Clone the repo](#clone-the-repo)
-  - [3. Install dependencies](#install-dependencies)
-  - [4. Add your Realm App ID](#add-realm-app-id)
-  - [5. Run the app](#run-the-app)
+  - [1. Set up development environment](#1-set-up-development-environment)
+  - [2. Clone the repo](#2-clone-the-repo)
+  - [3. Install dependencies](#3-install-dependencies)
+  - [4. Add your Realm App ID](#4-add-your-realm-app-id)
+  - [5. Run the app](#5-run-the-app)
 - [Notes](#notes)
   - [Simulating device movement](#simulating-device-movement)
-  - [Replacing OpenStreetMaps with Google Maps](#adding-google-maps)
+  - [Replacing OpenStreetMaps with Google Maps](#replacing-openstreetmaps-with-google-maps)
 - [Troubleshooting](#troubleshooting)
   - [Objects not syncing](#objects-not-syncing)
   - [Triggers not being fired](#triggers-not-being-fired)
   - [Functions not being called by triggers](#functions-not-being-called-by-triggers)
   - [Permission errors](#permission-errors)
-  - [Detecting network connection on simulator when reenabling WiFi](#detecting-network-connection-on-simulator)
+  - [Detecting network connection on simulator when reenabling WiFi](#detecting-network-connection-on-simulator-when-reenabling-wifi)
 
 # Getting Started
 
@@ -65,12 +65,14 @@ Once copied, open `/app/config.js` and paste the ID as the value of `REALM_APP_I
 
 ## 5. Run the app
 
-1. In one terminal, run:
+1. Start Metro (the JavaScript bundler). Open a terminal and from the root of the project run:
+
 ```bash
 npx react-native start
 ```
 
-2. In another terminal, run:
+2. Build the app and run it on a simulator. Open a separate terminal and from the root of the project run:
+
 ```bash
 # open iOS simulator
 npx react-native run-ios
@@ -113,11 +115,11 @@ To circumvent this, we have chosen to use the library `react-native-maps-osmdroi
 
 # Troubleshooting
 
-A great help when troubleshooting is to look at the app's log in the MongoDB Realm UI under `Manage > Logs` in the sidebar.
+A great help when troubleshooting is to look at the log of the app in the [MongoDB Realm UI](https://account.mongodb.com/account/login) under `Manage > Logs` in the sidebar.
 
 ## Objects not syncing
 
-When developing and modifying schemas or making changes to documents directly in MongoDB Atlas, you may experience issues syncing the modfied object if the changes do not comply with your Realm data model. Realm Sync only propagates valid objects without throwing any errors if any of the objects do not comply with your schema/model.
+When developing and modifying schemas or making changes to documents directly in [MongoDB Atlas](https://account.mongodb.com/account/login), you may experience issues syncing the modfied object if the changes do not comply with your Realm data model. Realm Sync only propagates valid objects without throwing any errors if any of the objects do not comply with your schema/model.
 
 Make sure to check that all expected fields and types exist on the object/document.
 
@@ -125,22 +127,22 @@ Some issues may also be related to permissions (see [Permission errors](#permiss
 
 ## Triggers not being fired
 
-The first time you import your backend Realm app to MongoDB Realm, some triggers may not get enabled. Go to the MongoDB Realm UI then navigate to `Build > Triggers` in the sidebar. Enable any trigger that is not currently enabled.
+The first time you import your backend Realm app to MongoDB Realm, some triggers may not get enabled. Go to the [MongoDB Realm UI](https://account.mongodb.com/account/login) then navigate to `Build > Triggers` in the sidebar. Enable any trigger that is not currently enabled.
 
-Also make sure the trigger is configured correctly on the backend. Trigger configurations contain a `"match"` field where you may specify when the trigger should fire using the MongoDB query language.
+Also make sure the trigger is configured correctly on the backend. Trigger configurations contain a `match` field where you may specify when the trigger should fire using the MongoDB query language.
 
 ## Functions not being called by triggers
 
-When developing, if you notice from looking at the logs in the MongoDB Realm UI that a trigger is fired but the function that the trigger is supposed to call is not called, you may be using a device with an IP-address that is not listed on the access list of the API key (see [Permission errors](#permission-errors)).
+When developing, if you notice from looking at the logs in the [MongoDB Realm UI](https://account.mongodb.com/account/login) that a trigger is fired but the function that the trigger is supposed to call is not called, you may be using a device with an IP-address that is not listed on the access list of the API key (see [Permission errors](#permission-errors)).
 
 ## Permission errors
 
-When the Realm backend was set up, you had to add your IP to the Realm CLI API key access list. If you develop from another device or if using a different network connection (or other reasons), your IP address will be different.
+When the Realm backend was set up, you had to add your IP to the Realm CLI API key access list. If you develop from another device or using a different network connection (or other reasons), your IP address will be different.
 
-To edit the access list, navigate to `Access Mananger > Project Access > API Keys` at the top of the Atlas UI and choose which of your keys to edit.
+To edit the access list, navigate to `Access Mananger > Project Access > API Keys` at the top of the [Atlas UI](https://account.mongodb.com/account/login) and choose which of your keys to edit.
 
 ## Detecting network connection on simulator when reenabling WiFi
 
-There is a [known issue](http://www.openradar.appspot.com/29913522) with network change notifications on the iOS simulator that occurs when the simulator is running, then WiFi is turned off, then turned on again. The simulator will be notified of when the WiFi got turned off, but not when it got reenabled.
+There is a [known issue](http://www.openradar.appspot.com/29913522) with network change notifications on the iOS simulator that occurs when the simulator is (a) running, then (b) WiFi is turned off, then (c) turned on again. The simulator will be notified when the WiFi got turned off, but not when it got reenabled.
 
 To be able to test this scenario with greater confidence, please use a real device.

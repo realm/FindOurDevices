@@ -10,6 +10,8 @@ A React Native + MongoDB Realm example application for allowing users to see loc
 
 > To read more about the app and its use of Realm, as well as learning more about RealmDB data modeling, partitions, and permissions, see the app's blog post at: [insert link to blog post here](https://)
 
+![Welcome Screen](https://user-images.githubusercontent.com/44657095/130261299-e04996ef-d6af-4929-ba7b-12b304832326.png) ![Group Map View](https://user-images.githubusercontent.com/44657095/130261293-b15e346d-0ece-46ad-895a-449fa2a97aaf.png)
+
 # Table of Contents
 
 - [Getting Started](#getting-started)

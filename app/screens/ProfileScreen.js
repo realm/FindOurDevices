@@ -1,14 +1,38 @@
-import React from 'react';
-import { View, Text, StyleSheet, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Pressable, StyleSheet, Platform } from 'react-native';
 
 import { useAuth } from '../providers/AuthProvider';
+import { useToggle } from '../hooks/useToggle';
 import { Button } from '../components/Button';
 import { Icon } from '../components/Icon';
+import { FormTextInput } from '../components/FormTextInput';
+import { ModalForm } from '../components/ModalForm';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
 export function ProfileScreen() {
-  const { userData, logOut } = useAuth();
+  const { userData, logOut, setDisplayName } = useAuth();
+  const [newDisplayName, setNewDisplayName] = useState('');
+  const { isOn: modalVisible, turnOn: openModal, turnOff: closeModal } = useToggle(false);
+
+  const handleSaveName = async () => {
+    if (!newDisplayName)
+      return Alert.alert('Please enter a name.');
+
+    const { error } = await setDisplayName(newDisplayName);
+    if (error)
+      return Alert.alert(error.message);
+
+    closeModal();
+    setNewDisplayName('');
+  };
+
+  const handleCancelEditName = () => {
+    closeModal();
+
+    if (newDisplayName)
+      setNewDisplayName('');
+  };
 
   return (
     <View style={styles.screen}>
@@ -24,6 +48,19 @@ export function ProfileScreen() {
       </View>
       <View style={styles.lowerView}>
         <View>
+          <Pressable
+            onPress={openModal}
+            style={styles.userInfoItem}
+          >
+            <Icon
+              name='lead-pencil'
+              color={colors.primary}
+              size={25}
+            />
+            <Text style={[styles.userInfoItemText, styles.textHighlight]}>
+              Set new display name
+            </Text>
+          </Pressable>
           <View style={styles.userInfoItem}>
             <Icon
               name='email-outline'
@@ -40,6 +77,21 @@ export function ProfileScreen() {
           onPress={logOut}
         />
       </View>
+      <ModalForm
+        visible={modalVisible}
+        title='New Display Name:'
+        submitText='Save'
+        onSubmit={handleSaveName}
+        onCancel={handleCancelEditName}
+      >
+        <FormTextInput
+          placeholder='Name'
+          value={newDisplayName}
+          onChangeText={setNewDisplayName}
+          autoCorrect={false}
+          autoCapitalize='none'
+        />
+      </ModalForm>
     </View>
   );
 }
@@ -86,11 +138,14 @@ const styles = StyleSheet.create({
   userInfoItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 30,
+    marginTop: 30,
   },
   userInfoItemText: {
     marginHorizontal: 15,
     color: colors.grayDark,
     fontSize: fonts.sizeM
+  },
+  textHighlight: {
+    color: colors.primary
   }
 });

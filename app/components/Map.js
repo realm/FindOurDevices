@@ -1,10 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
-import MapView from 'react-native-maps-osmdroid';
 import { View, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
+import MapView from 'react-native-maps-osmdroid';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { MapMarker } from './MapMarker';
+import { DropdownPicker } from './DropdownPicker';
 import colors from '../styles/colors';
 
 // If you are developing for Android and want to use Google Maps for the map functionality,
@@ -16,8 +16,7 @@ import colors from '../styles/colors';
 const PICKER_VALUE_ALL_MARKERS = 'all';
 
 export function Map({ markers, pluralItemType, onBackPress }) {
-  const [pickerIsOpen, setPickerIsOpen] = useState(false);
-  const [pickerValue, setPickerValue] = useState(PICKER_VALUE_ALL_MARKERS);
+  const [selectedPickerItem, setSelectedPickerItem] = useState({ label: `All ${pluralItemType}`, value: PICKER_VALUE_ALL_MARKERS });
   const [pickerItems, setPickerItems] = useState([]);
   const mapViewRef = useRef(null);
 
@@ -27,7 +26,7 @@ export function Map({ markers, pluralItemType, onBackPress }) {
 
   useEffect(() => {
     updateFocusedRegion();
-  }, [pickerValue, markers]);
+  }, [selectedPickerItem, markers]);
 
   const createPickerItems = () => {
     if (!markers.length)
@@ -41,14 +40,14 @@ export function Map({ markers, pluralItemType, onBackPress }) {
 
   const getSelectedMarker = () => {
     // The picker values are 1-based numbers based of the 'markers' indexes
-    return markers[pickerValue - 1];
+    return markers[selectedPickerItem.value - 1];
   };
 
   const updateFocusedRegion = () => {
-    if (!pickerValue || !mapViewRef.current)
+    if (!selectedPickerItem || !mapViewRef.current)
       return;
-    
-    if (pickerValue === PICKER_VALUE_ALL_MARKERS) {
+
+    if (selectedPickerItem.value === PICKER_VALUE_ALL_MARKERS) {
       mapViewRef.current.fitToCoordinates(markers, {
         edgePadding: { top: 100, right: 100, bottom: 100, left: 100 },
         animated: true
@@ -57,7 +56,7 @@ export function Map({ markers, pluralItemType, onBackPress }) {
     else {
       const ANIMATION_DURATION_MS = 1000;
       const newRegion = {
-        latitude : getSelectedMarker().latitude,
+        latitude: getSelectedMarker().latitude,
         longitude: getSelectedMarker().longitude,
         latitudeDelta: 0.01,
         longitudeDelta: 0.001
@@ -85,18 +84,12 @@ export function Map({ markers, pluralItemType, onBackPress }) {
           />
         ))}
       </MapView>
-      <View style={[styles.overlay, styles.shadow]}>
-        <DropDownPicker
-          style={styles.dropdown}
-          dropDownContainerStyle={styles.dropDownContainer}
-          open={pickerIsOpen}
-          value={pickerValue}
+      <View style={styles.dropdownContainer}>
+        <DropdownPicker
+          selectedItem={selectedPickerItem}
           items={pickerItems}
-          setOpen={setPickerIsOpen}
-          setValue={setPickerValue}
-          setItems={setPickerItems}
-          labelProps={{ numberOfLines: 1 }}
-          dropDownDirection='TOP'
+          onSelectItem={setSelectedPickerItem}
+          openItemsDownward={false}
         />
       </View>
       <TouchableOpacity
@@ -135,31 +128,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     borderRadius: 30
   },
-  overlay: {
+  dropdownContainer: {
     width: Dimensions.get('window').width - 60,
     position: 'absolute',
-    bottom: 30,
-    borderRadius: 20
-  },
-  dropdown: {
-    paddingHorizontal: 20,
-    borderColor: colors.white,
-    borderRadius: 20
-  },
-  dropDownContainer: {
-    paddingHorizontal: 10,
-    borderRadius: 20,
-    borderColor: colors.grayLight,
-    borderBottomColor: colors.grayMedium,
-    backgroundColor: colors.grayLight
-  },
-  shadow: {
-    shadowColor: colors.black,
-    shadowOffset: {
-      width: 0,
-      height: 4
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 3
+    bottom: 30
   }
 });

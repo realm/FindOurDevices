@@ -20,7 +20,7 @@ export function GroupScreen({ navigation }) {
   const group = useGroup();
   const { inviteGroupMember, removeGroupMember, setShareLocation } = useGroupManager();
   const [newMemberEmail, setNewMemberEmail] = useState('');
-  const [modalVisible, closeModal]= useToggle(navigation, 'plus-circle');
+  const { isOn: modalVisible, turnOff: closeModal }= useToggle(false, navigation, 'plus-circle');
 
   useLayoutEffect(() => {
     // In order to set header options based on information available only in this component
@@ -99,6 +99,7 @@ export function GroupScreen({ navigation }) {
               onPress: (member) => handleRemoveMember(member.userId)
             }
           ]}
+          emptyListText='Invite another member.'
         />
         </>
       )}

@@ -14,7 +14,8 @@ export function List({
   itemSubTextExtractor = () => {},
   onItemPress = () => {},
   fadeOnPress,
-  rightActions = []
+  rightActions = [],
+  emptyListText = 'The list is empty.'
 }) {
   return (
     <View style={styles.list}>
@@ -45,7 +46,7 @@ export function List({
         />
       ) : (
         <Text style={styles.info}>
-          The list is empty.
+          {emptyListText}
         </Text>
       )}
     </View>

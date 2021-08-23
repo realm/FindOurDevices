@@ -1,78 +1,76 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Alert, StyleSheet } from 'react-native';
 
 import { useAuth } from '../providers/AuthProvider';
-import { useDevices } from '../providers/DevicesProvider';  // USE LATER
+import { useDevices } from '../providers/DevicesProvider';
 import { useGroupManager } from '../hooks/useGroupManager';
-import { FormTextInput } from '../components/FormTextInput';
 import { List } from '../components/List';
 import { ModalForm } from '../components/ModalForm';
+import { DropdownPicker } from '../components/DropdownPicker';
 
 export function InvitationsScreen() {
   const { userData } = useAuth();
-  //const { devices } = useDevices(); // USE LATER
+  const { devices } = useDevices();
   const { respondToInvitation } = useGroupManager();
   const [selectedInvitation, setSelectedInvitation] = useState(null);
-  const [temporaryDeviceId, setTemporaryDeviceId] = useState('');
+  const [selectedPickerItem, setSelectedPickerItem] = useState(null);
+  const [pickerItems, setPickerItems] = useState([]);
+  
+  useEffect(() => {
+    setPickerItems(devices.map(device => ({ label: device.name, value: device._id.toString() }) ));
+  }, [devices.length]);
 
   const handleAccept = async () => {
-    if (!selectedInvitation || !temporaryDeviceId)
+    if (!selectedInvitation || !selectedPickerItem)
       return;
 
     // Our MongoDB Realm backend function will return an object
     // containing an error property if any errors occurred.
-    const { error } = await respondToInvitation(selectedInvitation.groupId, true, temporaryDeviceId);
+    const selectedDeviceId = selectedPickerItem.value;
+    const { error } = await respondToInvitation(selectedInvitation.groupId, true, selectedDeviceId);
     if (error)
       return Alert.alert(error.message);
 
     setSelectedInvitation(null);
-    setTemporaryDeviceId('');
   };
 
-  const handleCancelAccept = () => {
-    setSelectedInvitation(null);
+  const handleCancelAccept = () => setSelectedInvitation(null);
 
-    if (temporaryDeviceId)
-      setTemporaryDeviceId('');
-  };
-  
   return (
     <View style={styles.screen}>
       {userData && (
         <>
-        <List
-          items={userData.invitations}
-          keyExtractor={(invitation) => invitation.groupId.toString()}
-          itemTextExtractor={(invitation) => invitation.groupName}
-          itemSubTextExtractor={(invitation) => `From: ${invitation.senderEmail}`}
-          fadeOnPress={false}
-          rightActions={[
-            {
-              actionType: 'accept',
-              onPress: (invitation) => setSelectedInvitation(invitation)
-            },
-            {
-              actionType: 'decline',
-              onPress: (invitation) => respondToInvitation(invitation.groupId, false)
-            }
-          ]}
-        />
-        <ModalForm
-          visible={!!selectedInvitation}
-          title='Accept Invitation'
-          submitText='Accept'
-          onSubmit={handleAccept}
-          onCancel={handleCancelAccept}
-        >
-          <FormTextInput
-            placeholder='Device ID to join with'
-            value={temporaryDeviceId}
-            onChangeText={setTemporaryDeviceId}
-            autoCorrect={false}
-            autoCapitalize='none'
+          <List
+            items={userData.invitations}
+            keyExtractor={(invitation) => invitation.groupId.toString()}
+            itemTextExtractor={(invitation) => invitation.groupName}
+            itemSubTextExtractor={(invitation) => `From: ${invitation.senderEmail}`}
+            fadeOnPress={false}
+            rightActions={[
+              {
+                actionType: 'accept',
+                onPress: (invitation) => setSelectedInvitation(invitation)
+              },
+              {
+                actionType: 'decline',
+                onPress: (invitation) => respondToInvitation(invitation.groupId, false)
+              }
+            ]}
+            emptyListText='You currently have no invitations.'
           />
-          {/* TEMPORARY (TODO: add dropdown for device names here) */}
-        </ModalForm>
+          <ModalForm
+            visible={!!selectedInvitation}
+            title='Accept Invitation'
+            submitText='Accept'
+            onSubmit={handleAccept}
+            onCancel={handleCancelAccept}
+          >
+            <DropdownPicker
+              selectedItem={selectedPickerItem}
+              items={pickerItems}
+              onSelectItem={setSelectedPickerItem}
+            />
+          </ModalForm>
         </>
       )}
     </View>

@@ -179,7 +179,7 @@ A visual overview of what a user can do with the application.
 
 Application capabilities.
 
-**[INSERT DIAGRAM HERE]**
+![FindOurDevices-use_case_diagram](https://user-images.githubusercontent.com/81748770/130425100-179afa3e-720c-4aa7-a44d-7087977f5f94.png)
 
 ## RealmDB Data Model
 
@@ -191,7 +191,7 @@ An Entity Relationship diagram of the FindOurDevices data model showing all Real
 
 Data modeling in Realm.
 
-**[INSERT DIAGRAM HERE]**
+![FindOurDevices-data_model](https://user-images.githubusercontent.com/81748770/130425159-bb7f7793-9535-4d17-92b0-31c549158043.png)
 
 ## Object Relationships Within and Across Partitions
 
@@ -203,7 +203,7 @@ Potential problems that you may run into when modeling data and referencing obje
 
 Partitioning in Realm.
 
-**[INSERT DIAGRAM HERE]**
+![FindOurDevices-object_relationships_dos_and_donts](https://user-images.githubusercontent.com/81748770/130425193-79fe0ec7-e397-4656-bc4d-d5bcf16ba4ab.png)
 
 ## Comparison of Permissions for Shared Realms
 
@@ -215,7 +215,7 @@ A comparison of the permissions of two different applications (one being FindOur
 
 Partitions and permissions for synced realms.
 
-**[INSERT DIAGRAM HERE]**
+![FindOurDevices-comparison_of_permissions_for_shared_realms](https://user-images.githubusercontent.com/81748770/130425235-85e58c72-76ce-4fdd-a5bd-0b9542e442a9.png)
 
 ## Solving Privacy Issues of an Earlier Data Model Version
 
@@ -227,7 +227,7 @@ Explanation of permission related issues of an earlier data model version of Fin
 
 Partitions and permissions for synced realms and how to spot a similar weakness in your data model.
 
-**[INSERT DIAGRAM HERE]**
+![FindOurDevices-solving_privacy_issue](https://user-images.githubusercontent.com/81748770/130425326-76e4f117-e940-4d16-8362-430aae347e7d.png)
 
 ## Visual Representation of the Integration of Realm
 
@@ -239,7 +239,7 @@ Illustration of how Realm is integrated in FindOurDevices (for the use case of h
 
 Realm integration, denormalization, and opening/closing of realms.
 
-**[INSERT DIAGRAM HERE]**
+![FindOurDevices-visual_representation_of_realm_integration](https://user-images.githubusercontent.com/81748770/130425356-1f596aa1-f160-4477-8454-a7d4e6722e05.png)
 
 ## Activities and Data Flow When Updating the Location of a Device
 
@@ -251,4 +251,4 @@ Illustration of what activities happen and how the data flows when the main use 
 
 Realm integration, Realm Sync, partitioning, and change listeners.
 
-**[INSERT DIAGRAM HERE]**
+![FindOurDevices-data_flow_updating_location](https://user-images.githubusercontent.com/81748770/130425393-7d4e5203-2911-45cf-bbab-9ec434bff7e8.png)

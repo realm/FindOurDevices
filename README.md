@@ -101,7 +101,23 @@ npx react-native run-android
 
 ## Simulating device movement
 
-[add instructions here]
+### iOS
+
+The first time you boot the app on an iOS device youll be asked permission for location sharing. **Make sure you allow location sharing since you wont be able to allow it afterwards if you refuse**.
+
+To simulate movement on an iOS device, after having the app running on a simulator, on the menu bar select `Features > Location`, and you'll have the option of setting a custom location or to simulate a bunch of predefined routes.
+
+Also make sure you set the location to something other than `None`, since in that case your device wont have any location associated with it and won't show up in the application maps screens.
+
+### Android
+
+The first time you boot the app on an Android device youll be asked permission for location sharing. Make sure you allow location sharing.
+
+To simulate movement on an Android device, after having the app running on a simulator, click the `...` icon on the simulator toolbar that appears to the side of the simulated device, and then select the `Location` tab and you'll have the option of setting a custom location or to simulate a custom defined route.
+
+## Location updates in the background
+
+The current app does not allow for the device location to be reflected on Realm while the app is minimized, you must have the app running on the screen for the updates to occur.
 
 ## Replacing OpenStreetMaps with Google Maps
 

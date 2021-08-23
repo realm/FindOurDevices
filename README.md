@@ -167,60 +167,88 @@ To be able to test this scenario with greater confidence, please use a real devi
 
 The diagrams presented and the notes therein provide insights into ways of thinking about RealmDB data modeling, partitioning, and permissions.
 
-> FindOurDevices uses a synced cluster with only [synced realms](https://docs.mongodb.com/realm/sync/rules/). Data access rules and permissions are different for [non-synced realms](https://docs.mongodb.com/realm/mongodb/define-roles-and-permissions/) which provide more granular, field-level rules.
+> ⚠️ FindOurDevices uses a synced cluster with only [synced realms](https://docs.mongodb.com/realm/sync/rules/). Data access rules and permissions are different for [non-synced realms](https://docs.mongodb.com/realm/mongodb/define-roles-and-permissions/) which provide more granular, field-level rules.
 
 ## Use Case Diagram
 
-**Description:** A visual overview of what a user can do with the application.
+#### Description:
 
-**Helps understand:** Application capabilities.
+A visual overview of what a user can do with the application.
+
+#### Helps understand:
+
+Application capabilities.
 
 **[INSERT DIAGRAM HERE]**
 
 ## RealmDB Data Model
 
-**Description:** An Entity Relationship diagram of the FindOurDevices data model showing all Realm objects and their relationships.
+#### Description:
 
-**Helps understand:** Data modeling in Realm.
+An Entity Relationship diagram of the FindOurDevices data model showing all Realm objects and their relationships.
+
+#### Helps understand:
+
+Data modeling in Realm.
 
 **[INSERT DIAGRAM HERE]**
 
 ## Object Relationships Within and Across Partitions
 
-**Description:** Potential problems that you may run into when modeling data and referencing objects, as well as various solutions for circumventing the issue and what solution FindOurDevices uses.
+#### Description:
 
-**Helps understand:** Partitioning in Realm.
+Potential problems that you may run into when modeling data and referencing objects, as well as various solutions for circumventing the issue and what solution FindOurDevices uses.
+
+#### Helps understand:
+
+Partitioning in Realm.
 
 **[INSERT DIAGRAM HERE]**
 
 ## Comparison of Permissions for Shared Realms
 
-**Description:** A comparison of the permissions of two different applications (one being FindOurDevices) for the part of the app that uses a shared realm. It explains why the synced permission rules for FindOurDevices are not the same (i.e. does not allow “write” permission).
+#### Description:
 
-**Helps understand:** Partitions and permissions for synced realms.
+A comparison of the permissions of two different applications (one being FindOurDevices) for the part of the app that uses a shared realm. It explains why the synced permission rules for FindOurDevices are not the same (i.e. does not allow “write” permission).
+
+#### Helps understand:
+
+Partitions and permissions for synced realms.
 
 **[INSERT DIAGRAM HERE]**
 
 ## Solving Privacy Issues of an Earlier Data Model Version
 
-**Description:** Explanation of permission related issues of an earlier data model version of FindOurDevices and how a remodel solved the issue.
+#### Description:
 
-**Helps understand:** Partitions and permissions for synced realms and how to spot a similar weakness in your data model.
+Explanation of permission related issues of an earlier data model version of FindOurDevices and how a remodel solved the issue.
+
+#### Helps understand:
+
+Partitions and permissions for synced realms and how to spot a similar weakness in your data model.
 
 **[INSERT DIAGRAM HERE]**
 
 ## Visual Representation of the Integration of Realm
 
-**Description:** Illustration of how Realm is integrated in FindOurDevices (for the use case of having groups) and from what exact places of the data model the data on various screens come from. It also shows what Realm-related operations are performed when the user interacts with the screen.
+#### Description:
 
-**Helps understand:** Realm integration, denormalization, and opening/closing of realms.
+Illustration of how Realm is integrated in FindOurDevices (for the use case of having groups) and from what exact places of the data model the data on various screens come from. It also shows what Realm-related operations are performed when the user interacts with the screen.
+
+#### Helps understand:
+
+Realm integration, denormalization, and opening/closing of realms.
 
 **[INSERT DIAGRAM HERE]**
 
 ## Activities and Data Flow When Updating the Location of a Device
 
-**Description:** Illustration of what activities happen and how the data flows when the main use case of the app occurs (i.e. a device moves X meters and the new location can be seen on the map by the user and any group members that the user is a part of). All activities within a specific column in the diagram represent what happens on that specific entity (e.g. on John’s phone, Mary’s phone, or on the MongoDB Realm backend).
+#### Description:
 
-**Helps understand:** Realm integration, Realm Sync, partitioning, and change listeners.
+Illustration of what activities happen and how the data flows when the main use case of the app occurs (i.e. a device moves X meters and the new location can be seen on the map by the user and any group members that the user is a part of). All activities within a specific column in the diagram represent what happens on that specific entity (e.g. on John’s phone, Mary’s phone, or on the MongoDB Realm backend).
+
+#### Helps understand:
+
+Realm integration, Realm Sync, partitioning, and change listeners.
 
 **[INSERT DIAGRAM HERE]**

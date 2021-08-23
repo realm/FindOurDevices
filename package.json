@@ -1,7 +1,12 @@
 {
   "name": "findourdevices",
+  "description": "FindOurDevices is a React Native and MongoDB Realm example application.",
   "version": "0.0.1",
-  "private": true,
+  "license": "See the actual license in the file LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/realm/FindOurDevices.git"
+  },
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",

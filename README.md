@@ -127,7 +127,7 @@ To circumvent this, we have chosen to use the library `react-native-maps-osmdroi
     ```jsx
     import MapView from 'react-native-maps';
     ```
-3. Refer to the `react-native-maps` docs and Google Maps API docs for instructions on how to proceed.
+3. Refer to the [react-native-maps docs](https://github.com/react-native-maps/react-native-maps/blob/HEAD/docs/installation.md) and [Google Maps API docs](https://developers.google.com/maps/documentation/) for instructions on how to proceed.
 
 # Troubleshooting
 

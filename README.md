@@ -28,7 +28,7 @@ A React Native + MongoDB Realm example application for allowing users to see loc
   - [5. Run the app](#5-run-the-app)
 - [Notes](#notes)
   - [Simulating device movement](#simulating-device-movement)
-  - [Location updates in the background](#location-updates-in-the-background)
+  - [Updating location in the background](#updating-location-in-the-background)
   - [Replacing OpenStreetMaps with Google Maps](#replacing-openstreetmaps-with-google-maps)
 - [Troubleshooting](#troubleshooting)
   - [Objects not syncing](#objects-not-syncing)
@@ -104,21 +104,30 @@ npx react-native run-android
 
 ### iOS
 
-The first time you boot the app on an iOS device youll be asked permission for location sharing. **Make sure you allow location sharing since you wont be able to allow it afterwards if you refuse**.
+The first time you boot the app on a specific iOS device and log in, the app will request permission to use your location. **Make sure you allow location sharing since iOS users only have one chance to respond to that alert**.
 
-To simulate movement on an iOS device, after having the app running on a simulator, on the menu bar select `Features > Location`, and you'll have the option of setting a custom location or to simulate a bunch of predefined routes.
+Simulate movement on a simulator:
 
-Also make sure you set the location to something other than `None`, since in that case your device wont have any location associated with it and won't show up in the application maps screens.
+1. Run the app
+2. From the menu bar, select `Features > Location`
+3. Set custom coordinates or choose to simulate riding a bike, a car, or running, etc.
+
+> ⚠️ The first time a user adds a simulator device to their account, the device's location will not be set because the `Menu Bar > Features > Location` will be set to `None`. The device will therefore not show up on the map screen. To set a location for the device, simply follow the steps above.
 
 ### Android
 
-The first time you boot the app on an Android device youll be asked permission for location sharing. Make sure you allow location sharing.
+The first time you boot the app on a specific Android device and log in, the app will request permission to use your location. **Make sure you allow location sharing**.
 
-To simulate movement on an Android device, after having the app running on a simulator, click the `...` icon on the simulator toolbar that appears to the side of the simulated device, and then select the `Location` tab and you'll have the option of setting a custom location or to simulate a custom defined route.
+Simulate movement on an emulator:
 
-## Location updates in the background
+1. Run the app
+2. From the emulator toolbar, select the `...` icon
+3. Select the `Location` menu item
+4. Set a custom address or press the `routes` tab to enter a start and end address and press `PLAY ROUTE`
 
-The current app does not allow for the device location to be reflected on Realm while the app is minimized, you must have the app running on the screen for the updates to occur.
+## Updating location in the background
+
+The current app does not support location updates while the app is minimized. The app must be running in the foreground for location change notifications to be emitted.
 
 ## Replacing OpenStreetMaps with Google Maps
 

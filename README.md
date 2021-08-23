@@ -102,6 +102,8 @@ npx react-native run-android
 
 ## Simulating device movement
 
+The app is implemented to only be notified of a location change if the device moves a minimum number of meters. You may change the minimum number in `/app/hooks/useLocation.js` and replace the value of the constant `METERS_BEFORE_UPDATING_LOCATION`.
+
 ### iOS
 
 The first time you boot the app on a specific iOS device and log in, the app will request permission to use your location. **Make sure you allow location sharing since iOS users only have one chance to respond to that alert**.
@@ -116,7 +118,7 @@ Simulate movement on a simulator:
 
 ### Android
 
-The first time you boot the app on a specific Android device and log in, the app will request permission to use your location. **Make sure you allow location sharing**.
+The first time you boot the app on a specific Android device and log in, the app may request permission to use your location. **Make sure you allow location sharing**.
 
 Simulate movement on an emulator:
 
@@ -154,6 +156,13 @@ To circumvent this, we have chosen to use the library `react-native-maps-osmdroi
     import MapView from 'react-native-maps';
     ```
 3. Refer to the [react-native-maps docs](https://github.com/react-native-maps/react-native-maps/blob/HEAD/docs/installation.md) and [Google Maps API docs](https://developers.google.com/maps/documentation/) for instructions on how to proceed.
+
+#### Noticeable limitations of OpenStreetMaps (Android):
+
+* The UI is less modern
+* The callout shown when pressing a marker/pin remains in the same place on the screen even when dragging the map or following a moving marker. 
+* All pins use the same colors
+* When there is only one device or member on the map and you choose to view "All" markers, the map region is zoomed in to an impractical extent.
 
 # Troubleshooting
 

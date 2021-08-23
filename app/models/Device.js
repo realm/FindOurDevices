@@ -1,7 +1,7 @@
 import { BSON } from 'realm';
 
 /** Class representing a device (e.g. phone, tablet). */
-class Device {
+export class Device {
   /**
    * @typedef {Object} Location
    * @property {Date} location.updatedAt - The date when the location was last updated.
@@ -43,5 +43,3 @@ class Device {
     }
   };
 }
-
-export default Device;

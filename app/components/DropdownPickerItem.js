@@ -2,8 +2,8 @@ import React from 'react';
 import { Text, StyleSheet, Pressable } from 'react-native';
 
 import { Icon } from './Icon';
-import fonts from '../styles/fonts';
-import colors from '../styles/colors';
+import { fonts } from '../styles/fonts';
+import { colors } from '../styles/colors';
 
 /**
  * Create a dropdown picker item option component.

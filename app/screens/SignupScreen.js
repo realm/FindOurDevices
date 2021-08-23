@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Alert, Image, View, Text, Platform, StyleSheet, KeyboardAvoidingView } from 'react-native';
-import routes from '../navigation/routes';
+import { routes } from '../navigation/routes';
 
 import { useAuth } from '../providers/AuthProvider';
 import { Button } from '../components/Button';
 import { FormTextInput } from '../components/FormTextInput';
-import colors from '../styles/colors';
-import fonts from '../styles/fonts';
+import { colors } from '../styles/colors';
+import { fonts } from '../styles/fonts';
 
 export function SignupScreen({ navigation }) {
   const [email, setEmail] = useState('');

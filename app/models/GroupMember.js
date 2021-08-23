@@ -1,5 +1,5 @@
 /** Class representing a group member. */
-class GroupMember {
+export class GroupMember {
   /**
    * @typedef {Object} Location
    * @property {Date} location.updatedAt - The date when the location was last updated.
@@ -35,5 +35,3 @@ class GroupMember {
     }
   };
 }
-
-export default GroupMember;

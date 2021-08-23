@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import colors from '../styles/colors';
+import { colors } from '../styles/colors';
 
 /**
  * Create an icon component.

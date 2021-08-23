@@ -3,9 +3,9 @@ import Realm, { BSON } from 'realm';
 
 import { getRealmApp } from '../getRealmApp';
 import { useRealmApi } from '../hooks/useRealmApi';
-import User from '../models/User';
-import GroupMembership from '../models/GroupMembership';
-import GroupInvitation from '../models/GroupInvitation';
+import { User } from '../models/User';
+import { GroupMembership } from '../models/GroupMembership';
+import { GroupInvitation } from '../models/GroupInvitation';
 
 const app = getRealmApp();
 

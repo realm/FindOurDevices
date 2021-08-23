@@ -9,7 +9,7 @@ import { FormTextInput } from '../components/FormTextInput';
 import { List } from '../components/List';
 import { ModalForm } from '../components/ModalForm';
 import { DropdownPicker } from '../components/DropdownPicker';
-import routes from '../navigation/routes';
+import { routes } from '../navigation/routes';
 
 export function GroupsScreen({ navigation, setGroupId }) {
   const { userData } = useAuth();

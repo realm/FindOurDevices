@@ -5,7 +5,7 @@ import MapView from 'react-native-maps-osmdroid';
 import { Icon } from './Icon';
 import { MapMarker } from './MapMarker';
 import { DropdownPicker } from './DropdownPicker';
-import colors from '../styles/colors';
+import { colors } from '../styles/colors';
 
 // If you are developing for Android and want to use Google Maps for the map functionality,
 // you need to get an API key and set up a billing account with Google. To circumvent this,
@@ -98,7 +98,7 @@ export function Map({ markers, pluralItemType, onBackPress }) {
   };
 
   const markerColors = [
-    '#8922ec', '#ffbf00', '#f3ac56', '#1177ee', '#00bf00', '#e328f5',
+    '#8922ec', '#ffbf00', '#f3ac56', '#00bf00', '#e328f5', '#1177ee',
     '#007fff', '#00ffff', '#3d2b1f', '#b5a642', '#a3e36c', '#161a58',
   ];
 

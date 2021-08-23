@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef, createContext, useContext } from 'r
 import Realm from 'realm';
 
 import { useAuth } from './AuthProvider';
-import Group from '../models/Group';
-import GroupMember from '../models/GroupMember';
-import Location from '../models/Location';
+import { Group } from '../models/Group';
+import { GroupMember } from '../models/GroupMember';
+import { Location } from '../models/Location';
 
 // For complimentary comments on the use of Realm in this module, see
 // /app/providers/AuthProvider.js as it follows a similar structure

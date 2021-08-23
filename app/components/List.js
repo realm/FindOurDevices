@@ -4,8 +4,8 @@ import { Text, View, FlatList, StyleSheet } from 'react-native';
 import { ListItem } from './ListItem';
 import { ListItemAction } from './ListItemAction';
 import { ListItemSeparator } from './ListItemSeparator';
-import fonts from '../styles/fonts';
-import colors from '../styles/colors';
+import { fonts } from '../styles/fonts';
+import { colors } from '../styles/colors';
 
 /**
  * Create a list component.

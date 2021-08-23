@@ -2,7 +2,7 @@ import React from 'react';
 import { Pressable, StyleSheet, Platform } from 'react-native';
 
 import { Icon } from './Icon';
-import colors from '../styles/colors';
+import { colors } from '../styles/colors';
 
 /**
  * Create a header button to be used on react-navigation header.

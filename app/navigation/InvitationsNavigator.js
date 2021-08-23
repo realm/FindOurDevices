@@ -3,8 +3,8 @@ import { StyleSheet, Platform } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { InvitationsScreen } from '../screens/InvitationsScreen';
-import routes from './routes';
-import colors from '../styles/colors';
+import { routes } from './routes';
+import { colors } from '../styles/colors';
 
 const Stack = createStackNavigator();
 

@@ -4,8 +4,8 @@ import { getUniqueId, getDeviceName } from 'react-native-device-info';
 
 import { useAuth } from './AuthProvider';
 import { useLocation } from '../hooks/useLocation';
-import Device from '../models/Device';
-import Location from '../models/Location';
+import { Device } from '../models/Device';
+import { Location } from '../models/Location';
 
 // For complimentary comments on the use of Realm in this module, see
 // /app/providers/AuthProvider.js as it follows a similar structure

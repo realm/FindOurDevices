@@ -7,8 +7,8 @@ import { Button } from '../components/Button';
 import { Icon } from '../components/Icon';
 import { FormTextInput } from '../components/FormTextInput';
 import { ModalForm } from '../components/ModalForm';
-import colors from '../styles/colors';
-import fonts from '../styles/fonts';
+import { colors } from '../styles/colors';
+import { fonts } from '../styles/fonts';
 
 export function ProfileScreen() {
   const { userData, logOut, setDisplayName } = useAuth();

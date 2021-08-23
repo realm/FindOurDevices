@@ -6,8 +6,8 @@ import { GroupsNavigator } from './GroupsNavigator';
 import { InvitationsNavigator } from './InvitationsNavigator';
 import { ProfileScreen } from '../screens/ProfileScreen';
 import { Icon } from '../components/Icon';
-import routes from './routes';
-import colors from '../styles/colors';
+import { routes } from './routes';
+import { colors } from '../styles/colors';
 
 const Tab = createBottomTabNavigator();
 

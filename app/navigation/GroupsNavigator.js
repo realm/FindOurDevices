@@ -7,8 +7,8 @@ import { GroupsScreen } from '../screens/GroupsScreen';
 import { GroupScreen } from '../screens/GroupScreen';
 import { GroupMapScreen } from '../screens/GroupMapScreen';
 import { Icon } from '../components/Icon';
-import routes from './routes';
-import colors from '../styles/colors';
+import { routes } from './routes';
+import { colors } from '../styles/colors';
 
 const Stack = createStackNavigator();
 

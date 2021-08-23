@@ -1,4 +1,4 @@
-const fonts = {
+export const fonts = {
   sizeS: 14,
   sizeM: 18,
   sizeL: 20,
@@ -6,5 +6,3 @@ const fonts = {
   titleFamilyIos: 'AvenirNext-Heavy',
   titleFamilyAndroid: 'Roboto'
 };
-
-export default fonts;

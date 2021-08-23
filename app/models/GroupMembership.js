@@ -1,5 +1,5 @@
 /** Class representing a group membership. */
-class GroupMembership {
+export class GroupMembership {
   /**
    * Create a GroupMembership.
    * @param {BSON.ObjectId} groupId - The ID of the group.
@@ -29,5 +29,3 @@ class GroupMembership {
     }
   };
 }
-
-export default GroupMembership;

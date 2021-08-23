@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 
 import { Icon } from './Icon';
-import colors from '../styles/colors';
+import { colors } from '../styles/colors';
 
 /**
  * Create a list item action component.

@@ -2,8 +2,8 @@ import React from 'react';
 import { Image, ImageBackground, View, Text, Platform, StyleSheet } from 'react-native';
 
 import { Button } from '../components/Button';
-import fonts from '../styles/fonts';
-import routes from '../navigation/routes';
+import { fonts } from '../styles/fonts';
+import { routes } from '../navigation/routes';
 
 export function WelcomeScreen({ navigation }) {
   return (

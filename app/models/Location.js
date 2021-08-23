@@ -1,5 +1,5 @@
 /** Class representing a location. */
-class Location {
+export class Location {
   /**
    * Create a Location.
    * @param {Date} updatedAt - The date of when the location was last updated.
@@ -23,5 +23,3 @@ class Location {
     }
   };
 }
-
-export default Location;

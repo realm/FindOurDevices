@@ -1,7 +1,7 @@
 import { BSON } from 'realm';
 
 /** Class representing a group. */
-class Group {
+export class Group {
   /**
    * Create a Group.
    * @param {BSON.ObjectId} [id=new BSON.ObjectId()] - The ID of the group.
@@ -31,5 +31,3 @@ class Group {
     }
   };
 }
-
-export default Group;

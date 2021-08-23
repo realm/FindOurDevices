@@ -3,9 +3,9 @@ import Realm, { BSON } from 'realm';
 
 import { getRealmApp } from '../getRealmApp';
 import { useRealmApi } from '../hooks/useRealmApi';
-import User from '../models/User';
-import GroupMembership from '../models/GroupMembership';
-import GroupInvitation from '../models/GroupInvitation';
+import { User } from '../models/User';
+import { GroupMembership } from '../models/GroupMembership';
+import { GroupInvitation } from '../models/GroupInvitation';
 
 const app = getRealmApp();
 
@@ -20,6 +20,7 @@ function AuthProvider({ children }) {
   const [realmUser, setRealmUser] = useState(app.currentUser);
   // The userData is the user object from our schema/model that we will set when opening the user realm
   const [userData, setUserData] = useState(null);
+  // callRealmApi is the helper function responsible for calling the MongoDB Realm functions
   const callRealmApi = useRealmApi(realmUser);
   // We store a reference to our realm using useRef that allows us to access it via
   // realmRef.current for the component's lifetime without causing rerenders if updated.
@@ -64,9 +65,10 @@ function AuthProvider({ children }) {
           // WARNING: REMEMBER TO REMOVE THE CONSOLE.LOG FOR PRODUCTION AS FREQUENT CONSOLE.LOGS
           // GREATLY DECREASES PERFORMANCE AND BLOCKS THE UI THREAD. IF THE USER IS OFFLINE,
           // SYNCING WILL NOT BE POSSIBLE AND THIS CALLBACK WILL BE CALLED FREQUENTLY.
-          error: (session, syncError) => {
-            console.error(`There was an error syncing the Group realm. (${syncError.message ? syncError.message : 'No message'})`);
-          }
+          
+          // error: (session, syncError) => {
+          //   console.error(`There was an error syncing the User realm. (${syncError.message ? syncError.message : 'No message'})`);
+          // }
         }
       };
 
@@ -81,11 +83,12 @@ function AuthProvider({ children }) {
       if (users?.length)
         setUserData(users[0]);
       
-      // Live queries and objects emit notifications when something has changed that we can listen for.
+      // Live queries, collections, and objects emit notifications when something has changed that we can listen for.
       subscriptionRef.current = users;
       users.addListener((/*object, changes*/) => {
         // [add comment]
 
+        // TODO: Modify comments if object listener is not fixed by Realm
         // By querying the object again, we get a new reference to the Result and triggers
         // a rerender by React. Setting the user to either 'user' or 'object' (from the
         // argument) will not trigger a rerender since it is the same reference

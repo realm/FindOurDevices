@@ -1,5 +1,5 @@
 /** Class representing a group invitation. */
-class GroupInvitation {
+export class GroupInvitation {
   /**
    * Create a GroupInvitation.
    * @param {BSON.ObjectId} groupId - The ID of the group.
@@ -23,5 +23,3 @@ class GroupInvitation {
     }
   };
 }
-
-export default GroupInvitation;

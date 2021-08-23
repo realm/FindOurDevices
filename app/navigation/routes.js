@@ -1,5 +1,5 @@
 // Freeze the object to prevent modifications to it from inside the app
-export default Object.freeze({
+export const routes = Object.freeze({
   WELCOME: 'Welcome',
   LOGIN: 'Login',
   SIGNUP: 'Signup',

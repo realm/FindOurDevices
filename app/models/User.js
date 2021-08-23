@@ -1,7 +1,7 @@
 import { BSON } from 'realm';
 
 /** Class representing a user. */
-class User {
+export class User {
   /**
    * Create a User.
    * @param {BSON.ObjectId} [id=new BSON.ObjectId()] - The ID of the user.
@@ -37,5 +37,3 @@ class User {
     }
   };
 }
-
-export default User;

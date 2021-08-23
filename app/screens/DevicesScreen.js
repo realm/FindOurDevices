@@ -7,7 +7,7 @@ import { Button } from '../components/Button';
 import { List } from '../components/List';
 import { ModalForm } from '../components/ModalForm';
 import { FormTextInput } from '../components/FormTextInput';
-import routes from '../navigation/routes';
+import { routes } from '../navigation/routes';
 
 export function DevicesScreen({ navigation }) {
   const { devices, currentIosOrAndroidId, addCurrentDevice, setDeviceName } = useDevices();

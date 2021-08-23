@@ -4,8 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { DevicesScreen } from '../screens/DevicesScreen';
 import { DevicesMapScreen } from '../screens/DevicesMapScreen';
-import routes from './routes';
-import colors from '../styles/colors';
+import { routes } from './routes';
+import { colors } from '../styles/colors';
 
 const Stack = createStackNavigator();
 

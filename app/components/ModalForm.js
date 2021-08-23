@@ -2,8 +2,8 @@ import React from 'react';
 import { View, Text, Modal, Pressable, Platform, StyleSheet, KeyboardAvoidingView } from 'react-native';
 
 import { Button } from './Button';
-import colors from '../styles/colors';
-import fonts from '../styles/fonts';
+import { colors } from '../styles/colors';
+import { fonts } from '../styles/fonts';
 
 /**
  * Create a modal form component

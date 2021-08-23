@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     width: 200
   },
   calloutLabel : {
+    marginBottom: 5,
     textAlign: 'center',
     fontWeight: 'bold'
   },

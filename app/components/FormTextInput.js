@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, TextInput, Platform, StyleSheet } from 'react-native';
 
-import colors from '../styles/colors';
-import fonts from '../styles/fonts';
+import { colors } from '../styles/colors';
+import { fonts } from '../styles/fonts';
 
 /**
  * Create a form text input container component.

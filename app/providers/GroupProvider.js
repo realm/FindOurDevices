@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef, createContext, useContext } from 'r
 import Realm from 'realm';
 
 import { useAuth } from './AuthProvider';
-import Group from '../models/Group';
-import GroupMember from '../models/GroupMember';
-import Location from '../models/Location';
+import { Group } from '../models/Group';
+import { GroupMember } from '../models/GroupMember';
+import { Location } from '../models/Location';
 
 // For complimentary comments on the use of Realm in this module, see
 // /app/providers/AuthProvider.js as it follows a similar structure
@@ -49,9 +49,10 @@ function GroupProvider({ children, groupId }) {
           // WARNING: REMEMBER TO REMOVE THE CONSOLE.LOG FOR PRODUCTION AS FREQUENT CONSOLE.LOGS
           // GREATLY DECREASES PERFORMANCE AND BLOCKS THE UI THREAD. IF THE USER IS OFFLINE,
           // SYNCING WILL NOT BE POSSIBLE AND THIS CALLBACK WILL BE CALLED FREQUENTLY.
-          error: (session, syncError) => {
-            console.error(`There was an error syncing the Group realm. (${syncError.message ? syncError.message : 'No message'})`);
-          }
+          
+          // error: (session, syncError) => {
+          //   console.error(`There was an error syncing the Group realm. (${syncError.message ? syncError.message : 'No message'})`);
+          // }
         }
       };
 

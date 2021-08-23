@@ -4,8 +4,8 @@ import { View, Text, FlatList, StyleSheet, Pressable, Platform } from 'react-nat
 import { useToggle } from '../hooks/useToggle';
 import { Icon } from './Icon';
 import { DropdownPickerItem } from './DropdownPickerItem';
-import fonts from '../styles/fonts';
-import colors from '../styles/colors';
+import { fonts } from '../styles/fonts';
+import { colors } from '../styles/colors';
 
 /**
  * Create a dropdown picker component.

@@ -11,9 +11,9 @@ import { Icon } from '../components/Icon';
 import { List } from '../components/List';
 import { ListItemSeparator } from '../components/ListItemSeparator';
 import { ModalForm } from '../components/ModalForm';
-import routes from '../navigation/routes';
-import colors from '../styles/colors';
-import fonts from '../styles/fonts';
+import { routes } from '../navigation/routes';
+import { colors } from '../styles/colors';
+import { fonts } from '../styles/fonts';
 
 export function GroupScreen({ navigation }) {
   const { userData } = useAuth();

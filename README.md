@@ -162,7 +162,7 @@ To circumvent this, we have chosen to use the library `react-native-maps-osmdroi
 * The UI is less modern
 * The callout shown when pressing a marker/pin remains in the same place on the screen even when dragging the map or following a moving marker. 
 * All pins use the same colors
-* When there is only one device or member on the map and you choose to view "All" markers, the map region is zoomed in to an impractical extent.
+* When there is only one device or member on the map and you choose to view "All" markers, the map region is too zoomed in.
 
 # Troubleshooting
 
@@ -188,13 +188,13 @@ When developing, if you notice from looking at the logs in the [MongoDB Realm UI
 
 ## Permission errors
 
-When the Realm backend was set up, you had to add your IP to the Realm CLI API key access list. If you develop from another device or using a different network connection (or other reasons), your IP address will be different.
+When the Realm backend was set up, you had to add your IP to the Realm CLI API key access list. If you are developing from another device or using a different network connection (or other reasons), your IP address will be different.
 
 To edit the access list, navigate to `Access Mananger > Project Access > API Keys` at the top of the [MongoDB Atlas UI](https://account.mongodb.com/account/login) and choose which of your keys to edit.
 
 ## Detecting network connection on simulator when reenabling WiFi
 
-There is a [known issue](http://www.openradar.appspot.com/29913522) with network change notifications on the iOS simulator that occurs when the simulator is (a) running, then (b) WiFi is turned off, then (c) turned on again. The simulator will be notified when the WiFi got turned off, but not when it got reenabled.
+There is a [known issue](http://www.openradar.appspot.com/29913522) with network change notifications on the iOS simulator that occurs when the simulator is (a) running, then (b) WiFi is turned off, then (c) WiFi is turned on again. The simulator will be notified when the WiFi got turned off, but not when it got reenabled.
 
 To be able to test this scenario with greater confidence, please use a real device.
 
@@ -202,7 +202,7 @@ To be able to test this scenario with greater confidence, please use a real devi
 
 The diagrams presented and the notes therein provide insights into ways of thinking about RealmDB data modeling, partitioning, and permissions.
 
-> ⚠️ FindOurDevices uses a synced cluster with only [synced realms](https://docs.mongodb.com/realm/sync/rules/). Data access rules and permissions are different for [non-synced realms](https://docs.mongodb.com/realm/mongodb/define-roles-and-permissions/) which provide more granular, field-level rules.
+> FindOurDevices uses a synced cluster with only [synced realms](https://docs.mongodb.com/realm/sync/rules/). Data access rules and permissions are different for [non-synced realms](https://docs.mongodb.com/realm/mongodb/define-roles-and-permissions/) which provide document-level and field-level rules.
 
 ## Use Case Diagram
 
@@ -244,7 +244,7 @@ Partitioning in Realm.
 
 #### Description:
 
-A comparison of the permissions of two different applications (one being FindOurDevices) for the part of the app that uses a shared realm. It explains why the synced permission rules for FindOurDevices are not the same (i.e. does not allow “write” permission).
+A comparison of the permissions of two different applications (one being FindOurDevices) for the part of the app that uses a shared realm. It explains why the sync permission rules for FindOurDevices are not the same (i.e. does not allow “write” permission).
 
 #### Helps understand:
 

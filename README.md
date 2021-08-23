@@ -28,6 +28,7 @@ A React Native + MongoDB Realm example application for allowing users to see loc
   - [5. Run the app](#5-run-the-app)
 - [Notes](#notes)
   - [Simulating device movement](#simulating-device-movement)
+  - [Location updates in the background](#location-updates-in-the-background)
   - [Replacing OpenStreetMaps with Google Maps](#replacing-openstreetmaps-with-google-maps)
 - [Troubleshooting](#troubleshooting)
   - [Objects not syncing](#objects-not-syncing)

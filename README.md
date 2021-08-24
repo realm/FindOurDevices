@@ -12,11 +12,11 @@ A React Native + MongoDB Realm example application for allowing users to see loc
 
 #### Demo Video:
 
-> A video showcasing the app functionality can be found [here (TODO: INSERT LINK)](https://).
+https://user-images.githubusercontent.com/81748770/130593679-17f75d6b-ecac-4b30-9970-bb4b28af36d0.mov
 
 #### Screenshots:
 
-![Welcome Screen](https://user-images.githubusercontent.com/44657095/130261299-e04996ef-d6af-4929-ba7b-12b304832326.png) ![Group Map View](https://user-images.githubusercontent.com/44657095/130261293-b15e346d-0ece-46ad-895a-449fa2a97aaf.png)
+![Welcome Screen](https://user-images.githubusercontent.com/44657095/130261299-e04996ef-d6af-4929-ba7b-12b304832326.png) ![Group Map Screen](https://user-images.githubusercontent.com/44657095/130261293-b15e346d-0ece-46ad-895a-449fa2a97aaf.png) ![Devices Screen](https://user-images.githubusercontent.com/81748770/130593358-216b324f-fbf5-4e2e-8e80-57461b87a036.png) ![Group Screen](https://user-images.githubusercontent.com/81748770/130593411-400e6345-e34e-465d-8c56-1def3b055de6.png)
 
 # Table of Contents
 

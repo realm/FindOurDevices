@@ -33,12 +33,12 @@ export function GroupScreen({ navigation }) {
   useEffect(() => {
     if (groupWasDeleted) {
       navigation.navigate(routes.GROUPS);
-      return Alert.alert(`Group was deleted by the owner`);
+      return Alert.alert('The group was deleted by the owner');
     }
 
     if (userWasRemovedFromGroup) {
       navigation.navigate(routes.GROUPS);
-      return Alert.alert(`You were removed from the group`);
+      return Alert.alert('You were removed from the group');
     }
   }, [groupWasDeleted, userWasRemovedFromGroup]);
 

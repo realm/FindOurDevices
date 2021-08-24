@@ -52,7 +52,7 @@ export function GroupsNavigator() {
                 component={GroupScreen}
                 options={{
                   headerBackTitleVisible: false,
-                  headerBackImage: ({/* tintColor */ }) => (
+                  headerBackImage: ({/* tintColor */}) => (
                     <Icon
                       name='chevron-left'
                       color={colors.primary}

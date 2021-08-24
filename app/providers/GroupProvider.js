@@ -13,9 +13,10 @@ const GroupContext = createContext();
 
 /**
  * A provider for storing and controlling the Group realm/partition.
+ * @param {Realm.BSON.ObjectId} groupId - The ID of the group.
  * @return {React.Component} The provider of the context.
 */
-function GroupProvider({ children, groupId }) {
+function GroupProvider({ groupId, children }) {
   const { realmUser } = useAuth();
   const [group, setGroup] = useState(null);
   const [groupWasDeleted, setGroupWasDeleted] = useState(false);
@@ -59,9 +60,6 @@ function GroupProvider({ children, groupId }) {
       const realm = await Realm.open(config);
       realmRef.current = realm;
 
-      // NOTE: Object listener not firing when object is changed via a trigger function.
-      // Temporary workaround: Use collection listener
-      // TODO: Change this to get object directly, instead of array (w/ objectForPrimaryKey)
       const groups = realm.objects('Group').filtered('_id = $0', groupId);
       if (groups?.length)
         setGroup(groups[0]);
@@ -79,7 +77,7 @@ function GroupProvider({ children, groupId }) {
           const modifiedGroup = collection[index];
           const isMember = modifiedGroup.members.some(member => member.userId.toString() === realmUser.id);
           if (!isMember)
-            setUserWasRemovedFromGroup(true);
+            return setUserWasRemovedFromGroup(true);
         });
       });
     }

@@ -18,6 +18,10 @@ export function InvitationsScreen() {
   
   useEffect(() => {
     setPickerItems(devices.map(device => ({ label: device.name, value: device._id.toString() }) ));
+
+    // Add "devices.length" to the dependency array to only run this function if the
+    // user adds a device. Adding only "devices" causes the function to run every
+    // time the location of any of the user's devices change.
   }, [devices.length]);
 
   const handleAccept = async () => {

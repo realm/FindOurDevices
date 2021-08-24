@@ -75,7 +75,9 @@ export function DropdownPicker({
 
 const styles = StyleSheet.create({
   dropdown: {
-    alignSelf: 'stretch',
+    width: '100%',
+    maxWidth: 500,
+    alignSelf: 'center',
     maxHeight: 500,
     ...Platform.select({
       ios: {

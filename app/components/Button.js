@@ -40,7 +40,9 @@ export function Button({
 
 const styles = StyleSheet.create({
   button: {
-    alignSelf: 'stretch',
+    width: '100%',
+    maxWidth: 500,
+    alignSelf: 'center',
     marginTop: 20,
     paddingVertical: 18,
     alignItems: 'center',

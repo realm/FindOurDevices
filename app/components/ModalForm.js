@@ -63,16 +63,19 @@ export function ModalForm({
 const styles = StyleSheet.create({
   modal: {
     flex: 1,
+    paddingHorizontal: 25,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.2)'
   },
   form: {
+    width: '100%',
+    maxWidth: 500,
     margin: 30,
     paddingTop: 35,
     paddingBottom: 25,
     paddingHorizontal: 25,
-    alignSelf: 'stretch',
+    alignSelf: 'center',
     alignItems: 'center',
     backgroundColor: colors.white,
     borderRadius: 10,

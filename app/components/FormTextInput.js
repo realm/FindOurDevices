@@ -22,7 +22,9 @@ export function FormTextInput(props) {
 
 const styles = StyleSheet.create({
   inputContainer: {
-    alignSelf: 'stretch',
+    width: '100%',
+    maxWidth: 500,
+    alignSelf: 'center',
     paddingVertical: Platform.OS === 'ios' ? 15 : 0,
     paddingHorizontal: 15,
     marginVertical: 10,

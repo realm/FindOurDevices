@@ -7,6 +7,7 @@ import { fonts } from '../styles/fonts';
 /**
  * Create a form text input container component.
  * @param {Object} props - Props to pass to <TextInput> component.
+ * @return {React.Component} A form text input component.
  */
 export function FormTextInput(props) {
   return (

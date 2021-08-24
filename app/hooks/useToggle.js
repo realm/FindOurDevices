@@ -7,7 +7,7 @@ import { HeaderButton } from '../components/HeaderButton';
  * @param {boolean} initialState - The initial state.
  * @param {Object} [navigation] - The react navigation object if controlling the toggling from the header.
  * @param {string} [headerIconName] - The name of the icon to use for the header button if toggling from the header.
- * @return {Object} An object with the current state and functions to toggle, turn on, or turn off the state.
+ * @return {[]} An array with the current state and afunction to toggle the state.
  */
 export function useToggle(initialState, navigation, headerIconName) {
   const [isOn, setIsOn] = useState(initialState);

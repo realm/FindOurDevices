@@ -13,12 +13,13 @@ import { fonts } from '../styles/fonts';
  * @param {boolean} [fadeOnPress=true] - A boolean which tells if the item should fade when being pressed if true.
  * @param {function} [onPress=() => {}] - Callback function to be called when the list item is pressed.
  * @param {function} renderRightActions - Callback function that is expected to return an action panel that is going to be revealed from the right side when user swipes left.
+ * @return {React.Component} A list item component.
  */
 export function ListItem({ 
   text,
   subText,
   fadeOnPress = true,
-  onPress = () => { },
+  onPress = () => {},
   renderRightActions
 }) {
   return (

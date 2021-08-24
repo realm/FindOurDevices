@@ -8,6 +8,7 @@ import { colors } from '../styles/colors';
  * Create a header button to be used on react-navigation header.
  * @param {string} iconName - The icon name to be passed to <Icon> component.
  * @param {function} onPress - Callback function to be called when the header button is pressed.
+ * @return {React.Component} A header button component.
  */
 export function HeaderButton({ iconName, onPress }) {
   return (

@@ -18,7 +18,8 @@ import { colors } from '../styles/colors';
  * @param {Object[]]} [rightActions=[]] - An array of actions for each list item.
  * @param {string} rightActions[].actionType - A string that specifies the icon that should be used.
  * @param {function} rightActions[].onPress - Callback function to be called when the list item action is pressed.
- * @param {string} [emptyListText='The list is empty.'] - A text to display if the list has no items
+ * @param {string} [emptyListText='The list is empty.'] - A text to display if the list has no items.
+ * @return {React.Component} A list component.
  */
 export function List({
   items,

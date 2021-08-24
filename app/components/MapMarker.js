@@ -14,6 +14,7 @@ const LONGITUDE_DELTA = 0.001;
  * @param {number} location.longitude - The marker longitude.
  * @param {Date} location.updatedAt - The timestamp of the marker location.
  * @param {string} color - The color to use for the marker (iOS only).
+ * @return {React.Component} A map marker component.
  */
 export const MapMarker = memo(function MapMarker({ label, location, color }) {
   return (

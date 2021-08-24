@@ -14,6 +14,7 @@ import { fonts } from '../styles/fonts';
  * @param {function} onSubmit - Callback function to be called when the submit button is pressed.
  * @param {function} onCancel - Callback function to be called when the cancel text is pressed.
  * @param {React.Component} children - Components to be rendered on the modal form.
+ * @return {React.Component} A modal form component.
  */
 export function ModalForm({
   animationType = 'fade',

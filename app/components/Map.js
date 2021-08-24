@@ -30,6 +30,7 @@ const PICKER_VALUE_ALL_MARKERS = 0;
  * @param {Marker[]} markers - An array of marker objects
  * @param {string} pluralItemType - The type of items which the markers correspond to (ex. 'Devices', 'Members').
  * @param {function} onBackPress - Callback function to be called when the back button is pressed.
+ * @return {React.Component} A map component.
  */
 export function Map({ markers, pluralItemType, onBackPress }) {
   const [selectedPickerItem, setSelectedPickerItem] = useState(null);
@@ -61,7 +62,7 @@ export function Map({ markers, pluralItemType, onBackPress }) {
   };
 
   const getSelectedMarker = () => {
-    // Handle the event where the default picker item is selected (idnex 0) or
+    // Handle the event where the default picker item is selected (index 0) or
     // the selected marker is invalid. The picker values for the markers start at
     // index 0, thus if the value is equal to "markers.length" it is still considered valid.
     const isValid = selectedPickerItem?.value >= 1 && selectedPickerItem?.value <= markers.length;

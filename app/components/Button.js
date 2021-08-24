@@ -11,6 +11,7 @@ import { fonts } from '../styles/fonts';
  * @param {boolean} [useShadow=true] - Whether or not the button should have a shadow.
  * @param {function} onPress - Callback function to be called when the button is pressed.
  * @param {Object} style - Other style prop to override the default one.
+ * @return {React.Component} A button component.
  */
 export function Button({
   text,

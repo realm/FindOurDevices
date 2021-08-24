@@ -17,6 +17,7 @@ import { colors } from '../styles/colors';
  * @param {string} items[].value - The dropdown item value.
  * @param {function} onSelectItem - Callback function to be called when a dropdown item is pressed.
  * @param {string} noSelectedItemText - Text to display on the dropdown when no drodpown item is selected.
+ * @return {React.Component} A dropdown picker component.
  */
 export function DropdownPicker({
   selectedItem,

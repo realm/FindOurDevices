@@ -10,6 +10,7 @@ import { colors } from '../styles/colors';
  * @param {string} label - The item label.
  * @param {boolean} isSelected - A boolean which adds a checkmark to the item if true.
  * @param {function} onPress - Callback function to be called when the item is pressed.
+ * @return {React.Component} A dropdown picker item component.
  */
 export function DropdownPickerItem({ label, isSelected, onPress }) {
   return (

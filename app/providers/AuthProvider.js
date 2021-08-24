@@ -78,21 +78,24 @@ function AuthProvider({ children }) {
       // When querying a realm to find objects (e.g. realm.objects('User')) the result we get back
       // and the objects in it are "live" and will always reflect the latest state.
       const userId = BSON.ObjectId(realmUser.id);
-      //const user = realm.objectForPrimaryKey('User', userId); // NOTE: Object listener not working for embedded docs when changed by backend function
       const users = realm.objects('User').filtered('_id = $0', userId);
       if (users?.length)
         setUserData(users[0]);
       
       // Live queries, collections, and objects emit notifications when something has changed that we can listen for.
       subscriptionRef.current = users;
-      users.addListener((/*object, changes*/) => {
-        // [add comment]
+      users.addListener((/*collection, changes*/) => {
+        // If wanting to handle deletions, insertions, and modifications differently
+        // you can access them through the two arguments. (Always handle them in the
+        // following order: deletions, insertions, modifications)
+        // If using collection listener (1st arg is the collection):
+        // e.g. changes.insertions.forEach((index) => console.log('Inserted item: ', collection[index]));
+        // If using object listener (1st arg is the object):
+        // e.g. changes.changedProperties.forEach((prop) => console.log(`${prop} changed to ${object[prop]}`));
 
-        // TODO: Modify comments if object listener is not fixed by Realm
         // By querying the object again, we get a new reference to the Result and triggers
-        // a rerender by React. Setting the user to either 'user' or 'object' (from the
-        // argument) will not trigger a rerender since it is the same reference
-        setUserData(realm.objectForPrimaryKey('User', userId));  // note to self: since we actually do not have to refetch data, maybe its better if we update some integer in state to trigger the rerender?
+        // a rerender by React when setting that as the new state.
+        setUserData(realm.objectForPrimaryKey('User', userId));
       });
     }
     catch (err) {
@@ -106,6 +109,8 @@ function AuthProvider({ children }) {
     subscriptionRef.current = null;
     
     const realm = realmRef.current;
+    // If having listeners on the realm itself, also remove them using:
+    // realm?.removeAllListeners();
     realm?.close();
     realmRef.current = null;
     setUserData(null);

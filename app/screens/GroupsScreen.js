@@ -16,7 +16,7 @@ export function GroupsScreen({ navigation, setGroupId }) {
   const { devices } = useDevices();
   const { createGroup, leaveGroup, removeGroup } = useGroupManager();
   const [newGroupName, setNewGroupName] = useState('');
-  const { isOn: modalVisible, turnOff: closeModal } = useToggle(false, navigation, 'plus-circle');
+  const [modalVisible, toggleModalVisible] = useToggle(false, navigation, 'plus-circle');
   const [selectedPickerItem, setSelectedPickerItem] = useState(null);
   const [pickerItems, setPickerItems] = useState([]);
 
@@ -35,13 +35,16 @@ export function GroupsScreen({ navigation, setGroupId }) {
     if (error)
       return Alert.alert(error.message);
 
-    closeModal();
+    if (modalVisible)
+      toggleModalVisible();
+    
     setNewGroupName('');
     setSelectedPickerItem(null);
   };
 
   const handleCancelCreateGroup = () => {
-    closeModal();
+    if (modalVisible)
+      toggleModalVisible();
 
     if (newGroupName)
       setNewGroupName('');

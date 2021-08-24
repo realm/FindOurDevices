@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useCallback, useLayoutEffect } from 'react';
 
 import { HeaderButton } from '../components/HeaderButton';
 
@@ -24,20 +24,13 @@ export function useToggle(initialState, navigation, headerIconName) {
       headerRight: () => (
         <HeaderButton
           iconName={headerIconName}
-          onPress={turnOn}
+          onPress={toggle}
         />
       )
     })
   }, [navigation]);
 
-  const toggle = () => setIsOn(!isOn);
-  const turnOn = () => setIsOn(true);
-  const turnOff = () => setIsOn(false);
+  const toggle = useCallback(() => setIsOn(!isOn), [isOn]);
 
-  return {
-    isOn, 
-    toggle,
-    turnOn,
-    turnOff
-  };
+  return [isOn, toggle];
 }

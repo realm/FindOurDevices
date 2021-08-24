@@ -25,7 +25,7 @@ export function DropdownPicker({
   openItemsDownward = true,
   noSelectedItemText = 'Select'
 }) {
-  const { isOn: isOpen, toggle: toggleOpen, turnOff: close } = useToggle(false);
+  const [isOpen, toggleOpen] = useToggle(false);
 
   return (
     <View style={[styles.dropdown, openItemsDownward && styles.reverseOrder]}>
@@ -38,7 +38,9 @@ export function DropdownPicker({
               label={item.label}
               isSelected={item.value === selectedItem?.value}
               onPress={() => {
-                close();
+                if (isOpen)
+                  toggleOpen();
+
                 onSelectItem(item);
               }}
             />

@@ -57,4 +57,5 @@ const styles = StyleSheet.create({
 const shouldNotRerender = (prevProps, nextProps) => (
   prevProps.location.updatedAt === nextProps.location.updatedAt
   && prevProps.color === nextProps.color
+  && prevProps.label === nextProps.label
 );

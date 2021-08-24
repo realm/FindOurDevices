@@ -20,7 +20,7 @@ export function GroupScreen({ navigation }) {
   const { group, groupWasDeleted, userWasRemovedFromGroup } = useGroup();
   const { inviteGroupMember, removeGroupMember, setShareLocation } = useGroupManager();
   const [newMemberEmail, setNewMemberEmail] = useState('');
-  const { isOn: modalVisible, turnOff: closeModal } = useToggle(false, navigation, 'account-plus');
+  const [modalVisible, toggleModalVisible] = useToggle(false, navigation, 'account-plus');
 
   useLayoutEffect(() => {
     // In order to set header options based on information available only in this component
@@ -52,7 +52,9 @@ export function GroupScreen({ navigation }) {
     if (error)
       return Alert.alert(error.message);
 
-    closeModal();
+    if (modalVisible)
+      toggleModalVisible();
+    
     setNewMemberEmail('');
   };
 
@@ -63,7 +65,8 @@ export function GroupScreen({ navigation }) {
   };
 
   const handleCancelInviteMember = () => {
-    closeModal();
+    if (modalVisible)
+      toggleModalVisible();
 
     if (newMemberEmail)
       setNewMemberEmail('');

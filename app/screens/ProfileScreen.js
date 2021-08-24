@@ -13,7 +13,7 @@ import { fonts } from '../styles/fonts';
 export function ProfileScreen() {
   const { userData, logOut, setDisplayName } = useAuth();
   const [newDisplayName, setNewDisplayName] = useState('');
-  const { isOn: modalVisible, turnOn: openModal, turnOff: closeModal } = useToggle(false);
+  const [modalVisible, toggleModalVisible] = useToggle(false);
 
   const handleSaveName = async () => {
     if (!newDisplayName)
@@ -23,12 +23,15 @@ export function ProfileScreen() {
     if (error)
       return Alert.alert(error.message);
 
-    closeModal();
+    if (modalVisible)
+      toggleModalVisible();
+    
     setNewDisplayName('');
   };
 
   const handleCancelEditName = () => {
-    closeModal();
+    if (modalVisible)
+      toggleModalVisible();
 
     if (newDisplayName)
       setNewDisplayName('');
@@ -49,7 +52,7 @@ export function ProfileScreen() {
       <View style={styles.lowerView}>
         <View>
           <Pressable
-            onPress={openModal}
+            onPress={toggleModalVisible}
             style={styles.userInfoItem}
           >
             <Icon

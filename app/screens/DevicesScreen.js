@@ -13,20 +13,23 @@ export function DevicesScreen({ navigation }) {
   const { devices, currentIosOrAndroidId, addCurrentDevice, setDeviceName } = useDevices();
   const [newDeviceName, setNewDeviceName] = useState('');
   const [deviceToEdit, setDeviceToEdit] = useState(null);
-  const { isOn: addDeviceModalVisible, turnOff: closeAddDeviceModal } = useToggle(false, navigation, 'plus-circle');
-  const { isOn: editDeviceModalVisible, turnOn: openEditDeviceModal, turnOff: closeEditDeviceModal } = useToggle(false);
+  const [addDeviceModalVisible, toggleAddDeviceModal] = useToggle(false, navigation, 'plus-circle');
+  const [editDeviceModalVisible, toggleEditDeviceModal] = useToggle(false);
 
   const handleAddDevice = async () => {
     const res = await addCurrentDevice();
     if (res?.error)
       return Alert.alert(res.error.message);
 
-    closeAddDeviceModal();
+    if (addDeviceModalVisible)
+      toggleAddDeviceModal();
   };
 
   const handleEditDeviceName = (device) => {
     setDeviceToEdit(device);
-    openEditDeviceModal();
+
+    if (!editDeviceModalVisible)
+      toggleEditDeviceModal();
   };
 
   const handleSaveDeviceName = () => {
@@ -40,13 +43,16 @@ export function DevicesScreen({ navigation }) {
     if (res?.error)
       return Alert.alert(res.error.message);
 
-    closeEditDeviceModal();
+    if (editDeviceModalVisible)
+      toggleEditDeviceModal();
+    
     setDeviceToEdit(null);
     setNewDeviceName('');
   };
 
   const handleCancelEditDeviceName = () => {
-    closeEditDeviceModal();
+    if (editDeviceModalVisible)
+      toggleEditDeviceModal();
 
     if (deviceToEdit || newDeviceName) {
       setDeviceToEdit(null);
@@ -86,7 +92,7 @@ export function DevicesScreen({ navigation }) {
         title='Add Current Device?'
         submitText='Yes'
         onSubmit={handleAddDevice}
-        onCancel={closeAddDeviceModal}
+        onCancel={toggleAddDeviceModal}
       />
       <ModalForm
         visible={editDeviceModalVisible}

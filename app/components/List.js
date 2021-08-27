@@ -9,16 +9,17 @@ import { colors } from '../styles/colors';
 
 /**
  * Create a list component.
- * @param {[]} [items] - The list items.
- * @param {function} keyExtractor - Function that returns a unique key to use for the item.
- * @param {function} [itemTextExtractor=() => {}] - Function that returns the text to use for the item.
- * @param {function} [itemSubTextExtractor=() => {}] - Function that returns the subtext to use for the item.
- * @param {function} [onItemPress=() => {}] - Callback function to be called when a list item is pressed.
- * @param {boolean} fadeOnPress - A boolean which tells if a list item should fade when being pressed if true.
- * @param {Object[]]} [rightActions=[]] - An array of actions for each list item.
- * @param {string} rightActions[].actionType - A string that specifies the icon that should be used.
- * @param {function} rightActions[].onPress - Callback function to be called when the list item action is pressed.
- * @param {string} [emptyListText='The list is empty.'] - A text to display if the list has no items.
+ * @param {Object} props
+ * @param {[]} [props.items] - The list items.
+ * @param {function} props.keyExtractor - Function that returns a unique key to use for the item.
+ * @param {function} [props.itemTextExtractor=() => {}] - Function that returns the text to use for the item.
+ * @param {function} [props.itemSubTextExtractor=() => {}] - Function that returns the subtext to use for the item.
+ * @param {function} [props.onItemPress=() => {}] - Callback function to be called when a list item is pressed.
+ * @param {boolean} props.fadeOnPress - A boolean which tells if a list item should fade when being pressed if true.
+ * @param {Object[]]} [props.rightActions=[]] - An array of actions for each list item.
+ * @param {string} props.rightActions[].actionType - A string that specifies the icon that should be used.
+ * @param {function} props.rightActions[].onPress - Callback function to be called when the list item action is pressed.
+ * @param {string} [props.emptyListText='The list is empty.'] - A text to display if the list has no items.
  * @return {React.Component} A list component.
  */
 export function List({

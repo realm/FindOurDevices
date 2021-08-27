@@ -6,8 +6,9 @@ import { colors } from '../styles/colors';
 
 /**
  * Create a list item action component.
- * @param {string} action - A string that specifies the icon that should be used.
- * @param {function} onPress - Callback function to be called when the list item action is pressed.
+ * @param {Object} props
+ * @param {string} props.action - A string that specifies the icon that should be used.
+ * @param {function} props.onPress - Callback function to be called when the list item action is pressed.
  * @return {React.Component} A list item action component.
  */
 export function ListItemAction({ action, onPress }) {

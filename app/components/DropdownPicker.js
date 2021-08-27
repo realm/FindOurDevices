@@ -9,14 +9,15 @@ import { colors } from '../styles/colors';
 
 /**
  * Create a dropdown picker component.
- * @param {Object} [selectedItem] - The selected item of the dropdown list.
- * @param {string} selectedItem.label - The selected item label.
- * @param {string} selectedItem.value - The selected item value (some time of unique identifier).
- * @param {Object[]} items - An array of items for the dropdown.
- * @param {string} items[].label - The dropdown item label.
- * @param {string} items[].value - The dropdown item value.
- * @param {function} onSelectItem - Callback function to be called when a dropdown item is pressed.
- * @param {string} noSelectedItemText - Text to display on the dropdown when no drodpown item is selected.
+ * @param {Object} props
+ * @param {Object} [props.selectedItem] - The selected item of the dropdown list.
+ * @param {string} props.selectedItem.label - The selected item label.
+ * @param {string} props.selectedItem.value - The selected item value (some time of unique identifier).
+ * @param {Object[]} props.items - An array of items for the dropdown.
+ * @param {string} props.items[].label - The dropdown item label.
+ * @param {string} props.items[].value - The dropdown item value.
+ * @param {function} props.onSelectItem - Callback function to be called when a dropdown item is pressed.
+ * @param {string} props.noSelectedItemText - Text to display on the dropdown when no drodpown item is selected.
  * @return {React.Component} A dropdown picker component.
  */
 export function DropdownPicker({

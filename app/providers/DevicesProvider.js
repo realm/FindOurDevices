@@ -14,6 +14,8 @@ const DevicesContext = createContext();
 
 /**
  * A provider for storing and controlling the Devices realm/partition.
+ * @param {Object} props
+ * @param {React.Children} props.children - The child components.
  * @return {React.Component} The provider of the context.
 */
 function DevicesProvider({ children }) {

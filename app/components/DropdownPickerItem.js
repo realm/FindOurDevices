@@ -7,9 +7,10 @@ import { colors } from '../styles/colors';
 
 /**
  * Create a dropdown picker item option component.
- * @param {string} label - The item label.
- * @param {boolean} isSelected - A boolean which adds a checkmark to the item if true.
- * @param {function} onPress - Callback function to be called when the item is pressed.
+ * @param {Object} props
+ * @param {string} props.label - The item label.
+ * @param {boolean} props.isSelected - A boolean which adds a checkmark to the item if true.
+ * @param {function} props.onPress - Callback function to be called when the item is pressed.
  * @return {React.Component} A dropdown picker item component.
  */
 export function DropdownPickerItem({ label, isSelected, onPress }) {

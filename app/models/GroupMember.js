@@ -9,10 +9,11 @@ export class GroupMember {
 
   /**
    * Create a GroupMember.
-   * @param {BSON.ObjectId} userId - The ID of the member.
-   * @param {string} displayName - The member's name to be displayed on the group.
-   * @param {string} deviceName - The name of the member's device to be used in the group.
-   * @param {Location} [location] - The member's location.
+   * @param {Object} props
+   * @param {BSON.ObjectId} props.userId - The ID of the member.
+   * @param {string} props.displayName - The member's name to be displayed on the group.
+   * @param {string} props.deviceName - The name of the member's device to be used in the group.
+   * @param {Location} [props.location] - The member's location.
    */
   constructor({ userId, displayName, deviceName, location }) {
     this.userId = userId;

@@ -25,6 +25,8 @@ function AuthProvider({ children }) {
   // We store a reference to our realm using useRef that allows us to access it via
   // realmRef.current for the component's lifetime without causing rerenders if updated.
   const realmRef = useRef(null);
+  // The first time we query the Realm user object or collection we add a listener to it.
+  // We store the listener in "subscriptionRef" to be able to remove it when the component unmounts.
   const subscriptionRef = useRef(null);
 
   useEffect(() => {

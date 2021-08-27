@@ -8,13 +8,13 @@ import { fonts } from '../styles/fonts';
 /**
  * Create a modal form component
  * @param {Object} props
- * @param {string} [animationType=fade] - The animation type to use (same as react native <Modal> component).
- * @param {boolean} visible - A boolean which specifies if the modal form should be visible if true.
- * @param {string} title - The modal form title.
- * @param {string} submitText - The modal submit button text.
- * @param {function} onSubmit - Callback function to be called when the submit button is pressed.
- * @param {function} onCancel - Callback function to be called when the cancel text is pressed.
- * @param {React.Component} children - Components to be rendered on the modal form.
+ * @param {string} [props.animationType=fade] - The animation type to use (same as react native <Modal> component).
+ * @param {boolean} props.visible - A boolean which specifies if the modal form should be visible if true.
+ * @param {string} props.title - The modal form title.
+ * @param {string} props.submitText - The modal submit button text.
+ * @param {function} props.onSubmit - Callback function to be called when the submit button is pressed.
+ * @param {function} props.onCancel - Callback function to be called when the cancel text is pressed.
+ * @param {React.Component} props.children - Components to be rendered on the modal form.
  * @return {React.Component} A modal form component.
  */
 export function ModalForm({

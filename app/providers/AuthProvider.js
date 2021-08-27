@@ -13,6 +13,8 @@ const AuthContext = createContext();
 
 /**
  * A provider for storing and controlling User realm/partition.
+ * @param {Object} props
+ * @param {React.Children} props.children - The child components.
  * @return {React.Component} The provider of the context.
 */
 function AuthProvider({ children }) {

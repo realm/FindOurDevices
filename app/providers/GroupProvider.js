@@ -13,7 +13,9 @@ const GroupContext = createContext();
 
 /**
  * A provider for storing and controlling the Group realm/partition.
- * @param {Realm.BSON.ObjectId} groupId - The ID of the group.
+ * @param {Object} props
+ * @param {Realm.BSON.ObjectId} props.groupId - The ID of the group.
+ * @param {React.Children} props.children - The child components.
  * @return {React.Component} The provider of the context.
 */
 function GroupProvider({ groupId, children }) {

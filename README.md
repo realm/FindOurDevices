@@ -113,6 +113,7 @@ Simulate movement on a simulator:
 1. Run the app
 2. From the menu bar, select `Features > Location`
 3. Set custom coordinates or choose to simulate riding a bike, a car, or running, etc.
+4. When done simulating movement, remember to set `Features > Location` back to `None` to prevent unnecessary updates.
 
 > ⚠️ The first time a user adds a simulator device to their account, the device's location will not be set because the `Menu Bar > Features > Location` will be set to `None`. The device will therefore not show up on the map screen. To set a location for the device, simply follow the steps above.
 
@@ -164,7 +165,7 @@ To circumvent this, we have chosen to use the library `react-native-maps-osmdroi
 * All pins use the same colors
 * When there is only one device or member on the map and you choose to view "All" markers, the map region is too zoomed in.
 
-**However**, OpenStreetMap provides mapping that does not depend on Google's backend, and thus does not require payment and does not provide Google with tracking information.
+However, OpenStreetMap provides mapping that does not depend on Google's backend, and thus does not require a billing account or payment and does not provide Google with tracking information.
 
 # Troubleshooting
 
@@ -288,4 +289,4 @@ Illustration of what activities happen and how the data flows when the main use 
 
 Realm integration, Realm Sync, partitioning, and change listeners.
 
-![FindOurDevices-data_flow_updating_location](https://user-images.githubusercontent.com/81748770/130425393-7d4e5203-2911-45cf-bbab-9ec434bff7e8.png)
+![FindOurDevices-data_flow_updating_location](https://user-images.githubusercontent.com/81748770/131102516-cd6e0b01-e1fa-492c-9541-9b0f5f9d2d46.png)

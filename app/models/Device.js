@@ -11,12 +11,13 @@ export class Device {
 
   /**
    * Create a Device.
-   * @param {BSON.ObjectId} [id=new BSON.ObjectId()] - The ID of the device.
-   * @param {string} partition - The partition value to use on the realm.
-   * @param {BSON.ObjectId} ownerId - The ID of the owner of the device.
-   * @param {string} iosOrAndroidId - The unique device ID for the vendor.
-   * @param {string} name - The device's name.
-   * @param {Location} [location] - The device's location.
+   * @param {Object} props
+   * @param {BSON.ObjectId} [props.id=new BSON.ObjectId()] - The ID of the device.
+   * @param {string} props.partition - The partition value to use on the realm.
+   * @param {BSON.ObjectId} props.ownerId - The ID of the owner of the device.
+   * @param {string} props.iosOrAndroidId - The unique device ID for the vendor.
+   * @param {string} props.name - The device's name.
+   * @param {Location} [props.location] - The device's location.
    */
   constructor({ id = new BSON.ObjectId(), partition, ownerId, iosOrAndroidId, name, location }) {
     this._id = id;

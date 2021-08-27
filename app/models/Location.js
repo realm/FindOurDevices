@@ -2,9 +2,10 @@
 export class Location {
   /**
    * Create a Location.
-   * @param {Date} updatedAt - The date of when the location was last updated.
-   * @param {number} longitude - The longitude of location.
-   * @param {number} longitude - The latitude of location.
+   * @param {Object} props
+   * @param {Date} props.updatedAt - The date of when the location was last updated.
+   * @param {number} props.longitude - The longitude of location.
+   * @param {number} props.longitude - The latitude of location.
    */
   constructor({ updatedAt, longitude, latitude }) {
     this.updatedAt = updatedAt;

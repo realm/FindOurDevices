@@ -1,0 +1,19 @@
+{
+  "source": {
+    "includePattern": ".+\\.js(doc|x)?$",
+    "include": [
+      "./app"
+    ],
+    "exclude": [
+      "./app/assets",
+      "./app/navigation",
+      "./app/screens",
+      "./app/styles",
+      "./app/config.js"
+    ]
+  },
+  "opts": {
+    "destination": "./docs/",
+    "recurse": true
+  }
+}

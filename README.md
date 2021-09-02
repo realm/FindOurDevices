@@ -277,7 +277,7 @@ Illustration of how Realm is integrated in FindOurDevices (for the use case of h
 
 Realm integration, denormalization, and opening/closing of realms.
 
-![FindOurDevices-visual_representation_of_realm_integration](https://user-images.githubusercontent.com/81748770/130425356-1f596aa1-f160-4477-8454-a7d4e6722e05.png)
+![FindOurDevices-visual_representation_of_realm_integration](https://user-images.githubusercontent.com/81748770/131849311-b63a2fad-0082-4aef-83ea-3c4da7d88513.png)
 
 ## Activities and Data Flow When Updating the Location of a Device
 

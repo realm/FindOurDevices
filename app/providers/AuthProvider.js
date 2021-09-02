@@ -139,8 +139,6 @@ function AuthProvider({ children }) {
       const credentials = Realm.Credentials.emailPassword(email, password);
       const user = await app.logIn(credentials);
       
-      console.log('Logged in!');
-
       // Setting the realm user will rerender the RootNavigationContainer and in turn
       // conditionally render the AppNavigator to show the authenticated screens of the app
       setRealmUser(user);
@@ -155,8 +153,6 @@ function AuthProvider({ children }) {
   const logOut = () => {
     if (realmUser) {
       realmUser.logOut();
-
-      console.log('Logged out!');
 
       // Setting the realm user to null will rerender the RootNavigationContainer
       // and in turn conditionally render the AuthNavigator to show the LoginScreen

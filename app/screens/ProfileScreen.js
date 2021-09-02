@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Pressable, StyleSheet, Platform } from 'react-native';
+import { View, Text, Pressable, StyleSheet, Platform, Alert } from 'react-native';
 
 import { useAuth } from '../providers/AuthProvider';
 import { useToggle } from '../hooks/useToggle';

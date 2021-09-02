@@ -52,7 +52,7 @@ export function Map({ markers, pluralItemType, onBackPress }) {
 
     setPickerItems([
       { label: `All ${pluralItemType}`, value: PICKER_VALUE_ALL_MARKERS },
-      ...markers.map((marker, idx) => ({ label: marker.label, value: idx + 1 }))
+      ...markers.map((marker, index) => ({ label: marker.label, value: index + 1 }))
     ]);
     setSelectedPickerItem({ label: `All ${pluralItemType}`, value: PICKER_VALUE_ALL_MARKERS });
   };
@@ -110,12 +110,12 @@ export function Map({ markers, pluralItemType, onBackPress }) {
         ref={mapViewRef}
         style={styles.map}
       >
-        {markers.map((marker, idx) => (
+        {markers.map((marker, index) => (
           <MapMarker
             key={marker.id}
             label={marker.label}
             location={marker}
-            color={markerColors[idx % markerColors.length]}
+            color={markerColors[index % markerColors.length]}
           />
         ))}
       </MapView>

@@ -46,9 +46,9 @@ export function List({
               fadeOnPress={fadeOnPress}
               renderRightActions={() => (
                 <View style={styles.actionsContainer}>
-                  {rightActions.map(({ actionType, onPress }, idx) => (
+                  {rightActions.map(({ actionType, onPress }, index) => (
                     <ListItemAction
-                      key={idx}
+                      key={index}
                       action={actionType}
                       onPress={() => onPress(item)}
                     />

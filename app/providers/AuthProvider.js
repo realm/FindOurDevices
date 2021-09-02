@@ -66,9 +66,9 @@ function AuthProvider({ children }) {
             type: 'openImmediately'    // default is 'downloadBeforeOpen'
           },
           // Add a callback on the 'error' property to log any sync errors while developing.
-          // WARNING: REMEMBER TO REMOVE THE CONSOLE.LOG FOR PRODUCTION AS FREQUENT CONSOLE.LOGS
-          // GREATLY DECREASES PERFORMANCE AND BLOCKS THE UI THREAD. IF THE USER IS OFFLINE,
-          // SYNCING WILL NOT BE POSSIBLE AND THIS CALLBACK WILL BE CALLED FREQUENTLY.
+          // WARNING: Remember to remove the console.log for production as frequent console.logs
+          // greatly decreases performance and blocks the UI thread. If the user is offline,
+          // syncing will not be possible and this callback will be called frequently
           
           // error: (session, syncError) => {
           //   console.error(`There was an error syncing the User realm. (${syncError.message ? syncError.message : 'No message'})`);
@@ -113,7 +113,7 @@ function AuthProvider({ children }) {
     subscriptionRef.current = null;
     
     const realm = realmRef.current;
-    // If having listeners on the realm itself, also remove them using:
+    // If there are listeners on the realm itself, they can be removed using:
     // realm?.removeAllListeners();
     realm?.close();
     realmRef.current = null;

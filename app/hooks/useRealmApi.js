@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useNetInfo } from '@react-native-community/netinfo';
 
 /**
@@ -14,7 +15,7 @@ export function useRealmApi(realmUser) {
    * @param {[]} functionArgs - The arguments to pass to the MongoDB Realm function.
    * @return {Object} The response of the API call. (The backend functions are set up to always return an object with either an "error" or "success" property) 
    */
-  const callRealmApi = async (functionName, functionArgs) => {
+  const callRealmApi = useCallback(async (functionName, functionArgs) => {
     if (!realmUser)
       return { error: { message: 'You need to be logged in to continue.' } };
       
@@ -39,7 +40,7 @@ export function useRealmApi(realmUser) {
     catch (err) {
       return { error: { message: err.message } };
     }
-  }
+  }, [realmUser, isConnected, isInternetReachable]);
 
   return callRealmApi;
 }

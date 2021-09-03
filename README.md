@@ -1,6 +1,6 @@
 # FindOurDevices - Realm React Native App (frontend)
 
-A React Native + MongoDB Realm example application for allowing users to see location and movement of its own devices or those of people in the same group.
+A React Native + MongoDB Realm example application for allowing users to see location and movement of their own devices or those of people in the same group.
 
 #### MongoDB Realm Backend:
 
@@ -113,6 +113,7 @@ Simulate movement on a simulator:
 1. Run the app
 2. From the menu bar, select `Features > Location`
 3. Set custom coordinates or choose to simulate riding a bike, a car, or running, etc.
+4. When done simulating movement, remember to set `Features > Location` back to `None` to prevent unnecessary updates.
 
 > ⚠️ The first time a user adds a simulator device to their account, the device's location will not be set because the `Menu Bar > Features > Location` will be set to `None`. The device will therefore not show up on the map screen. To set a location for the device, simply follow the steps above.
 
@@ -135,7 +136,7 @@ The current app does not support location updates while the app is minimized. Th
 
 If you are developing for Android and want to use Google Maps for the map functionality, you need to get an API key and set up a billing account with Google.
 
-To circumvent this, we have chosen to use the library `react-native-maps-osmdroid` which is a wrapper around `react-native-maps` that let's us use OpenStreetMaps instead of Google Maps. (The library API is mostly the same, thus the usage is the same.)
+To circumvent this, we have chosen to use the library `react-native-maps-osmdroid` which is a wrapper around `react-native-maps` that lets us use OpenStreetMaps instead of Google Maps. (The library API is mostly the same, thus the usage is the same.)
 
 1. Install the dependency
     ```bash
@@ -163,6 +164,8 @@ To circumvent this, we have chosen to use the library `react-native-maps-osmdroi
 * The callout shown when pressing a marker/pin remains in the same place on the screen even when dragging the map or following a moving marker. 
 * All pins use the same colors
 * When there is only one device or member on the map and you choose to view "All" markers, the map region is too zoomed in.
+
+However, OpenStreetMap provides mapping that does not depend on Google's backend, and thus does not require a billing account or payment and does not provide Google with tracking information.
 
 # Troubleshooting
 
@@ -274,7 +277,7 @@ Illustration of how Realm is integrated in FindOurDevices (for the use case of h
 
 Realm integration, denormalization, and opening/closing of realms.
 
-![FindOurDevices-visual_representation_of_realm_integration](https://user-images.githubusercontent.com/81748770/130425356-1f596aa1-f160-4477-8454-a7d4e6722e05.png)
+![FindOurDevices-visual_representation_of_realm_integration](https://user-images.githubusercontent.com/81748770/131849311-b63a2fad-0082-4aef-83ea-3c4da7d88513.png)
 
 ## Activities and Data Flow When Updating the Location of a Device
 
@@ -286,4 +289,4 @@ Illustration of what activities happen and how the data flows when the main use 
 
 Realm integration, Realm Sync, partitioning, and change listeners.
 
-![FindOurDevices-data_flow_updating_location](https://user-images.githubusercontent.com/81748770/130425393-7d4e5203-2911-45cf-bbab-9ec434bff7e8.png)
+![FindOurDevices-data_flow_updating_location](https://user-images.githubusercontent.com/81748770/131102516-cd6e0b01-e1fa-492c-9541-9b0f5f9d2d46.png)

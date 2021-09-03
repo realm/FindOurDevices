@@ -27,9 +27,10 @@ const PICKER_VALUE_ALL_MARKERS = 0;
 
 /**
  * Create a map component.
- * @param {Marker[]} markers - An array of marker objects
- * @param {string} pluralItemType - The type of items which the markers correspond to (ex. 'Devices', 'Members').
- * @param {function} onBackPress - Callback function to be called when the back button is pressed.
+ * @param {Object} props
+ * @param {Marker[]} props.markers - An array of marker objects
+ * @param {string} props.pluralItemType - The type of items which the markers correspond to (ex. 'Devices', 'Members').
+ * @param {function} props.onBackPress - Callback function to be called when the back button is pressed.
  * @return {React.Component} A map component.
  */
 export function Map({ markers, pluralItemType, onBackPress }) {
@@ -51,7 +52,7 @@ export function Map({ markers, pluralItemType, onBackPress }) {
 
     setPickerItems([
       { label: `All ${pluralItemType}`, value: PICKER_VALUE_ALL_MARKERS },
-      ...markers.map((marker, idx) => ({ label: marker.label, value: idx + 1 }))
+      ...markers.map((marker, index) => ({ label: marker.label, value: index + 1 }))
     ]);
     setSelectedPickerItem({ label: `All ${pluralItemType}`, value: PICKER_VALUE_ALL_MARKERS });
   };
@@ -99,8 +100,8 @@ export function Map({ markers, pluralItemType, onBackPress }) {
   };
 
   const markerColors = [
-    '#8922ec', '#ffbf00', '#f3ac56', '#00bf00', '#e328f5', '#1177ee',
-    '#007fff', '#00ffff', '#3d2b1f', '#b5a642', '#a3e36c', '#161a58',
+    '#8922ec', '#ffbf00', '#e328f5', '#00bf00', '#1177ee', '#00ffff',
+    '#e40066', '#3d2b1f', '#ffffff', '#000000', '#017757', '#ff0033',
   ];
 
   return (
@@ -109,12 +110,12 @@ export function Map({ markers, pluralItemType, onBackPress }) {
         ref={mapViewRef}
         style={styles.map}
       >
-        {markers.map((marker, idx) => (
+        {markers.map((marker, index) => (
           <MapMarker
             key={marker.id}
             label={marker.label}
             location={marker}
-            color={markerColors[idx % markerColors.length]}
+            color={markerColors[index % markerColors.length]}
           />
         ))}
       </MapView>

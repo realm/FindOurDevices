@@ -13,6 +13,8 @@ const AuthContext = createContext();
 
 /**
  * A provider for storing and controlling User realm/partition.
+ * @param {Object} props
+ * @param {React.Children} props.children - The child components.
  * @return {React.Component} The provider of the context.
 */
 function AuthProvider({ children }) {
@@ -25,6 +27,8 @@ function AuthProvider({ children }) {
   // We store a reference to our realm using useRef that allows us to access it via
   // realmRef.current for the component's lifetime without causing rerenders if updated.
   const realmRef = useRef(null);
+  // The first time we query the Realm user object or collection we add a listener to it.
+  // We store the listener in "subscriptionRef" to be able to remove it when the component unmounts.
   const subscriptionRef = useRef(null);
 
   useEffect(() => {
@@ -62,9 +66,9 @@ function AuthProvider({ children }) {
             type: 'openImmediately'    // default is 'downloadBeforeOpen'
           },
           // Add a callback on the 'error' property to log any sync errors while developing.
-          // WARNING: REMEMBER TO REMOVE THE CONSOLE.LOG FOR PRODUCTION AS FREQUENT CONSOLE.LOGS
-          // GREATLY DECREASES PERFORMANCE AND BLOCKS THE UI THREAD. IF THE USER IS OFFLINE,
-          // SYNCING WILL NOT BE POSSIBLE AND THIS CALLBACK WILL BE CALLED FREQUENTLY.
+          // WARNING: Remember to remove the console.log for production as frequent console.logs
+          // greatly decreases performance and blocks the UI thread. If the user is offline,
+          // syncing will not be possible and this callback will be called frequently
           
           // error: (session, syncError) => {
           //   console.error(`There was an error syncing the User realm. (${syncError.message ? syncError.message : 'No message'})`);
@@ -109,7 +113,7 @@ function AuthProvider({ children }) {
     subscriptionRef.current = null;
     
     const realm = realmRef.current;
-    // If having listeners on the realm itself, also remove them using:
+    // If there are listeners on the realm itself, they can be removed using:
     // realm?.removeAllListeners();
     realm?.close();
     realmRef.current = null;
@@ -135,8 +139,6 @@ function AuthProvider({ children }) {
       const credentials = Realm.Credentials.emailPassword(email, password);
       const user = await app.logIn(credentials);
       
-      console.log('Logged in!');
-
       // Setting the realm user will rerender the RootNavigationContainer and in turn
       // conditionally render the AppNavigator to show the authenticated screens of the app
       setRealmUser(user);
@@ -151,8 +153,6 @@ function AuthProvider({ children }) {
   const logOut = () => {
     if (realmUser) {
       realmUser.logOut();
-
-      console.log('Logged out!');
 
       // Setting the realm user to null will rerender the RootNavigationContainer
       // and in turn conditionally render the AuthNavigator to show the LoginScreen

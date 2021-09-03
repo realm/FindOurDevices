@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { Alert } from 'react-native';
 import RNLocation from 'react-native-location';
 
 /**
@@ -28,7 +29,7 @@ export function useLocation() {
 
     const granted = await requestPermission();
     if (!granted)
-      return console.log('Location permission not granted.');
+      return Alert.alert('Location permission not granted.');
 
     // Set initial location
     const latestLocation = await RNLocation.getLatestLocation({ timeout: 3000 });

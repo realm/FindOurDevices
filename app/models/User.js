@@ -4,13 +4,14 @@ import { BSON } from 'realm';
 export class User {
   /**
    * Create a User.
-   * @param {BSON.ObjectId} [id=new BSON.ObjectId()] - The ID of the user.
-   * @param {string} partition - The partition value to use for the object.
-   * @param {string} email - The user's email.
-   * @param {string} displayName - The user's name to be displayed.
-   * @param {BSON.ObjectId[]} [deviceIds=[]] - The array of device's IDs which belong to the user.
-   * @param {GroupMembership[]} [groupMemberships=[]] - The array of group memberships of the user.
-   * @param {GroupInvitation[]} [groupInvitations=[]] - The array of group invitations of the user.
+   * @param {Object} props
+   * @param {BSON.ObjectId} [props.id=new BSON.ObjectId()] - The ID of the user.
+   * @param {string} props.partition - The partition value to use for the object.
+   * @param {string} props.email - The user's email.
+   * @param {string} props.displayName - The user's name to be displayed.
+   * @param {BSON.ObjectId[]} [props.deviceIds=[]] - The array of device's IDs which belong to the user.
+   * @param {GroupMembership[]} [props.groupMemberships=[]] - The array of group memberships of the user.
+   * @param {GroupInvitation[]} [props.groupInvitations=[]] - The array of group invitations of the user.
    */
   constructor({ id = new BSON.ObjectId(), partition, email, displayName, deviceIds = [], groupMemberships = [], groupInvitations = [] }) {
     this._id = id;

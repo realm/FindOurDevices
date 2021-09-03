@@ -7,7 +7,7 @@ import { fonts } from '../styles/fonts';
 
 /**
  * Create a modal form component
- * @param {Object} props
+ * @param {Object} props All additional props will be applied to the underlying <Modal> component.
  * @param {string} [props.animationType=fade] - The animation type to use (same as react native <Modal> component).
  * @param {boolean} props.visible - A boolean which specifies if the modal form should be visible if true.
  * @param {string} props.title - The modal form title.

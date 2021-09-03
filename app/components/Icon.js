@@ -5,7 +5,7 @@ import { colors } from '../styles/colors';
 
 /**
  * Create an icon component.
- * @param {Object} props
+ * @param {Object} props - Props to pass to underlying <MaterialCommunityIcons> component.
  * @param {string} props.name - The icon name.
  * @param {number} [props.size=30] - The icon size.
  * @param {string} [props.color=colors.primary] - The color to use for the icon.

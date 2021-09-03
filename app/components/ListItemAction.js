@@ -1,11 +1,17 @@
-import React from 'react';
-import { View, Pressable, StyleSheet } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import React, { useMemo } from 'react';
+import { Pressable, StyleSheet } from 'react-native';
 
-import colors from '../styles/colors';
+import { Icon } from './Icon';
+import { colors } from '../styles/colors';
 
+/**
+ * Create a list item action component.
+ * @param {string} action - A string that specifies the icon that should be used.
+ * @param {function} onPress - Callback function to be called when the list item action is pressed.
+ * @return {React.Component} A list item action component.
+ */
 export function ListItemAction({ action, onPress }) {
-  const getIconNameAndColor = () => {
+  const iconNameAndColor = useMemo(() => {
     switch (action) {
       case 'remove':
         return { name: 'trash-can-outline', color: colors.red }
@@ -22,19 +28,20 @@ export function ListItemAction({ action, onPress }) {
       default:
         throw new Error('Unsupported list item action type: ', action);
     }
-  }
+  }, [action]);
 
   return (
     <Pressable
       onPress={onPress}
-      style={({ pressed }) => pressed ? { opacity: 0.2 } : {}}
+      style={({ pressed }) => ([
+        styles.container,
+        pressed && styles.pressed
+      ])}
     >
-      <View style={styles.container}>
-        <MaterialCommunityIcons
-          {...getIconNameAndColor()}
-          size={25}
-        />
-      </View>
+      <Icon
+        {...iconNameAndColor}
+        size={25}
+      />
     </Pressable>
   );
 }
@@ -50,4 +57,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 23
   },
+  pressed: {
+    opacity: 0.2
+  }
 });

@@ -1,13 +1,20 @@
 import { BSON } from 'realm';
 
-/** Class representing a device (iPhone, Adroid, iPad, ...). */
-class Device {
+/** Class representing a device (e.g. phone, tablet). */
+export class Device {
+  /**
+   * @typedef {Object} Location
+   * @property {Date} location.updatedAt - The date when the location was last updated.
+   * @property {number} location.longitude - The location longitude.
+   * @property {number} location.latitude - The location latitude.
+   */
+
   /**
    * Create a Device.
-   * @param {BSON.ObjectId} [id=new BSON.ObjectId()] - The id of the device.
+   * @param {BSON.ObjectId} [id=new BSON.ObjectId()] - The ID of the device.
    * @param {string} partition - The partition value to use on the realm.
-   * @param {BSON.ObjectId} ownerId - The id of the owner of the device.
-   * @param {string} iosOrAndroidId - The unique factory id of the device.
+   * @param {BSON.ObjectId} ownerId - The ID of the owner of the device.
+   * @param {string} iosOrAndroidId - The unique device ID for the vendor.
    * @param {string} name - The device's name.
    * @param {Location} [location] - The device's location.
    */
@@ -36,5 +43,3 @@ class Device {
     }
   };
 }
-
-export default Device;

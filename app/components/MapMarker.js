@@ -1,12 +1,22 @@
 import React, { memo } from 'react';
 import { Marker, Callout } from 'react-native-maps-osmdroid';
-import { Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet, View } from 'react-native';
 import Moment from 'react-moment';
 
 const LATITUDE_DELTA = 0.01;
 const LONGITUDE_DELTA = 0.001;
 
-export const MapMarker = memo(function MapMarker({ location, color }) {
+/**
+ * Create a marker component.
+ * @param {string} label - The marker label.
+ * @param {Object} location - The marker location.
+ * @param {number} location.latitude - The marker latitude.
+ * @param {number} location.longitude - The marker longitude.
+ * @param {Date} location.updatedAt - The timestamp of the marker location.
+ * @param {string} color - The color to use for the marker (iOS only).
+ * @return {React.Component} A map marker component.
+ */
+export const MapMarker = memo(function MapMarker({ label, location, color }) {
   return (
     <Marker
       coordinate={{
@@ -17,22 +27,36 @@ export const MapMarker = memo(function MapMarker({ location, color }) {
       }}
       pinColor={color}
     >
-      <Callout style={styles.callout}>
-        <Text>
-          {'Updated'} <Moment element={Text} fromNow>{location.updatedAt}</Moment>
-        </Text>
+      <Callout>
+        <View style={styles.calloutView}>
+          <Text style={styles.calloutLabel}>
+            { label }
+          </Text>
+          <Text style={styles.calloutTimestamp}>
+            {'Updated'} <Moment element={Text} fromNow>{location.updatedAt}</Moment>
+          </Text>
+        </View>
       </Callout>
     </Marker>
   );
 }, shouldNotRerender);
 
 const styles = StyleSheet.create({
-  callout: {
-    padding: 10
+  calloutView: {
+    width: 200
+  },
+  calloutLabel : {
+    marginBottom: 5,
+    textAlign: 'center',
+    fontWeight: 'bold'
+  },
+  calloutTimestamp: {
+    textAlign: 'center'
   }
 });
 
 const shouldNotRerender = (prevProps, nextProps) => (
   prevProps.location.updatedAt === nextProps.location.updatedAt
   && prevProps.color === nextProps.color
+  && prevProps.label === nextProps.label
 );

@@ -1,11 +1,20 @@
 import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import colors from '../styles/colors';
-import fonts from '../styles/fonts';
+import { Icon } from './Icon';
+import { colors } from '../styles/colors';
+import { fonts } from '../styles/fonts';
 
+/**
+ * Create a list item component.
+ * @param {string} text - The list item text.
+ * @param {string} [subText] - A secondary text to appear below the main text prop.
+ * @param {boolean} [fadeOnPress=true] - A boolean which tells if the item should fade when being pressed if true.
+ * @param {function} [onPress=() => {}] - Callback function to be called when the list item is pressed.
+ * @param {function} renderRightActions - Callback function that is expected to return an action panel that is going to be revealed from the right side when user swipes left.
+ * @return {React.Component} A list item component.
+ */
 export function ListItem({ 
   text,
   subText,
@@ -17,13 +26,10 @@ export function ListItem({
     <Swipeable renderRightActions={renderRightActions}>
       <Pressable
         onPress={onPress}
-        style={({ pressed }) => pressed
-          ? { opacity: fadeOnPress ? 0.2 : 1 }
-          : {}
-        }
+        style={({ pressed }) => ({ opacity: pressed && fadeOnPress ? 0.2 : 1 })}
       >
         <View style={styles.container}>
-          <View>
+          <View style={styles.textContainer}>
             <Text
               numberOfLines={1}
               style={styles.text}
@@ -39,7 +45,7 @@ export function ListItem({
               </Text>
             ) : <></>}
           </View>
-          <MaterialCommunityIcons
+          <Icon
             name='chevron-left'
             color={colors.grayMedium}
             size={30}
@@ -68,5 +74,8 @@ const styles = StyleSheet.create({
     fontSize: fonts.sizeS,
     color: colors.grayDark,
     textTransform: 'lowercase'
+  },
+  textContainer: {
+    maxWidth: '90%'
   }
 });

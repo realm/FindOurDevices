@@ -4,9 +4,9 @@ import { Alert, Image, View, Text, Platform, StyleSheet, KeyboardAvoidingView } 
 import { useAuth } from '../providers/AuthProvider';
 import { Button } from '../components/Button';
 import { FormTextInput } from '../components/FormTextInput';
-import routes from '../navigation/routes';
-import colors from '../styles/colors';
-import fonts from '../styles/fonts';
+import { routes } from '../navigation/routes';
+import { colors } from '../styles/colors';
+import { fonts } from '../styles/fonts';
 
 export function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');

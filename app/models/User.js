@@ -1,11 +1,11 @@
 import { BSON } from 'realm';
 
 /** Class representing a user. */
-class User {
+export class User {
   /**
    * Create a User.
-   * @param {BSON.ObjectId} [id=new BSON.ObjectId()] - The id of the user.
-   * @param {string} partition - The partition value to use on the realm.
+   * @param {BSON.ObjectId} [id=new BSON.ObjectId()] - The ID of the user.
+   * @param {string} partition - The partition value to use for the object.
    * @param {string} email - The user's email.
    * @param {string} displayName - The user's name to be displayed.
    * @param {BSON.ObjectId[]} [deviceIds=[]] - The array of device's IDs which belong to the user.
@@ -37,5 +37,3 @@ class User {
     }
   };
 }
-
-export default User;

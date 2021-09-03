@@ -1,13 +1,13 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { DevicesNavigator } from './DevicesNavigator';
 import { GroupsNavigator } from './GroupsNavigator';
 import { InvitationsNavigator } from './InvitationsNavigator';
 import { ProfileScreen } from '../screens/ProfileScreen';
-import routes from './routes';
-import colors from '../styles/colors';
+import { Icon } from '../components/Icon';
+import { routes } from './routes';
+import { colors } from '../styles/colors';
 
 const Tab = createBottomTabNavigator();
 
@@ -25,7 +25,7 @@ export function AppNavigator() {
         component={DevicesNavigator}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
+            <Icon
               name='tablet-cellphone'
               color={color}
               size={size}
@@ -38,7 +38,7 @@ export function AppNavigator() {
         component={GroupsNavigator}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
+            <Icon
               name='account-group-outline'
               color={color}
               size={size}
@@ -51,7 +51,7 @@ export function AppNavigator() {
         component={InvitationsNavigator}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
+            <Icon
               name='bell-outline'
               color={color}
               size={size}
@@ -64,7 +64,7 @@ export function AppNavigator() {
         component={ProfileScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
+            <Icon
               name='account-outline'
               color={color}
               size={size}

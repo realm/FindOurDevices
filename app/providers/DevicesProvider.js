@@ -4,20 +4,25 @@ import { getUniqueId, getDeviceName } from 'react-native-device-info';
 
 import { useAuth } from './AuthProvider';
 import { useLocation } from '../hooks/useLocation';
-import Device from '../models/Device';
-import Location from '../models/Location';
+import { Device } from '../models/Device';
+import { Location } from '../models/Location';
 
 // For complimentary comments on the use of Realm in this module, see
 // /app/providers/AuthProvider.js as it follows a similar structure
 
 const DevicesContext = createContext();
 
+/**
+ * A provider for storing and controlling the Devices realm/partition.
+ * @return {React.Component} The provider of the context.
+*/
 function DevicesProvider({ children }) {
   const { realmUser } = useAuth();
   const currentDeviceLocation = useLocation();
   const [currentIosOrAndroidId] = useState(getUniqueId());
   const [devices, setDevices] = useState([]);
   const realmRef = useRef(null);
+  const subscriptionRef = useRef(null);
 
   useEffect(() => {
     if (!realmUser)
@@ -46,24 +51,30 @@ function DevicesProvider({ children }) {
         sync: {
           user: realmUser,
           partitionValue: `device=${realmUser.id}`,
-          error: (session, syncError) => {
-            console.error('syncError.name: ', syncError.name);
-            if (syncError.message)
-              console.error('syncError.message: ', message);
-          }
+          newRealmFileBehavior: {
+            type: 'openImmediately'
+          },
+          existingRealmFileBehavior: {
+            type: 'openImmediately'
+          },
+          // WARNING: REMEMBER TO REMOVE THE CONSOLE.LOG FOR PRODUCTION AS FREQUENT CONSOLE.LOGS
+          // GREATLY DECREASES PERFORMANCE AND BLOCKS THE UI THREAD. IF THE USER IS OFFLINE,
+          // SYNCING WILL NOT BE POSSIBLE AND THIS CALLBACK WILL BE CALLED FREQUENTLY.
+          
+          // error: (session, syncError) => {
+          //   console.error(`There was an error syncing the Devices realm. (${syncError.message ? syncError.message : 'No message'})`);
+          // }
         }
       };
 
-      const realm = Realm.exists(config)
-        ? new Realm(config)
-        : await Realm.open(config);
-
+      const realm = await Realm.open(config);
       realmRef.current = realm;
 
       const devices = realm.objects('Device');
       if (devices?.length)
         setDevices(devices);
-
+      
+      subscriptionRef.current = devices;
       devices.addListener((/*collection, changes*/) => {
         // If wanting to handle deletions, insertions, and modifications differently
         // you can access them through the two arguments. (Always handle them in the
@@ -78,9 +89,11 @@ function DevicesProvider({ children }) {
   };
 
   const closeRealm = () => {
+    const subscription = subscriptionRef.current;
+    subscription?.removeAllListeners();
+    subscriptionRef.current = null;
+
     const realm = realmRef.current;
-    realm?.objects('Device').removeAllListeners();
-    realm?.removeAllListeners();
     realm?.close();
     realmRef.current = null;
     setDevices([]);
@@ -91,7 +104,6 @@ function DevicesProvider({ children }) {
     if (!realm)
       return;
 
-    // TODO: Place index on iosOrAndroidId
     // We can filter out the user's current device by passing the iOS or Android ID using
     // argument placeholders (e.g. $0, $1, $2, ...) in the query. 
     const currentDevice = realm.objects('Device').filtered('iosOrAndroidId = $0', currentIosOrAndroidId)[0];
@@ -119,11 +131,9 @@ function DevicesProvider({ children }) {
   };
 
   const addCurrentDevice = async () => {
-    console.log('current device location: ', currentDeviceLocation);  // TEMPORARY (add getLatestLocation in useLocation to update immediately)
-
     const realm = realmRef.current;
     if (!realm)
-      return;
+      return { error: { message: 'We have encountered an error.. Try again later.' } };
 
     const deviceAlreadyExists = devices.some(device => device.iosOrAndroidId === currentIosOrAndroidId);
     if (deviceAlreadyExists)
@@ -144,11 +154,22 @@ function DevicesProvider({ children }) {
     });
   };
 
+  const setDeviceName = (device, newName) => {
+    const realm = realmRef.current;
+    if (!realm)
+      return { error: { message: 'We have encountered an error.. Try again later.' } };
+
+    realm.write(() => {
+      device.name = newName;
+    });
+  };
+
   return (
     <DevicesContext.Provider value={{
       devices,
       currentIosOrAndroidId,
-      addCurrentDevice
+      addCurrentDevice,
+      setDeviceName
     }}>
       {children}
     </DevicesContext.Provider>

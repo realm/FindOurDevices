@@ -1,10 +1,21 @@
 import React from 'react';
-import { View, Text, Modal, TouchableOpacity, Platform, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { View, Text, Modal, Pressable, Platform, StyleSheet, KeyboardAvoidingView } from 'react-native';
 
 import { Button } from './Button';
-import colors from '../styles/colors';
-import fonts from '../styles/fonts';
+import { colors } from '../styles/colors';
+import { fonts } from '../styles/fonts';
 
+/**
+ * Create a modal form component
+ * @param {string} [animationType=fade] - The animation type to use (same as react native <Modal> component).
+ * @param {boolean} visible - A boolean which specifies if the modal form should be visible if true.
+ * @param {string} title - The modal form title.
+ * @param {string} submitText - The modal submit button text.
+ * @param {function} onSubmit - Callback function to be called when the submit button is pressed.
+ * @param {function} onCancel - Callback function to be called when the cancel text is pressed.
+ * @param {React.Component} children - Components to be rendered on the modal form.
+ * @return {React.Component} A modal form component.
+ */
 export function ModalForm({
   animationType = 'fade',
   visible,
@@ -12,13 +23,15 @@ export function ModalForm({
   submitText,
   onSubmit,
   onCancel,
-  children
+  children,
+  ...otherProps
 }) {
   return (
     <Modal
       animationType={animationType}
       transparent={true}
       visible={visible}
+      {...otherProps}
     >
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'} 
@@ -32,12 +45,15 @@ export function ModalForm({
             onPress={onSubmit}
             style={{ padding: 10 }}
           />
-          <TouchableOpacity
+          <Pressable
             onPress={onCancel}
-            style={styles.cancelButton}
+            style={({ pressed }) => ([
+              styles.cancelButton,
+              pressed && styles.pressed
+            ])}
           >
             <Text style={styles.cancelButtonText}>Cancel</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </KeyboardAvoidingView>
     </Modal>
@@ -47,16 +63,19 @@ export function ModalForm({
 const styles = StyleSheet.create({
   modal: {
     flex: 1,
+    paddingHorizontal: 25,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.2)'
   },
   form: {
+    width: '100%',
+    maxWidth: 500,
     margin: 30,
     paddingTop: 35,
     paddingBottom: 25,
     paddingHorizontal: 25,
-    alignSelf: 'stretch',
+    alignSelf: 'center',
     alignItems: 'center',
     backgroundColor: colors.white,
     borderRadius: 10,
@@ -89,5 +108,8 @@ const styles = StyleSheet.create({
   cancelButtonText: {
     color: colors.grayDark,
     fontWeight: 'bold'
+  },
+  pressed: {
+    opacity: 0.2
   }
 });

@@ -1,21 +1,31 @@
 import React from 'react';
 import { Text, StyleSheet, Pressable } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import fonts from '../styles/fonts';
-import colors from '../styles/colors';
+import { Icon } from './Icon';
+import { fonts } from '../styles/fonts';
+import { colors } from '../styles/colors';
 
+/**
+ * Create a dropdown picker item option component.
+ * @param {string} label - The item label.
+ * @param {boolean} isSelected - A boolean which adds a checkmark to the item if true.
+ * @param {function} onPress - Callback function to be called when the item is pressed.
+ * @return {React.Component} A dropdown picker item component.
+ */
 export function DropdownPickerItem({ label, isSelected, onPress }) {
   return (
     <Pressable
       onPress={onPress}
       style={styles.item}
     >
-      <Text style={styles.label}>
+      <Text
+        numberOfLines={1}
+        style={styles.label}
+      >
         {label}
       </Text>
       {isSelected && (
-        <MaterialCommunityIcons
+        <Icon
           name='check'
           color={colors.grayDark}
           size={18}
@@ -34,6 +44,7 @@ const styles = StyleSheet.create({
   },
   label: {
     color: colors.black,
-    fontSize: fonts.sizeS
+    fontSize: fonts.sizeS,
+    maxWidth: '90%'
   }
 });

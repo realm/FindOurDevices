@@ -1,33 +1,52 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Pressable, StyleSheet, Platform } from 'react-native';
 
-import colors from '../styles/colors';
+import { Icon } from './Icon';
+import { colors } from '../styles/colors';
 
+/**
+ * Create a header button to be used on react-navigation header.
+ * @param {string} iconName - The icon name to be passed to <Icon> component.
+ * @param {function} onPress - Callback function to be called when the header button is pressed.
+ * @return {React.Component} A header button component.
+ */
 export function HeaderButton({ iconName, onPress }) {
   return (
-    <TouchableOpacity
+    <Pressable
       onPress={onPress}
-      style={styles.button}
+      style={({ pressed }) => ([
+        styles.button,
+        pressed && styles.pressed
+      ])}
     >
-      <MaterialCommunityIcons
+      <Icon
         name={iconName}
         color={colors.primary}
         size={30}
       />
-    </TouchableOpacity>
+    </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   button: {
     marginRight: 20,
-    shadowColor: colors.black,
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 3
+    ...Platform.select({
+      ios: {
+        shadowColor: colors.black,
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 3
+      },
+      android: {
+        elevation: 2
+      },
+    })
+  },
+  pressed: {
+    opacity: 0.2
   }
 });

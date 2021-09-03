@@ -2,22 +2,30 @@ import React, { useState, useEffect, useRef, createContext, useContext } from 'r
 import Realm, { BSON } from 'realm';
 
 import { getRealmApp } from '../getRealmApp';
-import User from '../models/User';
-import GroupMembership from '../models/GroupMembership';
-import GroupInvitation from '../models/GroupInvitation';
+import { useRealmApi } from '../hooks/useRealmApi';
+import { User } from '../models/User';
+import { GroupMembership } from '../models/GroupMembership';
+import { GroupInvitation } from '../models/GroupInvitation';
 
 const app = getRealmApp();
 
 const AuthContext = createContext();
 
+/**
+ * A provider for storing and controlling User realm/partition.
+ * @return {React.Component} The provider of the context.
+*/
 function AuthProvider({ children }) {
   // The realmUser is the registered user created by Realm
   const [realmUser, setRealmUser] = useState(app.currentUser);
   // The userData is the user object from our schema/model that we will set when opening the user realm
   const [userData, setUserData] = useState(null);
+  // callRealmApi is the helper function responsible for calling the MongoDB Realm functions
+  const callRealmApi = useRealmApi(realmUser);
   // We store a reference to our realm using useRef that allows us to access it via
   // realmRef.current for the component's lifetime without causing rerenders if updated.
   const realmRef = useRef(null);
+  const subscriptionRef = useRef(null);
 
   useEffect(() => {
     // The user will be set once it logs in
@@ -38,41 +46,56 @@ function AuthProvider({ children }) {
         sync: {
           user: realmUser,
           partitionValue: `user=${realmUser.id}`,
-          // Add a callback on the 'error' property to log any sync errors while developing
-          error: (session, syncError) => {
-            console.error('syncError.name: ', syncError.name);
-            if (syncError.message)
-              console.error('syncError.message: ', message);
-          }
+          // We can specify the behavior when opening a realm for the first time
+          // ('newRealmFileBehavior') and for subsequent ones ('existingRealmFileBehavior').
+          // If the user has logged in at least 1 time before, the realm will exist on disk
+          // and can be opened even when offline.
+          // We can either create the new file and sync in the background ('openImmediately'),
+          // or wait for the file to be synced ('downloadBeforeOpen').
+          // WARNING: Read-only realms on a "realm level" (specified via "config.readOnly: true")
+          // must not be synced in the background. Otherwise it will cause an error if your session
+          // is online. (This realm is read-only on a "file level" and is not affected by this.)
+          newRealmFileBehavior: {
+            type: 'openImmediately'    // default is 'downloadBeforeOpen'
+          },
+          existingRealmFileBehavior: {
+            type: 'openImmediately'    // default is 'downloadBeforeOpen'
+          },
+          // Add a callback on the 'error' property to log any sync errors while developing.
+          // WARNING: REMEMBER TO REMOVE THE CONSOLE.LOG FOR PRODUCTION AS FREQUENT CONSOLE.LOGS
+          // GREATLY DECREASES PERFORMANCE AND BLOCKS THE UI THREAD. IF THE USER IS OFFLINE,
+          // SYNCING WILL NOT BE POSSIBLE AND THIS CALLBACK WILL BE CALLED FREQUENTLY.
+          
+          // error: (session, syncError) => {
+          //   console.error(`There was an error syncing the User realm. (${syncError.message ? syncError.message : 'No message'})`);
+          // }
         }
       };
 
-      // If the realm already exists on disk, it means the user has logged in
-      // at least 1 time before. Thus, you may then open the realm synchronously
-      // to make sure it works even when offline. If it does not exist,
-      // open it asynchronusly to sync data from the server to the device
-      const realm = Realm.exists(config)
-        ? new Realm(config)
-        : await Realm.open(config);
-
+      const realm = await Realm.open(config);
       realmRef.current = realm;
 
       // When querying a realm to find objects (e.g. realm.objects('User')) the result we get back
       // and the objects in it are "live" and will always reflect the latest state.
       const userId = BSON.ObjectId(realmUser.id);
-      //const user = realm.objectForPrimaryKey('User', userId); // NOTE: Object listener not working for embedded docs when changed by backend function
       const users = realm.objects('User').filtered('_id = $0', userId);
       if (users?.length)
         setUserData(users[0]);
-
-      // Live queries and objects emit notifications when something has changed that we can listen for.
-      users.addListener((/*object, changes*/) => {
-        // [add comment]
+      
+      // Live queries, collections, and objects emit notifications when something has changed that we can listen for.
+      subscriptionRef.current = users;
+      users.addListener((/*collection, changes*/) => {
+        // If wanting to handle deletions, insertions, and modifications differently
+        // you can access them through the two arguments. (Always handle them in the
+        // following order: deletions, insertions, modifications)
+        // If using collection listener (1st arg is the collection):
+        // e.g. changes.insertions.forEach((index) => console.log('Inserted item: ', collection[index]));
+        // If using object listener (1st arg is the object):
+        // e.g. changes.changedProperties.forEach((prop) => console.log(`${prop} changed to ${object[prop]}`));
 
         // By querying the object again, we get a new reference to the Result and triggers
-        // a rerender by React. Setting the user to either 'user' or 'object' (from the
-        // argument) will not trigger a rerender since it is the same reference
-        setUserData(realm.objectForPrimaryKey('User', userId));  // note to self: since we actually do not have to refetch data, maybe its better if we update some integer in state to trigger the rerender?
+        // a rerender by React when setting that as the new state.
+        setUserData(realm.objectForPrimaryKey('User', userId));
       });
     }
     catch (err) {
@@ -81,10 +104,13 @@ function AuthProvider({ children }) {
   };
 
   const closeRealm = () => {
+    const subscription = subscriptionRef.current;
+    subscription?.removeAllListeners();
+    subscriptionRef.current = null;
+    
     const realm = realmRef.current;
-    //realm?.objectForPrimaryKey('User', BSON.ObjectId(realmUser.id)).removeAllListeners(); // TODO: Add this if object listener issue is solved
-    realm?.objects('User').removeAllListeners();
-    realm?.removeAllListeners();
+    // If having listeners on the realm itself, also remove them using:
+    // realm?.removeAllListeners();
     realm?.close();
     realmRef.current = null;
     setUserData(null);
@@ -109,11 +135,12 @@ function AuthProvider({ children }) {
       const credentials = Realm.Credentials.emailPassword(email, password);
       const user = await app.logIn(credentials);
       
+      console.log('Logged in!');
+
       // Setting the realm user will rerender the RootNavigationContainer and in turn
       // conditionally render the AppNavigator to show the authenticated screens of the app
       setRealmUser(user);
       
-      console.log('Logged in!');
       return { success: true };
     }
     catch (err) {
@@ -135,11 +162,11 @@ function AuthProvider({ children }) {
 
   const setDisplayName = (name) => {
     // We can call our configured MongoDB Realm functions as methods on the User.functions
-    // property (as seen below), or by passing the function name and its arguments to
-    // User.callFunction('functionName', args). When the backend changes the display name,
-    // the change listener will call our notification handler where we update the UI state.
-    // (Currently we only show changes once synced from the server, thus not offline)
-    return realmUser.functions.setDisplayName(name);
+    // property, or by passing the function name and and array of its arguments to
+    // User.callFunction('functionName', args). (See /app/hooks/useRealmApi.js).
+    // When the backend changes the display name, the change listener will call our
+    // notification handler where we update the UI state.
+    return callRealmApi('setDisplayName', [name])
   };
 
   return (

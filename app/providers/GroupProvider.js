@@ -2,24 +2,32 @@ import React, { useState, useEffect, useRef, createContext, useContext } from 'r
 import Realm from 'realm';
 
 import { useAuth } from './AuthProvider';
-import Group from '../models/Group';
-import GroupMember from '../models/GroupMember';
-import Location from '../models/Location';
+import { Group } from '../models/Group';
+import { GroupMember } from '../models/GroupMember';
+import { Location } from '../models/Location';
 
 // For complimentary comments on the use of Realm in this module, see
 // /app/providers/AuthProvider.js as it follows a similar structure
 
 const GroupContext = createContext();
 
-function GroupProvider({ children, groupId }) {
+/**
+ * A provider for storing and controlling the Group realm/partition.
+ * @param {Realm.BSON.ObjectId} groupId - The ID of the group.
+ * @return {React.Component} The provider of the context.
+*/
+function GroupProvider({ groupId, children }) {
   const { realmUser } = useAuth();
   const [group, setGroup] = useState(null);
+  const [groupWasDeleted, setGroupWasDeleted] = useState(false);
+  const [userWasRemovedFromGroup, setUserWasRemovedFromGroup] = useState(false);
   const realmRef = useRef();
+  const subscriptionRef = useRef(null);
 
   useEffect(() => {
     if (!realmUser || !groupId)
       return;
-    
+
     openRealm();
 
     return closeRealm;
@@ -33,32 +41,44 @@ function GroupProvider({ children, groupId }) {
         sync: {
           user: realmUser,
           partitionValue: `group=${groupId.toString()}`,
-          // Add a callback on the 'error' property to log any sync errors while developing
-          error: (session, syncError) => {
-            console.error('syncError.name: ', syncError.name);
-            if (syncError.message)
-              console.error('syncError.message: ', message);
-          }
+          newRealmFileBehavior: {
+            type: 'openImmediately'
+          },
+          existingRealmFileBehavior: {
+            type: 'openImmediately'
+          },
+          // WARNING: REMEMBER TO REMOVE THE CONSOLE.LOG FOR PRODUCTION AS FREQUENT CONSOLE.LOGS
+          // GREATLY DECREASES PERFORMANCE AND BLOCKS THE UI THREAD. IF THE USER IS OFFLINE,
+          // SYNCING WILL NOT BE POSSIBLE AND THIS CALLBACK WILL BE CALLED FREQUENTLY.
+          
+          // error: (session, syncError) => {
+          //   console.error(`There was an error syncing the Group realm. (${syncError.message ? syncError.message : 'No message'})`);
+          // }
         }
       };
 
-      const realm = Realm.exists(config)
-        ? new Realm(config)
-        : await Realm.open(config);
-
+      const realm = await Realm.open(config);
       realmRef.current = realm;
 
-      // NOTE: Object listener not firing when object is changed via a trigger function.
-      // Temporary workaround: Use collection listener
-      // TODO: Change this to get object directly, instead of array (w/ objectForPrimaryKey)
       const groups = realm.objects('Group').filtered('_id = $0', groupId);
       if (groups?.length)
         setGroup(groups[0]);
-
-      groups.addListener((/*collection, changes*/) => {
-        // TODO: handle group being deleted
-
+      
+      subscriptionRef.current = groups;
+      groups.addListener((collection, changes) => {
         setGroup(realm.objectForPrimaryKey('Group', groupId));
+
+        // We only check if there are deletions using ".length" rather then looping through
+        // the deletions since the "groups" collection will always be 1 single group
+        if (changes.deletions.length)
+          return setGroupWasDeleted(true);
+
+        changes.modifications.forEach((index) => {
+          const modifiedGroup = collection[index];
+          const isMember = modifiedGroup.members.some(member => member.userId.toString() === realmUser.id);
+          if (!isMember)
+            return setUserWasRemovedFromGroup(true);
+        });
       });
     }
     catch (err) {
@@ -67,19 +87,22 @@ function GroupProvider({ children, groupId }) {
   };
 
   const closeRealm = () => {
-    console.log('Closing group realm');
-
+    const subscription = subscriptionRef.current;
+    subscription?.removeAllListeners();
+    subscriptionRef.current = null;
+    
     const realm = realmRef.current;
-    //realm?.objectForPrimaryKey('Group', groupId).removeAllListeners(); // TODO: Add this if object listener issue is solved
-    realm?.objects('Group').removeAllListeners();
-    realm?.removeAllListeners();
     realm?.close();
     realmRef.current = null;
     setGroup(null);
   };
 
   return (
-    <GroupContext.Provider value={group}>
+    <GroupContext.Provider value={{
+      group,
+      groupWasDeleted,
+      userWasRemovedFromGroup
+    }}>
       {children}
     </GroupContext.Provider>
   )

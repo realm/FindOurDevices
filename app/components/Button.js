@@ -1,9 +1,18 @@
 import React from 'react';
-import { Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
+import { Text, Pressable, StyleSheet, Platform } from 'react-native';
 
-import colors from '../styles/colors';
-import fonts from '../styles/fonts';
+import { colors } from '../styles/colors';
+import { fonts } from '../styles/fonts';
 
+/**
+ * Create a button component.
+ * @param {string} text - The button text.
+ * @param {boolean} [isPrimary=true] - Whether or not the button should be styled as a primary button.
+ * @param {boolean} [useShadow=true] - Whether or not the button should have a shadow.
+ * @param {function} onPress - Callback function to be called when the button is pressed.
+ * @param {Object} style - Other style prop to override the default one.
+ * @return {React.Component} A button component.
+ */
 export function Button({
   text,
   isPrimary = true,
@@ -12,34 +21,47 @@ export function Button({
   style
 }) {
   return (
-    <TouchableOpacity
-      style={[
-        styles({ isPrimary }).button,
-        useShadow && styles({}).shadow,
-        style
-      ]}
+    <Pressable
       onPress={onPress}
+      style={({ pressed }) => ([
+        styles.button,
+        isPrimary && styles.primaryButton,
+        useShadow && styles.shadow,
+        pressed && styles.pressed,
+        style
+      ])}
     >
-      <Text style={styles({ isPrimary }).buttonText}>
+      <Text style={[styles.buttonText, isPrimary && styles.buttonTextPrimary]}>
         {text}
       </Text>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 
-const styles = ({ isPrimary }) => StyleSheet.create({
+const styles = StyleSheet.create({
   button: {
-    alignSelf: 'stretch',
+    width: '100%',
+    maxWidth: 500,
+    alignSelf: 'center',
     marginTop: 20,
     paddingVertical: 18,
     alignItems: 'center',
-    backgroundColor: isPrimary ? colors.primary : colors.white,
+    backgroundColor: colors.white,
     borderRadius: 40
+  },
+  primaryButton: {
+    backgroundColor: colors.primary
   },
   buttonText: {
     fontSize: fonts.sizeM,
-    color: isPrimary ? colors.white : colors.primary,
+    color: colors.primary,
     fontWeight: 'bold'
+  },
+  buttonTextPrimary: {
+    color: colors.white
+  },
+  pressed: {
+    opacity: 0.2
   },
   shadow: {
     ...Platform.select({

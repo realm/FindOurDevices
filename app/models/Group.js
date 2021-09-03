@@ -1,12 +1,12 @@
 import { BSON } from 'realm';
 
 /** Class representing a group. */
-class Group {
+export class Group {
   /**
    * Create a Group.
-   * @param {BSON.ObjectId} [id=new BSON.ObjectId()] - The id of the group.
-   * @param {string} partition - The partition value to use on the realm.
-   * @param {BSON.ObjectId} ownerId - The id of the owner of the group.
+   * @param {BSON.ObjectId} [id=new BSON.ObjectId()] - The ID of the group.
+   * @param {string} partition - The partition value to use for the object.
+   * @param {BSON.ObjectId} ownerId - The ID of the owner of the group.
    * @param {string} name - The group's name.
    * @param {GroupMember[]} [members=[]] - The members of the group.
    */
@@ -31,5 +31,3 @@ class Group {
     }
   };
 }
-
-export default Group;

@@ -1,14 +1,32 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, Pressable, Platform } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { useToggle } from '../hooks/useToggle';
+import { Icon } from './Icon';
 import { DropdownPickerItem } from './DropdownPickerItem';
-import fonts from '../styles/fonts';
-import colors from '../styles/colors';
+import { fonts } from '../styles/fonts';
+import { colors } from '../styles/colors';
 
-export function DropdownPicker({ selectedItem, items, onSelectItem, openItemsDownward = true }) {
-  const { isOn: isOpen, toggle: toggleOpen, turnOff: close } = useToggle(false);
+/**
+ * Create a dropdown picker component.
+ * @param {Object} [selectedItem] - The selected item of the dropdown list.
+ * @param {string} selectedItem.label - The selected item label.
+ * @param {string} selectedItem.value - The selected item value (some time of unique identifier).
+ * @param {Object[]} items - An array of items for the dropdown.
+ * @param {string} items[].label - The dropdown item label.
+ * @param {string} items[].value - The dropdown item value.
+ * @param {function} onSelectItem - Callback function to be called when a dropdown item is pressed.
+ * @param {string} noSelectedItemText - Text to display on the dropdown when no drodpown item is selected.
+ * @return {React.Component} A dropdown picker component.
+ */
+export function DropdownPicker({
+  selectedItem,
+  items,
+  onSelectItem,
+  openItemsDownward = true,
+  noSelectedItemText = 'Select'
+}) {
+  const [isOpen, toggleOpen] = useToggle(false);
 
   return (
     <View style={[styles.dropdown, openItemsDownward && styles.reverseOrder]}>
@@ -21,7 +39,9 @@ export function DropdownPicker({ selectedItem, items, onSelectItem, openItemsDow
               label={item.label}
               isSelected={item.value === selectedItem?.value}
               onPress={() => {
-                close();
+                if (isOpen)
+                  toggleOpen();
+
                 onSelectItem(item);
               }}
             />
@@ -37,10 +57,13 @@ export function DropdownPicker({ selectedItem, items, onSelectItem, openItemsDow
           isOpen && (openItemsDownward ? styles.selectedItemOnOpenDownward : styles.selectedItemOnOpenUpward)
         ]}
       >
-        <Text style={styles.label}>
-          {selectedItem?.label || 'Select'}
+        <Text
+          style={styles.label}
+          numberOfLines={1}
+        >
+          {selectedItem?.label || noSelectedItemText}
         </Text>
-        <MaterialCommunityIcons
+        <Icon
           name={isOpen ? 'chevron-up' : 'chevron-down'}
           color={colors.grayDark}
           size={18}
@@ -52,7 +75,9 @@ export function DropdownPicker({ selectedItem, items, onSelectItem, openItemsDow
 
 const styles = StyleSheet.create({
   dropdown: {
-    alignSelf: 'stretch',
+    width: '100%',
+    maxWidth: 500,
+    alignSelf: 'center',
     maxHeight: 500,
     ...Platform.select({
       ios: {
@@ -108,7 +133,8 @@ const styles = StyleSheet.create({
   },
   label: {
     color: colors.black,
-    fontSize: fonts.sizeS
+    fontSize: fonts.sizeS,
+    maxWidth: '90%'
   },
   reverseOrder: {
     flexDirection: 'column-reverse'

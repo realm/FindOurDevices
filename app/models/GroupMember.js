@@ -1,16 +1,23 @@
 /** Class representing a group member. */
-class GroupMember {
+export class GroupMember {
+  /**
+   * @typedef {Object} Location
+   * @property {Date} location.updatedAt - The date when the location was last updated.
+   * @property {number} location.longitude - The location longitude.
+   * @property {number} location.latitude - The location latitude.
+   */
+
   /**
    * Create a GroupMember.
-   * @param {BSON.ObjectId} userId - The id of the member.
+   * @param {BSON.ObjectId} userId - The ID of the member.
    * @param {string} displayName - The member's name to be displayed on the group.
-   * @param {BSON.ObjectId} deviceId - The id of the member's device to be used in the group.
+   * @param {string} deviceName - The name of the member's device to be used in the group.
    * @param {Location} [location] - The member's location.
    */
-  constructor({ userId, displayName, deviceId, location }) {
+  constructor({ userId, displayName, deviceName, location }) {
     this.userId = userId;
     this.displayName = displayName;
-    this.deviceId = deviceId;
+    this.deviceName = deviceName;
 
     if (location)
       this.location = location;
@@ -23,10 +30,8 @@ class GroupMember {
     properties: {
       userId: 'objectId',
       displayName: 'string',
-      deviceId: 'objectId',
+      deviceName: 'string',
       location: 'Location?'
     }
   };
 }
-
-export default GroupMember;
